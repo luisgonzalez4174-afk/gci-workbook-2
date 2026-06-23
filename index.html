@@ -240,14 +240,14 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
   <div class="topbar">
     <div class="brand">
       <div class="brand-badge">🪐</div>
-      <div class="brand-text"><h1>GCI Galaxy</h1><p>Misión de Repaso</p></div>
+      <div class="brand-text"><h1>GCI Galaxy</h1><p id="topbar-name" style="cursor:pointer" onclick="showChangeName()" title="Cambiar nombre">Workbook 2 · <span id="user-name-display" style="color:var(--gold)">...</span></p></div>
     </div>
     <div class="score-pill">⭐ <span id="scoreText">0/0</span></div>
   </div>
 
   <div id="mapview">
     <div class="hero">
-      <h2>¡Hola, cadete! 🚀</h2>
+      <h2 id="hero-greeting">¡Hola, cadete! 🚀</h2>
       <p>Viajaremos por <b>16 estaciones</b> con explicación, videos, pronunciación, 20 ejercicios por estación, estaciones de vocabulario extra y una sala de conversación real. Explora la galaxia a tu ritmo.</p>
       <span class="tag">Repaso · Unidades 1 y 2 · GCI Workbook 0</span>
     </div>
@@ -297,7 +297,7 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
         </div>
       </div>
     </div>
-    <div class="donebar" id="tvDone">🌟 ¡Estación completada! Excelente trabajo, cadete.</div>
+    <div class="donebar" id="tvDone">🌟 ¡Estación completada! Excelente trabajo, <span id="done-name">cadete</span>.</div>
   </div>
 
   <footer>Material de repaso para los alumnos de GCI Galaxy · Centro de Idiomas · Basado en GCI Workbook 0</footer>
@@ -1190,6 +1190,7 @@ function startChatMic(){
 // ══════════════════════════════════
 function markSolved(t,idx,wrap){
   progress[t.id][idx]=true;
+  saveProgress();
   wrap.classList.add('solved');
   wrap.querySelector('.exo-check').textContent='✓';
   burstStars(wrap); updatePill();
@@ -1208,7 +1209,74 @@ function burstStars(el){
   }
 }
 
-renderMap();
+// ══════════════════════════════════
+//  USER SYSTEM — nombre + progreso guardado
+// ══════════════════════════════════
+let USER_NAME = '';
+const GCI_NAME_KEY = 'gci_wb2_username';
+const progKey = () => 'gci_wb2_progress_' + USER_NAME;
+
+function saveProgress(){
+  if(!USER_NAME) return;
+  const snap = {};
+  Object.keys(progress).forEach(id => { snap[id] = [...progress[id]]; });
+  localStorage.setItem(progKey(), JSON.stringify(snap));
+}
+
+function loadProgressFor(name){
+  const raw = localStorage.getItem('gci_wb2_progress_' + name);
+  if(!raw) return;
+  try{
+    const p = JSON.parse(raw);
+    Object.keys(p).forEach(id => {
+      if(progress[id]) p[id].forEach((v,i) => { if(v && i < progress[id].length) progress[id][i] = true; });
+    });
+  }catch(e){}
+}
+
+function applyUser(name){
+  USER_NAME = name.trim();
+  localStorage.setItem(GCI_NAME_KEY, USER_NAME);
+  loadProgressFor(USER_NAME);
+  const g = document.getElementById('hero-greeting');
+  if(g) g.textContent = '¡Hola, ' + USER_NAME + '! 🚀';
+  const dn = document.getElementById('done-name');
+  if(dn) dn.textContent = USER_NAME;
+  const nd = document.getElementById('user-name-display');
+  if(nd) nd.textContent = USER_NAME;
+  renderMap();
+}
+
+function confirmName(){
+  const inp = document.getElementById('name-input');
+  const val = (inp ? inp.value : '').trim();
+  if(!val){ if(inp){ inp.style.borderColor='var(--red)'; inp.placeholder='¡Escribe tu nombre primero!'; } return; }
+  document.getElementById('name-modal').style.display = 'none';
+  applyUser(val);
+}
+
+function showChangeName(){
+  const cur = document.getElementById('name-input-change');
+  if(cur) cur.value = USER_NAME;
+  document.getElementById('change-modal').style.display = 'flex';
+}
+
+function confirmChangeName(){
+  const inp = document.getElementById('name-input-change');
+  const val = (inp ? inp.value : '').trim();
+  if(!val) return;
+  document.getElementById('change-modal').style.display = 'none';
+  applyUser(val);
+}
+
+const _savedName = localStorage.getItem(GCI_NAME_KEY);
+if(_savedName && _savedName.trim()){
+  document.getElementById('name-modal').style.display = 'none';
+  applyUser(_savedName);
+} else {
+  renderMap();
+  setTimeout(()=>{ const i=document.getElementById('name-input'); if(i) i.focus(); }, 300);
+}
 </script>
 <script>
 // ── EXTENSION: +10 exercises per station (WB2) ──
@@ -1419,6 +1487,44 @@ renderMap();
   if(t) t.exercises.push(...ex);
 });
 </script>
+
+<!-- REGISTRO DE NOMBRE -->
+<div id="name-modal" style="position:fixed;inset:0;z-index:10000;background:rgba(15,8,32,.97);display:flex;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(8px)">
+  <div style="background:linear-gradient(150deg,#281852,#1F1240);border:2px solid #6A33A8;border-radius:24px;padding:36px 24px;max-width:380px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(106,51,168,.5)">
+    <div style="font-size:3.5rem;margin-bottom:8px">⭐</div>
+    <h2 style="font-family:'Baloo 2',sans-serif;color:#F5B342;margin:0 0 6px;font-size:1.5rem">¡Bienvenido a GCI Galaxy!</h2>
+    <p style="color:#BCA9E0;font-size:.9rem;margin:0 0 4px;font-weight:600">Workbook 2 · Misión de Repaso</p>
+    <p style="color:#BCA9E0;font-size:.85rem;margin:0 0 22px;opacity:.8">¿Cuál es tu nombre? Así guardamos tu progreso cada vez que practiques. 🚀</p>
+    <input id="name-input" type="text" maxlength="30" placeholder="Tu nombre o apodo..."
+      style="width:100%;padding:14px;border-radius:12px;border:2px solid #6A33A8;background:#150B2E;color:#F4EFFB;font-size:1rem;font-family:'Manrope',sans-serif;outline:none;margin-bottom:14px;text-align:center;transition:.2s"
+      onkeydown="if(event.key==='Enter') confirmName()">
+    <button onclick="confirmName()"
+      style="width:100%;padding:14px;background:linear-gradient(135deg,#6A33A8,#D44FA0);color:#fff;border:none;border-radius:12px;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:1.05rem;cursor:pointer;box-shadow:0 4px 18px rgba(106,51,168,.5)">
+      🚀 ¡Comenzar misión!
+    </button>
+  </div>
+</div>
+
+<!-- CAMBIAR NOMBRE -->
+<div id="change-modal" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(15,8,32,.9);align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(8px)">
+  <div style="background:linear-gradient(150deg,#281852,#1F1240);border:2px solid #6A33A8;border-radius:24px;padding:32px 24px;max-width:360px;width:100%;text-align:center">
+    <h2 style="font-family:'Baloo 2',sans-serif;color:#F5B342;margin:0 0 8px;font-size:1.2rem">✏️ Cambiar nombre</h2>
+    <p style="color:#BCA9E0;font-size:.82rem;margin:0 0 16px">Tu progreso actual se mantiene guardado.</p>
+    <input id="name-input-change" type="text" maxlength="30" placeholder="Nuevo nombre..."
+      style="width:100%;padding:14px;border-radius:12px;border:2px solid #6A33A8;background:#150B2E;color:#F4EFFB;font-size:1rem;font-family:'Manrope',sans-serif;outline:none;margin-bottom:12px;text-align:center"
+      onkeydown="if(event.key==='Enter') confirmChangeName()">
+    <div style="display:flex;gap:10px">
+      <button onclick="document.getElementById('change-modal').style.display='none'"
+        style="flex:1;padding:12px;background:#1F1240;color:#BCA9E0;border:1px solid #3A2566;border-radius:10px;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer">
+        Cancelar
+      </button>
+      <button onclick="confirmChangeName()"
+        style="flex:1;padding:12px;background:linear-gradient(135deg,#6A33A8,#D44FA0);color:#fff;border:none;border-radius:10px;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer">
+        ✅ Guardar
+      </button>
+    </div>
+  </div>
+</div>
 
 <div id="pwa-install" style="display:none;position:fixed;bottom:84px;right:16px;z-index:9999;background:linear-gradient(135deg,#6A33A8,#D44FA0);color:#fff;border:none;padding:12px 18px;border-radius:999px;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:14px;box-shadow:0 4px 20px rgba(106,51,168,.6);cursor:pointer;align-items:center;gap:8px;flex-direction:row" onclick="installPWA()">
   📲 Instalar App
