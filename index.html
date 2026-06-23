@@ -3,6 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#6A33A8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="GCI Galaxy WB2">
+<link rel="apple-touch-icon" href="icon.svg">
 <title>GCI Galaxy · Misión de Repaso</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1391,6 +1397,38 @@ renderMap();
   const t = TOPICS.find(t => t.id === id);
   if(t) t.exercises.push(...ex);
 });
+
+// ── 10 EXTRA EXERCISES ──
+[
+{id:"vacation", ex:[
+  {type:"fill",q:"After the long flight, we were exhausted. We just ____ (go) straight to bed.",answers:["went"]},
+  {type:"mcq",q:"'The hotel was fully booked.' ¿Qué significa 'fully booked'?",options:["Muy barato","Sin habitaciones disponibles","Con muchos libros"],correct:1},
+  {type:"speak",phrase:"The tour guide was amazing. She told us fascinating stories about the city's history.",translation:"La guía fue increíble. Nos contó historias fascinantes sobre la historia de la ciudad."},
+  {type:"tf",q:"'We took a connecting flight' significa que el vuelo tenía una escala.",correct:true},
+  {type:"order",q:"Ordena el relato:",words:["and","our","We","checked","bags","in.","passports"],correct:"We checked in our bags and passports."}
+]},
+{id:"shopping", ex:[
+  {type:"fill",q:"These jeans are too big. Do you have them in a ____ size?",answers:["smaller"]},
+  {type:"mcq",q:"'It's on sale' significa que:",options:["El producto está agotado","El precio está rebajado","No aceptan tarjeta"],correct:1},
+  {type:"speak",phrase:"I'm looking for a birthday gift for my sister. She loves accessories. Can you help me?",translation:"Estoy buscando un regalo para mi hermana. Le encantan los accesorios. ¿Me puede ayudar?"},
+  {type:"tf",q:"'Try it on' significa probar la ropa antes de comprarla.",correct:true},
+  {type:"fill",q:"The jacket looks great on ____. You should definitely buy it!",answers:["you"]}
+]}
+].forEach(({id, ex}) => {
+  const t = TOPICS.find(t => t.id === id);
+  if(t) t.exercises.push(...ex);
+});
+</script>
+
+<div id="pwa-install" style="display:none;position:fixed;bottom:84px;right:16px;z-index:9999;background:linear-gradient(135deg,#6A33A8,#D44FA0);color:#fff;border:none;padding:12px 18px;border-radius:999px;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:14px;box-shadow:0 4px 20px rgba(106,51,168,.6);cursor:pointer;align-items:center;gap:8px;flex-direction:row" onclick="installPWA()">
+  📲 Instalar App
+</div>
+<script>
+let _dPr;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();_dPr=e;const b=document.getElementById('pwa-install');if(b)b.style.display='flex';});
+async function installPWA(){if(!_dPr)return;_dPr.prompt();const r=await _dPr.userChoice;_dPr=null;const b=document.getElementById('pwa-install');if(b)b.style.display='none';}
+window.addEventListener('appinstalled',()=>{const b=document.getElementById('pwa-install');if(b)b.style.display='none';});
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{});}
 </script>
 
 </body>
