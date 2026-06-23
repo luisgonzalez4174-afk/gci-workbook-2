@@ -248,20 +248,20 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
   <div id="mapview">
     <div class="hero">
       <h2 id="hero-greeting">¡Hola, cadete! 🚀</h2>
-      <p>Viajaremos por <b>16 estaciones</b> con explicación, videos, pronunciación, 20 ejercicios por estación, estaciones de vocabulario extra y una sala de conversación real. Explora la galaxia a tu ritmo.</p>
-      <span class="tag">Repaso · Unidades 1 y 2 · GCI Workbook 0</span>
+      <p>Travel through <b>16 stations</b> with grammar explanations, videos, pronunciation, 20 exercises per station, vocabulary decks and a real conversation room. Explore the galaxy at your own pace.</p>
+      <span class="tag">Review · Units 1 & 2 · GCI Workbook 2 · Level A2</span>
     </div>
     <div class="path" id="pathList"></div>
   </div>
 
   <div class="topicview" id="topicview">
-    <button class="backbtn" onclick="goMap()">← Volver al mapa</button>
+    <button class="backbtn" onclick="goMap()">← Back to map</button>
     <div class="thead">
       <div class="nbadge" id="tvBadge"></div>
       <div><h2 id="tvTitle"></h2><span id="tvSub"></span></div>
     </div>
     <div class="card explain" id="tvExplainCard">
-      <h4>🛰️ Explicación</h4>
+      <h4>🛰️ Grammar Notes</h4>
       <div id="tvExplainBody"></div>
     </div>
     <div class="card" id="tvVideoCard">
@@ -271,19 +271,19 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
       <a class="videofallback" id="tvVideoFallback" href="#" target="_blank" rel="noopener">▶ Ver en YouTube</a>
     </div>
     <div class="card" id="tvToolCard" style="display:none;">
-      <h4>🔊 Pronunciación interactiva</h4>
+      <h4>🔊 Interactive Pronunciation</h4>
       <div id="tvToolBody"></div>
     </div>
     <div class="card" id="tvVocabCard" style="display:none;">
-      <h4>📚 Vocabulario — toca para escuchar</h4>
+      <h4>📚 Vocabulary — tap to listen</h4>
       <div id="tvVocabBody"></div>
     </div>
     <div id="tvExercises"></div>
     <!-- CHAT STATION CONTAINER -->
     <div id="tvChatSection" style="display:none;">
       <div class="chat-header">
-        <h3>💬 Sala de Conversación</h3>
-        <p>Practica en inglés con tu compañero virtual Alex. Elige un escenario y empieza a hablar — usa el micrófono 🎤 o escribe.</p>
+        <h3>💬 Conversation Room</h3>
+        <p>Practice in English with your virtual partner Alex. Choose a scenario and start speaking — use the microphone 🎤 or type.</p>
         <div class="scenario-pills" id="scenarioPills"></div>
       </div>
       <div class="chatbox">
@@ -297,10 +297,10 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
         </div>
       </div>
     </div>
-    <div class="donebar" id="tvDone">🌟 ¡Estación completada! Excelente trabajo, <span id="done-name">cadete</span>.</div>
+    <div class="donebar" id="tvDone">🌟 Station complete! Great work, <span id="done-name">student</span>.</div>
   </div>
 
-  <footer>Material de repaso para los alumnos de GCI Galaxy · Centro de Idiomas · Basado en GCI Workbook 0</footer>
+  <footer>Review material for GCI Galaxy students · Centro de Idiomas · Based on GCI Workbook 2 · Level A2</footer>
 </div>
 <script>
 (function(){
@@ -320,7 +320,7 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
 const COLORS=["#6A33A8","#D44FA0","#F5B342","#3FB8AF","#5B7FE8","#E8607A","#9B59B6","#27AE60","#E74C3C","#F39C12","#1ABC9C","#3498DB","#E91E63","#FF9800","#795548","#607D8B"];
 
 const TOPICS=[
-{id:"acquainted",num:1,title:"Getting Acquainted",emoji:"🤝",cardDesc:"Presentaciones, apodos y cómo conocer gente",
+{id:"acquainted",num:1,title:"Getting Acquainted",emoji:"🤝",cardDesc:"Introductions, nicknames and meeting people",
 explain:[
 "<p>Para presentar a alguien usa: <span class='ex-en'>I'd like to introduce you to...</span> o <span class='ex-en'>This is...</span>. Para hacer que te llamen por tu apodo: <span class='ex-en'>Just call me / Everyone calls me / Please call me...</span></p>",
 "<p>Al conocer a alguien: <span class='ex-en'>It's a pleasure to meet you · How nice to meet you · Great to meet you</span>. Títulos: <b>Mr.</b> (hombre) · <b>Ms./Mrs./Miss</b> (mujeres). Siempre se usan con el apellido (family name), nunca con el primer nombre.</p>"
@@ -330,7 +330,7 @@ exercises:[
 {type:"mcq",q:"¿Cuál expresión NO se usa para presentar a alguien?",options:["This is my friend Ana.","I'd like to introduce you to Sara.","Just call me Marco.","I'd like you to meet my boss."],correct:2},
 {type:"fill",q:"Quieres que todos te llamen 'Sam'. Dices: '____ ____ me Sam.'",answers:["just call","everyone calls","please call"]},
 {type:"mcq",q:"¿Cuál respuesta es correcta al escuchar 'It's a pleasure to meet you'?",options:["Nice to meet you too.","I'm fine, thanks.","Goodbye.","What's your name?"],correct:0},
-{type:"match",q:"Une la expresión con su uso.",pairs:[["Just call me...","Pedir que te llamen por apodo"],["I'd like to introduce...","Presentar formalmente a alguien"],["It's a pleasure to meet you.","Respuesta formal al conocer alguien"],["This is...","Presentación informal"]]},
+{type:"match",q:"Une la expresión con su uso.",pairs:[["Just call me...","Ask to be called by a nickname"],["I'd like to introduce...","Formally introduce someone"],["It's a pleasure to meet you.","Formal response when meeting someone"],["This is...","Informal introduction"]]},
 {type:"fill",q:"Su nombre completo es Samuel Pike. Pero dice: 'Everyone ____ me Sam.'",answers:["calls"]},
 {type:"tf",q:"El título 'Mr.' se usa con el primer nombre: 'Mr. Jamie'.",correct:false},
 {type:"mcq",q:"Una persona te dice: 'I'd like to introduce you to my colleague, Dr. Chen.' ¿Qué respondes?",options:["What do you do?","How nice to meet you, Dr. Chen.","See you later.","Good night."],correct:1},
@@ -339,7 +339,7 @@ exercises:[
 {type:"fill",q:"Para presentar informalmente dices: '____ is my friend Carlos.'",answers:["this"]}
 ]},
 
-{id:"simplepresent",num:2,title:"Simple Present Review",emoji:"⏰",cardDesc:"Hábitos, rutinas y hechos generales",
+{id:"simplepresent",num:2,title:"Simple Present Review",emoji:"⏰",cardDesc:"Habits, routines and general facts",
 explain:[
 "<p>El <b>Simple Present</b> se usa para hábitos, rutinas y hechos generales. Con he/she/it el verbo añade <b>-s</b>: <span class='ex-en'>She works. He likes jazz. It opens at 9.</span></p>",
 "<p>Para preguntas y negativas usamos <b>do/does + base verb</b>: <span class='ex-en'>Do you work? Does she like it? I don't study. He doesn't play guitar.</span></p>",
@@ -359,7 +359,7 @@ exercises:[
 {type:"speak",phrase:"She usually works from home, but she sometimes goes to the office.",translation:"Ella normalmente trabaja desde casa pero a veces va a la oficina."}
 ]},
 
-{id:"prepositions",num:3,title:"Prepositions of Time & Place",emoji:"📍",cardDesc:"IN, ON, AT — tiempo y lugar",
+{id:"prepositions",num:3,title:"Prepositions of Time & Place",emoji:"📍",cardDesc:"IN, ON, AT — time and place",
 explain:[
 "<p><b>IN</b> (general): siglos, décadas, años, meses, partes del día — <span class='ex-en'>in 2001, in March, in the morning.</span></p>",
 "<p><b>ON</b> (más específico): días, fechas — <span class='ex-en'>on Monday, on April 30th, on Sunday afternoon.</span></p>",
@@ -379,7 +379,7 @@ exercises:[
 {type:"speak",phrase:"The concert is on Friday at 8 PM. We'll meet at the theater.",translation:"El concierto es el viernes a las 8 PM. Nos vemos en el teatro."}
 ]},
 
-{id:"musichobbies",num:4,title:"Música y Pasatiempos",emoji:"🎵",cardDesc:"Géneros musicales, instrumentos y hobbies",isVocab:true,
+{id:"musichobbies",num:4,title:"Music & Hobbies",emoji:"🎵",cardDesc:"Music genres, instruments and hobbies",isVocab:true,
 explain:["<p>Vocabulario de música, entretenimiento y pasatiempos. Toca las tarjetas para escuchar la pronunciación.</p>"],
 video:"E2X4cRD6bKQ",videoNote:"Music Genres and Hobbies Vocabulary in English",
 vocab:[
@@ -400,7 +400,7 @@ exercises:[
 {type:"fill",q:"She loves ____ photos. She takes her camera everywhere.",answers:["taking","photography"]}
 ]},
 
-{id:"family",num:5,title:"La Familia Extendida",emoji:"👨‍👩‍👧‍👦",cardDesc:"Relaciones familiares y vocabulario de familia",isVocab:true,
+{id:"family",num:5,title:"Extended Family",emoji:"👨‍👩‍👧‍👦",cardDesc:"Family relationships and vocabulary",isVocab:true,
 explain:["<p>Vocabulario de familia y relaciones. Recuerda que en inglés los sobrinos son <span class='ex-en'>nephew</span> (sobrino) y <span class='ex-en'>niece</span> (sobrina). Los primos se dicen siempre <span class='ex-en'>cousin</span> sin importar género.</p>"],
 video:"i56Hs7zMaqY",videoNote:"Extended Family Members in English | Vocabulary",
 vocab:[
@@ -412,7 +412,7 @@ exercises:[
 {type:"fill",q:"El hijo de tu hermano es tu ____.",answers:["nephew"]},
 {type:"fill",q:"La hija de tu tío es tu ____.",answers:["cousin"]},
 {type:"mcq",q:"¿Cómo se llama el hermano de tu mamá?",options:["cousin","nephew","uncle","sibling"],correct:2},
-{type:"match",q:"Une la relación con su nombre en inglés.",pairs:[["hermana de tu papá","aunt"],["hijo de tu hijo","grandson"],["mamá de tu esposa","mother-in-law"],["hermano o hermana (general)","sibling"]]},
+{type:"match",q:"Une la relación con su nombre en inglés.",pairs:[["your father's sister","aunt"],["your son's son","grandson"],["your wife's mother","mother-in-law"],["brother or sister (general)","sibling"]]},
 {type:"fill",q:"They just ____ engaged! The wedding is in June.",answers:["got"]},
 {type:"tf",q:"'Cousin' en inglés puede ser masculino O femenino.",correct:true},
 {type:"emoji",q:"¿Qué emoji representa 'married'?",options:["💔","💍","🤵👰","👤"],correct:2},
@@ -421,7 +421,7 @@ exercises:[
 {type:"fill",q:"La hija de mi hermana es mi ____.",answers:["niece"]}
 ]},
 
-{id:"sp3rdperson",num:6,title:"Simple Present — Preguntas",emoji:"❓",cardDesc:"3ra persona, Yes/No questions, WH- questions",
+{id:"sp3rdperson",num:6,title:"Simple Present — Questions",emoji:"❓",cardDesc:"3rd person, Yes/No and WH- questions",
 explain:[
 "<p>Con <b>he/she/it</b> el verbo añade <b>-s</b> (o -es/-ies). En preguntas y negativas: <b>does/doesn't</b>: <span class='ex-en'>Does she work? He doesn't play.</span></p>",
 "<p>WH- questions en Simple Present: <b>What/Where/When/Who/Why/How + do/does + subject + verb?</b> Ej: <span class='ex-en'>Where does she live? What do they do?</span></p>"
@@ -440,7 +440,7 @@ exercises:[
 {type:"fill",q:"____ do they play on weekends? — They play football. (What/Where)",answers:["what"]}
 ]},
 
-{id:"foodrest",num:7,title:"Comida y Restaurantes",emoji:"🍽️",cardDesc:"Menú, ordenar comida y vocabulario culinario",isVocab:true,
+{id:"foodrest",num:7,title:"Food & Restaurants",emoji:"🍽️",cardDesc:"Menu items, ordering food and culinary vocabulary",isVocab:true,
 explain:[
 "<p>Para ordenar en un restaurante: <span class='ex-en'>I'll have the... / I'd like the... / Could I have...?</span>. El mesero puede decir: <span class='ex-en'>What would you like? / Can I take your order?</span></p>",
 "<p>Vocabulario de menú: <b>appetizer/starter</b> (entrada) · <b>main course/entrée</b> (plato fuerte) · <b>side dish</b> (guarnición) · <b>dessert</b> (postre) · <b>beverage/drink</b> (bebida).</p>"
@@ -464,7 +464,7 @@ exercises:[
 {type:"order",q:"Ordena la orden al mesero:",words:["the","I'll","please.","have","pasta,"],correct:"I'll have the pasta, please."}
 ]},
 
-{id:"plurals",num:8,title:"Plurales y Artículos",emoji:"📝",cardDesc:"Reglas de plurales + artículos a/an/the",
+{id:"plurals",num:8,title:"Plurals & Articles",emoji:"📝",cardDesc:"Plural rules + articles a/an/the",
 explain:[
 "<p>Plurales regulares: <b>-s</b> (books, clams) · <b>-es</b> después de -s/-x/-z/-sh/-ch (sandwiches) · <b>-ies</b> cuando termina en consonante+y (French fries). Irregulares: <span class='ex-en'>man→men, woman→women, child→children, person→people, foot→feet, tooth→teeth.</span></p>",
 "<p>Artículos: <b>a</b> (sonido consonante) · <b>an</b> (sonido vocal) · <b>the</b> (ya mencionado/específico) · sin artículo (general).</p>"
@@ -483,7 +483,7 @@ exercises:[
 {type:"fill",q:"Plural de 'olive': ____",answers:["olives"]}
 ]},
 
-{id:"technology",num:9,title:"Tecnología y Gadgets",emoji:"💻",cardDesc:"Aparatos, problemas tecnológicos y vocabulario digital",isVocab:true,
+{id:"technology",num:9,title:"Technology & Gadgets",emoji:"💻",cardDesc:"Devices, tech problems and digital vocabulary",isVocab:true,
 explain:["<p>Vocabulario esencial de tecnología y gadgets del día a día. Toca las tarjetas para escuchar la pronunciación.</p>"],
 video:"W4TXFsMEn4k",videoNote:"Technology Vocabulary in English | Gadgets and Devices",
 vocab:[
@@ -518,13 +518,13 @@ exercises:[
 {type:"fill",q:"Forma -ing de 'run': ____",answers:["running"]},
 {type:"fill",q:"Forma -ing de 'dance': ____",answers:["dancing"]},
 {type:"mcq",q:"A: What are you doing? B: ____ a new app.",options:["I develop","I'm developing","I develops"],correct:1},
-{type:"match",q:"Une el uso con el tiempo verbal correcto.",pairs:[["Hábito diario","Simple Present"],["Acción en progreso ahora","Present Continuous"],["Hecho general","Simple Present"],["Plan para esta tarde","Present Continuous"]]},
+{type:"match",q:"Une el uso con el tiempo verbal correcto.",pairs:[["Daily habit","Simple Present"],["Action in progress right now","Present Continuous"],["General fact","Simple Present"],["Plan for this afternoon","Present Continuous"]]},
 {type:"tf",q:"'He is working at home today' implica que normalmente trabaja en otro lugar.",correct:true},
 {type:"order",q:"Ordena la pregunta en Present Continuous:",words:["working","Is","today?","from","home","she"],correct:"Is she working from home today?"},
 {type:"speak",phrase:"I'm not going to the gym today. I'm studying at home right now.",translation:"Hoy no voy al gimnasio. Ahora mismo estoy estudiando en casa."}
 ]},
 
-{id:"sportshealth",num:11,title:"Deportes, Salud y Frecuencia",emoji:"🏃",cardDesc:"Vocabulario deportivo y adverbios de frecuencia",isVocab:true,
+{id:"sportshealth",num:11,title:"Sports, Health & Frequency",emoji:"🏃",cardDesc:"Sports vocabulary and adverbs of frequency",isVocab:true,
 explain:[
 "<p>Adverbios de frecuencia (van antes del verbo): <b>always / usually / often / sometimes / rarely / hardly ever / never.</b> Ej: <span class='ex-en'>She often plays tennis. He never goes swimming.</span></p>"
 ],
@@ -538,16 +538,16 @@ exercises:[
 {type:"mcq",q:"¿Dónde va 'often' en la oración?",options:["Often she plays tennis.","She often plays tennis.","She plays often tennis."],correct:1},
 {type:"fill",q:"He goes to the gym four times a week. He ____ goes to the gym. (always/sometimes/never)",answers:["often","usually","always"]},
 {type:"emoji",q:"¿Qué emoji representa 'boxing'?",options:["⚽","🥊","🎾","🏊"],correct:1},
-{type:"match",q:"Une el adverbio con su frecuencia aproximada.",pairs:[["always","100% del tiempo"],["sometimes","50% del tiempo"],["rarely","casi nunca"],["never","0% del tiempo"]]},
+{type:"match",q:"Une el adverbio con su frecuencia aproximada.",pairs:[["always","100% of the time"],["sometimes","about 50% of the time"],["rarely","almost never"],["never","0% of the time"]]},
 {type:"fill",q:"She ____ ever plays golf. Maybe once a year.",answers:["hardly"]},
 {type:"tf",q:"'He goes to the gym four times a week' — el adverbio que mejor lo describe es 'often'.",correct:true},
 {type:"speak",phrase:"I usually jog in the morning. I sometimes go cycling on weekends.",translation:"Generalmente troto por las mañanas. A veces voy en bici los fines de semana."},
 {type:"fill",q:"She's really ____. She exercises every day and eats well.",answers:["fit","healthy"]},
 {type:"emoji",q:"¿Qué emoji representa 'yoga'?",options:["🏃","🧘","🏋️","⛷️"],correct:1},
-{type:"mcq",q:"'I never go swimming.' ¿Cuántas veces va al agua?",options:["Siempre","A veces","Nunca","Casi siempre"],correct:2}
+{type:"mcq",q:"'I never go swimming.' How often does this person swim?",options:["Always","Sometimes","Never","Almost always"],correct:2}
 ]},
 
-{id:"modals",num:12,title:"Modales: can, can't, have to",emoji:"⚡",cardDesc:"Habilidad, posibilidad y obligación",
+{id:"modals",num:12,title:"Modals: can, can't, have to",emoji:"⚡",cardDesc:"Ability, possibility and obligation",
 explain:[
 "<p><b>can</b> = poder/saber hacer algo (habilidad o posibilidad): <span class='ex-en'>He can play guitar. Can you drive?</span></p>",
 "<p><b>can't</b> = no poder: <span class='ex-en'>She can't come today.</span> Los modales NO añaden -s con he/she: <b>He can</b> (no 'he cans').</p>",
@@ -559,7 +559,7 @@ exercises:[
 {type:"fill",q:"She ____ to be careful about her diet. (has/have)",answers:["has"]},
 {type:"mcq",q:"¿Cuál oración es correcta?",options:["He cans play rugby.","He can plays rugby.","He can play rugby."],correct:2},
 {type:"fill",q:"You ____ ____ pay. I'll pay for you. (no es necesario)",answers:["don't have to"]},
-{type:"match",q:"Une el significado con el modal correcto.",pairs:[["Tengo habilidad para hacerlo","can"],["Estoy obligado a hacerlo","have to"],["No puedo hacerlo","can't"],["No es necesario que lo haga","don't have to"]]},
+{type:"match",q:"Une el significado con el modal correcto.",pairs:[["I have the ability to do it","can"],["I am obligated to do it","have to"],["I am unable to do it","can't"],["It's not necessary to do it","don't have to"]]},
 {type:"tf",q:"'Can' y 'have to' se conjugan diferente con he/she/it: 'He cans' y 'She haves to'.",correct:false},
 {type:"fill",q:"____ you drive? (Can/Have)",answers:["can"]},
 {type:"mcq",q:"'She doesn't have to work on Sundays.' ¿Qué significa?",options:["Ella no puede trabajar los domingos.","No es necesario que trabaje los domingos.","Ella odia trabajar los domingos."],correct:1},
@@ -571,7 +571,7 @@ exercises:[
 <script>
 // ── PAST TENSE (EXTENDED — 20 exercises) ──
 TOPICS.push({
-id:"pasttense",num:13,title:"Simple Past — Pasado Completo",emoji:"📖",cardDesc:"BE en pasado, verbos regulares e irregulares, preguntas, historias",
+id:"pasttense",num:13,title:"Simple Past — Full Review",emoji:"📖",cardDesc:"Past BE, regular and irregular verbs, questions and stories",
 explain:[
 "<p><b>BE en pasado:</b> I/He/She/It → <b>was</b> · You/We/They → <b>were</b>. Negativas: <b>wasn't / weren't</b>. Preguntas: <b>Was he...? Were they...?</b></p>",
 "<p><b>Verbos regulares:</b> agrega <b>-ed</b> al infinitivo: <span class='ex-en'>work→worked, play→played, visit→visited, study→studied, stop→stopped, dance→danced.</span></p>",
@@ -631,7 +631,7 @@ exercises:[
 <script>
 // ── Stations 14-16 ──
 TOPICS.push(...[
-{id:"vacation",num:14,title:"Vacaciones y Viajes",emoji:"✈️",cardDesc:"Vocabulario de viaje + narrar vacaciones en pasado",isVocab:true,
+{id:"vacation",num:14,title:"Vacations & Travel",emoji:"✈️",cardDesc:"Travel vocabulary + narrating a vacation in the past",isVocab:true,
 explain:[
 "<p>Para hablar de vacaciones en pasado usa conectores de secuencia: <span class='ex-en'>First... / Then... / After that... / Finally... / The next day...</span>. Recuerda usar los verbos en pasado al narrar.</p>",
 "<p>Adjetivos para describir experiencias: <span class='ex-en'>relaxing, exciting, interesting, unusual, exhausting, amazing, terrible, unforgettable.</span></p>"
@@ -643,7 +643,7 @@ vocab:[
 ],
 exercises:[
 {type:"fill",q:"She went on ____. She traveled to Paris for two weeks.",answers:["vacation","holiday"]},
-{type:"match",q:"Une el conector con su función.",pairs:[["First","indica el inicio de la historia"],["Then","indica la siguiente acción"],["After that","indica una acción posterior"],["Finally","indica el final"]]},
+{type:"match",q:"Une el conector con su función.",pairs:[["First","marks the start of the story"],["Then","marks the next action"],["After that","marks a later action"],["Finally","marks the end"]]},
 {type:"mcq",q:"¿Qué adjetivo describe una experiencia difícil y cansada?",options:["relaxing","exciting","exhausting","amazing"],correct:2},
 {type:"order",q:"Ordena la narración de vacaciones:",words:["beach.","Finally,","After","hotel.","to","that,","the","First,","we","went","we","checked","into","the"],correct:"First, we checked into the hotel. After that, we went to the beach. Finally,"},
 {type:"speak",phrase:"The vacation was amazing! First we flew to Cancún. Then we relaxed on the beach.",translation:"Las vacaciones fueron increíbles. Primero volamos a Cancún. Luego nos relajamos en la playa."},
@@ -654,7 +654,7 @@ exercises:[
 {type:"fill",q:"Someone stole his ____. He had to cancel his credit cards. (maleta/equipaje)",answers:["luggage","suitcase"]}
 ]},
 
-{id:"shopping",num:15,title:"Ropa y Pronombres Objeto",emoji:"👗",cardDesc:"Tipos de ropa + me/you/him/her/us/them",
+{id:"shopping",num:15,title:"Clothing & Object Pronouns",emoji:"👗",cardDesc:"Types of clothing + me/you/him/her/us/them",
 explain:[
 "<p>Vocabulario de ropa: casual (<span class='ex-en'>jeans, T-shirt, sweatshirt, polo shirt</span>) · sweaters (<span class='ex-en'>crewneck, cardigan, turtleneck, V-neck, blazer</span>) · zapatos (<span class='ex-en'>oxfords, loafers, sandals, running shoes, pumps, flats</span>).</p>",
 "<p><b>Object pronouns</b> reemplazan al objeto directo: <span class='ex-en'>I→me · You→you · He→him · She→her · It→it · We→us · They→them.</span> Ej: <span class='ex-en'>I love these pumps → I love them.</span></p>"
@@ -892,6 +892,70 @@ function openTopic(id){
 }
 
 // ══════════════════════════════════
+//  QUESTION TRANSLATOR (ES → EN)
+// ══════════════════════════════════
+function tQ(t){
+  if(!t) return '';
+  return t
+    .replace(/¿Cuál pregunta en pasado con BE es correcta\?/g,'Which past BE question is correct?')
+    .replace(/¿Cuál pregunta WH- en pasado es correcta\?/g,'Which past WH- question is correct?')
+    .replace(/¿Cuál pregunta es correcta\?/g,'Which question is correct?')
+    .replace(/¿Cuál oración es Present Continuous\?/g,'Which sentence uses Present Continuous?')
+    .replace(/¿Cuál oración usa Present Perfect correctamente\?/g,'Which sentence uses Present Perfect correctly?')
+    .replace(/¿Cuál oración usa el gerundio( como sujeto)? correctamente\?/g,'Which sentence uses the gerund correctly?')
+    .replace(/¿Cuál oración usa el gerundio( como sujeto)? correctamente\?/g,'Which sentence uses the gerund correctly?')
+    .replace(/¿Cuál oración usa la voz (activa|pasiva)\?/g,'Which sentence uses the $1 voice?')
+    .replace(/¿Cuál oración es correcta\?/g,'Which sentence is correct?')
+    .replace(/¿Cuál comparativo es correcto\?/g,'Which comparative form is correct?')
+    .replace(/¿Cuál superlativo es correcto\?/g,'Which superlative is correct?')
+    .replace(/¿Cuál de estos NO es un ([^\?]+)\?/g,'Which of these is NOT a $1?')
+    .replace(/¿Cuál de estos NO es ([^\?]+)\?/g,'Which of these is NOT $1?')
+    .replace(/¿Cuál es el plural correcto de '([^']+)'\?/g,"What's the correct plural of '$1'?")
+    .replace(/¿Cuál es (correcta|correcto)\?/g,'Which is correct?')
+    .replace(/¿Cuál expresión NO se usa para ([^\?]+)\?/g,'Which expression is NOT used to $1?')
+    .replace(/¿Cuál respuesta es correcta al escuchar '([^']+)'\?/g,"Which answer is correct when you hear '$1'?")
+    .replace(/¿Cuál comportamiento es el MÁS peligroso en la carretera\?/g,'Which behavior is the MOST dangerous on the road?')
+    .replace(/¿Cuál comportamiento agresivo al manejar se llama '([^']+)'\?/g,"Which aggressive driving behavior is called '$1'?")
+    .replace(/¿Cuál (expresión|respuesta|pregunta|oración|comportamiento|tratamiento|conector|gerundio|modal) es ([^\?]+)\?/g,'Which $1 is $2?')
+    .replace(/¿Cuál\b([^\?]*)\?/g,'Which$1?')
+    .replace(/¿Qué emoji representa (mejor )?'?([^'?\n]+?)'?\?/g,"Which emoji represents '$2'?")
+    .replace(/¿Qué significa '([^']+)' en español\?/g,"What does '$1' mean?")
+    .replace(/¿Qué significa '([^']+)' en contexto de trabajo\?/g,"What does '$1' mean at work?")
+    .replace(/¿Qué significa '([^']+)'\?/g,"What does '$1' mean?")
+    .replace(/¿Qué (hace|instrumento|adjetivo|tratamiento|deporte|comportamiento|adverbio) ([^\?]+)\?/g,'What $1 $2?')
+    .replace(/¿Qué\b([^\?]*)\?/g,'What$1?')
+    .replace(/¿Dónde va '([^']+)' en la oración\?/g,"Where does '$1' go in the sentence?")
+    .replace(/¿Cómo se llama el ([^\?]+)\?/g,'What do you call the $1?')
+    .replace(/Ordena la presentación formal:/g,'Put the formal introduction in order:')
+    .replace(/Ordena la pregunta en Present Continuous:/g,'Put the Present Continuous question in order:')
+    .replace(/Ordena la pregunta con Present Perfect:/g,'Put the Present Perfect question in order:')
+    .replace(/Ordena el inicio de una historia de vacaciones:/g,'Put the vacation story opener in order:')
+    .replace(/Ordena el inicio de small talk:/g,'Put the small talk opener in order:')
+    .replace(/Ordena el small talk:/g,'Put the small talk phrase in order:')
+    .replace(/Ordena el (check-in|consejo|comparativo|inicio):/g,'Put the $1 in order:')
+    .replace(/Ordena la (invitación|respuesta al rechazar):/g,'Put the $1 in order:')
+    .replace(/Ordena la expresión de opinión:/g,'Put the opinion phrase in order:')
+    .replace(/Ordena (la|el) oración[^:]*:/g,'Put the sentence in order:')
+    .replace(/Ordena una opinión completa:/g,'Build a complete opinion:')
+    .replace(/Ordena el consejo de dieta:/g,'Put the diet tip in order:')
+    .replace(/Ordena el (consejo|comparativo|inicio):/g,'Put the $1 in order:')
+    .replace(/Ordena /g,'Put in order: ')
+    .replace(/Forma la pregunta WH-:/g,'Build the WH- question:')
+    .replace(/Forma la pregunta con Present Perfect:/g,'Build the Present Perfect question:')
+    .replace(/Forma la pregunta en pasado:/g,'Build the past tense question:')
+    .replace(/Forma la pregunta:/g,'Build the question:')
+    .replace(/Forma la oración:/g,'Build the sentence:')
+    .replace(/Forma el (comparativo|superlativo):/g,'Build the $1:')
+    .replace(/Forma una opinión completa:/g,'Build a complete opinion:')
+    .replace(/Forma -ing de '([^']+)': ____/g,"Form the -ing of '$1': ____")
+    .replace(/Forma /g,'Build: ')
+    .replace(/Convierte a voz pasiva: '([^']+)'\./g,"Rewrite in passive voice: '$1'")
+    .replace(/Convierte a voz pasiva:/g,'Rewrite in passive voice:')
+    .replace(/Une (la|el|las|los|cada|estos) /g,'Match $1 ')
+    .replace(/Une /g,'Match ');
+}
+
+// ══════════════════════════════════
 //  EXERCISE RENDERERS
 // ══════════════════════════════════
 function renderExercises(t){
@@ -900,12 +964,12 @@ function renderExercises(t){
   t.exercises.forEach((ex,idx)=>{
     const wrap=document.createElement('div');
     wrap.className='exo'+(progress[t.id][idx]?' solved':'');
-    const tags={mcq:'Opción múltiple',fill:'Completa',tf:'Verdadero o falso',match:'Relaciona',emoji:'Emoji',order:'Ordena',speak:'Pronuncia'};
-    wrap.innerHTML=`<div class="exo-top"><span class="exo-tag">Ej ${idx+1} · ${tags[ex.type]||ex.type}</span><span class="exo-check">${progress[t.id][idx]?'✓':''}</span></div><p class="qtext">${ex.q||''}</p><div class="exo-body"></div>`;
+    const tags={mcq:'Multiple Choice',fill:'Fill In',tf:'True or False',match:'Match',emoji:'Emoji Quiz',order:'Word Order',speak:'Speaking'};
+    wrap.innerHTML=`<div class="exo-top"><span class="exo-tag">Ex. ${idx+1} · ${tags[ex.type]||ex.type}</span><span class="exo-check">${progress[t.id][idx]?'✓':''}</span></div><p class="qtext">${tQ(ex.q)||''}</p><div class="exo-body"></div>`;
     box.appendChild(wrap);
     const body=wrap.querySelector('.exo-body');
     if(ex.type==='mcq'||ex.type==='tf'||ex.type==='emoji'){
-      const opts=ex.type==='tf'?['Verdadero','Falso']:ex.options;
+      const opts=ex.type==='tf'?['True','False']:ex.options;
       const d=document.createElement('div');
       d.className=ex.type==='tf'?'tfrow':ex.type==='emoji'?'opts emoji-opts':'opts';
       opts.forEach((op,oi)=>{
@@ -921,16 +985,16 @@ function renderExercises(t){
       body.appendChild(d);
     } else if(ex.type==='fill'){
       const row=document.createElement('div'); row.className='fillrow';
-      const inp=document.createElement('input'); inp.type='text'; inp.placeholder='Escribe en inglés…';
-      const btn=document.createElement('button'); btn.className='checkbtn'; btn.textContent='Verificar';
+      const inp=document.createElement('input'); inp.type='text'; inp.placeholder='Write your answer…';
+      const btn=document.createElement('button'); btn.className='checkbtn'; btn.textContent='Check';
       const fb=document.createElement('div');
       inp.onkeydown=e=>{ if(e.key==='Enter') btn.click(); };
       btn.onclick=()=>{
         if(wrap.classList.contains('solved')) return;
         const v=norm(inp.value);
         const ok=ex.answers.some(a=>norm(a)===v);
-        if(ok){ inp.classList.add('correct'); inp.disabled=true; btn.disabled=true; fb.className='fb ok'; fb.textContent='¡Correcto! 🌟'; markSolved(t,idx,wrap); }
-        else { inp.classList.add('wrong'); setTimeout(()=>inp.classList.remove('wrong'),450); fb.className='fb no'; fb.textContent=ex.hint?'Casi. Pista: '+ex.hint:'Intenta de nuevo.'; }
+        if(ok){ inp.classList.add('correct'); inp.disabled=true; btn.disabled=true; fb.className='fb ok'; fb.textContent='Correct! 🌟'; markSolved(t,idx,wrap); }
+        else { inp.classList.add('wrong'); setTimeout(()=>inp.classList.remove('wrong'),450); fb.className='fb no'; fb.textContent=ex.hint?'Almost! Hint: '+ex.hint:'Try again.'; }
         row.parentNode.appendChild(fb);
       };
       row.appendChild(inp); row.appendChild(btn); body.appendChild(row);
@@ -1028,7 +1092,7 @@ function renderOrder(ex,wrap,body,t,idx){
     const ok=norm(built)===norm(ex.correct);
     if(ok){
       ans.querySelectorAll('.chip').forEach(c=>c.classList.add('chip-correct'));
-      fb.className='fb ok'; fb.textContent='¡Correcto! 🌟';
+      fb.className='fb ok'; fb.textContent='Correct! 🌟';
       markSolved(t,idx,wrap);
     } else {
       ans.querySelectorAll('.chip').forEach(c=>{ c.classList.add('chip-wrong'); setTimeout(()=>c.classList.remove('chip-wrong'),450); });
@@ -1072,7 +1136,7 @@ function renderSpeak(ex,wrap,body,t,idx){
         }
       },()=>{ mic.classList.remove('recording'); });
       activeRecognizer=r;
-      try{ r.start(); }catch(e){ mic.classList.remove('recording'); status.textContent='Error de micrófono. Intenta de nuevo.'; }
+      try{ r.start(); }catch(e){ mic.classList.remove('recording'); status.textContent='Microphone error. Please try again.'; }
     };
   }
   result.appendChild(playBtn); result.appendChild(markBtn);
@@ -1141,7 +1205,7 @@ function chatSend(){
     } else {
       addBotMsg("Great conversation! 🎉 You did amazing! Try another scenario or come back to practice again. Your English is improving!");
       document.getElementById('chatSuggestions').innerHTML='<span style="color:var(--green);font-size:13px;font-weight:700;padding:4px;">✅ Conversación completada!</span>';
-      document.getElementById('chatProgress').textContent='🌟 ¡Completaste el escenario! Intenta otro.';
+      document.getElementById('chatProgress').textContent='🌟 Scenario complete! Try another one.';
     }
     if(!matched && chatStep<sc.steps.length){
       setTimeout(()=>{
