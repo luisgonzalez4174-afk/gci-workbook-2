@@ -1333,14 +1333,16 @@ function confirmChangeName(){
   applyUser(val);
 }
 
-const _savedName = localStorage.getItem(GCI_NAME_KEY);
-if(_savedName && _savedName.trim()){
-  document.getElementById('name-modal').style.display = 'none';
-  applyUser(_savedName);
-} else {
-  renderMap();
-  setTimeout(()=>{ const i=document.getElementById('name-input'); if(i) i.focus(); }, 300);
-}
+document.addEventListener('DOMContentLoaded', function(){
+  const _savedName = localStorage.getItem(GCI_NAME_KEY);
+  if(_savedName && _savedName.trim()){
+    document.getElementById('name-modal').style.display = 'none';
+    applyUser(_savedName);
+  } else {
+    renderMap();
+    setTimeout(()=>{ const i=document.getElementById('name-input'); if(i) i.focus(); }, 300);
+  }
+});
 </script>
 <script>
 // ── EXTENSION: +10 exercises per station (WB2) ──
