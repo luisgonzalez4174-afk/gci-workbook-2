@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<title>GCI Galaxy · Misión de Repaso</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0F0820;--bg2:#150B2E;--card:#1F1240;--card2:#281852;
+  --purple:#6A33A8;--purple-deep:#4B1F86;--magenta:#D44FA0;
+  --gold:#F5B342;--green:#4FCB8C;--red:#E8607A;
+  --ink:#F4EFFB;--ink-soft:#BCA9E0;--line:#3A2566;
+  --radius:18px;--radius-sm:12px;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:radial-gradient(ellipse 700px 500px at 12% -5%,rgba(212,79,160,.20),transparent 60%),
+    radial-gradient(ellipse 800px 600px at 90% 10%,rgba(106,51,168,.30),transparent 55%),
+    radial-gradient(ellipse 900px 700px at 50% 100%,rgba(245,179,66,.08),transparent 60%),
+    var(--bg);
+  color:var(--ink);font-family:'Manrope',sans-serif;min-height:100vh;overflow-x:hidden;position:relative;
+}
+.stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.stars span{position:absolute;border-radius:50%;opacity:.55;animation:twinkle 4s ease-in-out infinite;}
+@keyframes twinkle{0%,100%{opacity:.15;transform:scale(.8);}50%{opacity:.9;transform:scale(1.3);}}
+@keyframes floaty{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+@keyframes popin{from{opacity:0;transform:scale(.85) translateY(8px);}to{opacity:1;transform:scale(1) translateY(0);}}
+@keyframes shakeit{10%,90%{transform:translateX(-2px);}20%,80%{transform:translateX(3px);}30%,50%,70%{transform:translateX(-5px);}40%,60%{transform:translateX(5px);}}
+@keyframes burst{0%{transform:translate(0,0) scale(1);opacity:1;}100%{transform:translate(var(--dx),var(--dy)) scale(.3);opacity:0;}}
+@keyframes popscale{0%{transform:scale(1);}50%{transform:scale(1.18);}100%{transform:scale(1);}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(212,79,160,.6);}50%{box-shadow:0 0 0 10px rgba(212,79,160,0);}}
+@keyframes listening{0%,100%{transform:scale(1);background:var(--red);}50%{transform:scale(1.15);background:#ff2244;}}
+
+.wrap{position:relative;z-index:1;max-width:780px;margin:0 auto;padding:18px 16px 90px;}
+
+/* ─── topbar ─── */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:18px;}
+.brand{display:flex;align-items:center;gap:10px;}
+.brand-badge{width:46px;height:46px;border-radius:14px;background:linear-gradient(145deg,var(--purple),var(--purple-deep));display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 6px 18px rgba(106,51,168,.45),inset 0 0 0 1px rgba(255,255,255,.08);animation:floaty 5s ease-in-out infinite;}
+.brand-text h1{font-family:'Baloo 2',sans-serif;font-size:19px;margin:0;line-height:1.1;}
+.brand-text p{margin:1px 0 0;font-size:12px;color:var(--ink-soft);}
+.score-pill{display:flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--line);padding:8px 13px;border-radius:999px;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:14px;color:var(--gold);white-space:nowrap;}
+
+/* ─── hero ─── */
+.hero{background:linear-gradient(150deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:var(--radius);padding:20px 20px 18px;margin-bottom:22px;position:relative;overflow:hidden;}
+.hero::after{content:"";position:absolute;right:-30px;top:-30px;width:140px;height:140px;background:radial-gradient(circle,rgba(245,179,66,.25),transparent 70%);}
+.hero h2{font-family:'Baloo 2',sans-serif;font-size:22px;margin:0 0 6px;}
+.hero p{margin:0;color:var(--ink-soft);font-size:14.5px;line-height:1.5;}
+.hero .tag{display:inline-block;margin-top:12px;background:rgba(245,179,66,.14);color:var(--gold);border:1px solid rgba(245,179,66,.35);font-size:12.5px;font-weight:700;padding:5px 11px;border-radius:999px;}
+
+/* ─── map path ─── */
+.path{position:relative;padding-left:26px;}
+.path::before{content:"";position:absolute;left:10px;top:6px;bottom:6px;width:3px;background:repeating-linear-gradient(to bottom,var(--purple) 0 8px,transparent 8px 16px);border-radius:3px;}
+.node{position:relative;display:flex;align-items:center;gap:14px;margin-bottom:14px;cursor:pointer;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:13px 14px;transition:transform .15s,border-color .15s,background .15s;animation:popin .4s ease both;}
+.node:hover{border-color:var(--purple);background:var(--card2);}
+.node:active{transform:scale(.98);}
+.node::before{content:"";position:absolute;left:-21px;top:50%;transform:translateY(-50%);width:13px;height:13px;border-radius:50%;background:var(--bg2);border:3px solid var(--purple);}
+.node.done::before{background:var(--gold);border-color:var(--gold);}
+.node .nbadge{width:46px;height:46px;flex:none;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:22px;}
+.node .ninfo{flex:1;min-width:0;}
+.node .ninfo h3{font-family:'Baloo 2',sans-serif;font-size:15px;margin:0 0 2px;line-height:1.25;}
+.node .ninfo p{margin:0;font-size:12px;color:var(--ink-soft);}
+.node .nstat{font-family:'Baloo 2',sans-serif;font-size:12px;font-weight:700;color:var(--ink-soft);text-align:right;flex:none;}
+.node.done .nstat{color:var(--green);}
+.node .nnum{font-family:'Baloo 2',sans-serif;font-weight:700;font-size:12px;color:var(--ink-soft);min-width:20px;}
+
+/* ─── topic view ─── */
+.topicview{display:none;}
+.topicview.active{display:block;animation:popin .35s ease both;}
+.backbtn{display:inline-flex;align-items:center;gap:6px;background:none;border:1px solid var(--line);color:var(--ink);font-family:'Manrope';font-weight:700;font-size:13.5px;padding:8px 13px;border-radius:999px;cursor:pointer;margin-bottom:14px;}
+.backbtn:hover{border-color:var(--purple);}
+.thead{display:flex;align-items:center;gap:14px;margin-bottom:16px;}
+.thead .nbadge{width:54px;height:54px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:26px;flex:none;}
+.thead h2{font-family:'Baloo 2',sans-serif;font-size:21px;margin:0;}
+.thead span{display:block;font-size:12.5px;color:var(--ink-soft);margin-top:2px;}
+
+/* ─── cards ─── */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px 17px;margin-bottom:14px;}
+.card h4{font-family:'Baloo 2',sans-serif;font-size:13.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--gold);margin:0 0 10px;display:flex;align-items:center;gap:6px;}
+.explain p{margin:0 0 10px;font-size:14.5px;line-height:1.65;color:#EAE3F7;}
+.explain p:last-child{margin-bottom:0;}
+.explain b{color:var(--gold);}
+.ex-en{color:#fff;background:rgba(106,51,168,.35);padding:1px 6px;border-radius:6px;font-weight:600;}
+.sectionlabel{font-family:'Baloo 2',sans-serif;font-size:13px;color:var(--magenta);margin:0 0 6px;font-weight:700;}
+.reftable{width:100%;border-collapse:collapse;font-size:13px;margin:2px 0 16px;}
+.reftable th{background:rgba(106,51,168,.35);color:var(--gold);text-align:left;padding:8px 9px;font-family:'Baloo 2',sans-serif;font-size:11.5px;text-transform:uppercase;}
+.reftable td{padding:8px 9px;border-top:1px solid var(--line);color:#EAE3F7;}
+.reftable td.formcol{color:var(--green);font-weight:700;}
+.reftable tr:nth-child(even) td{background:rgba(255,255,255,.025);}
+.rulecards{display:flex;flex-direction:column;gap:10px;margin:2px 0 16px;}
+.rulecard{border:1px solid rgba(79,203,140,.4);background:rgba(79,203,140,.07);border-radius:12px;padding:11px 13px;}
+.rulecard .rulehead{display:block;color:var(--green);font-family:'Baloo 2',sans-serif;font-size:13px;margin-bottom:4px;}
+.rulecard .ruleformula{font-size:14px;color:#fff;margin-bottom:3px;}
+.rulecard .ruleex{font-size:12.5px;color:var(--ink-soft);}
+.keynote{border:1px solid rgba(245,179,66,.4);background:rgba(245,179,66,.07);border-radius:12px;padding:12px 14px;margin:2px 0 4px;}
+.keynote .keyhead{display:block;color:var(--gold);font-family:'Baloo 2',sans-serif;font-size:13.5px;margin-bottom:6px;}
+.keynote .keyrow{font-size:13.5px;color:#EAE3F7;margin-bottom:5px;line-height:1.5;}
+.keynote .keyrow:last-child{margin-bottom:0;color:var(--green);font-weight:700;}
+
+/* ─── video ─── */
+.videoplaceholder{position:relative;width:100%;padding-top:56.25%;border-radius:var(--radius-sm);overflow:hidden;background:#000;cursor:pointer;}
+.videoplaceholder img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.78;}
+.videoplaceholder .playbtn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:62px;height:62px;border-radius:50%;background:rgba(212,79,160,.92);display:flex;align-items:center;justify-content:center;font-size:24px;color:#fff;box-shadow:0 8px 22px rgba(0,0,0,.45);}
+.videoplaceholder .playlabel{position:absolute;bottom:10px;left:10px;right:10px;background:rgba(15,8,32,.7);color:#fff;font-size:11px;font-weight:700;padding:5px 9px;border-radius:8px;text-align:center;}
+.videowrap{position:relative;width:100%;padding-top:56.25%;border-radius:var(--radius-sm);overflow:hidden;background:#000;}
+.videowrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+.videonote{font-size:12px;color:var(--ink-soft);margin-top:8px;}
+.videofallback{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-size:12.5px;font-weight:700;color:var(--gold);text-decoration:none;border:1px solid rgba(245,179,66,.35);padding:7px 12px;border-radius:999px;}
+
+/* ─── pronunciation tool ─── */
+.toolhint{font-size:12.5px;color:var(--ink-soft);margin:0 0 10px;}
+.toolgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(44px,1fr));gap:7px;margin-bottom:10px;}
+.toolbtn{background:linear-gradient(145deg,var(--purple),var(--purple-deep));color:#fff;border:none;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:14px;padding:11px 4px;border-radius:10px;cursor:pointer;}
+.toolbtn:active{transform:scale(.92);}
+.toolbtn.playing{animation:popscale .35s ease;background:linear-gradient(145deg,var(--magenta),var(--purple));}
+.tooldisplay{min-height:28px;font-family:'Baloo 2',sans-serif;font-size:17px;font-weight:700;color:var(--green);text-align:center;padding:6px;}
+.toolwarn{display:none;margin-top:6px;font-size:12px;color:var(--gold);background:rgba(245,179,66,.1);border:1px solid rgba(245,179,66,.3);border-radius:9px;padding:8px 10px;}
+.toolwarn.show{display:block;}
+
+/* ─── vocab grid (new stations) ─── */
+.vocabgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:8px;margin-bottom:6px;}
+.vocabcard{background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:10px 6px;text-align:center;cursor:pointer;transition:.12s;}
+.vocabcard:hover{border-color:var(--purple);}
+.vocabcard.playing{border-color:var(--magenta);background:rgba(212,79,160,.1);}
+.vocabcard .vcemoji{font-size:24px;display:block;margin-bottom:4px;}
+.vocabcard .vcword{font-size:11.5px;font-weight:700;color:#fff;display:block;}
+.vocabcard .vcpron{font-size:10px;color:var(--ink-soft);display:block;margin-top:1px;}
+.vcategory{font-family:'Baloo 2',sans-serif;font-size:12px;font-weight:700;color:var(--gold);margin:10px 0 6px;letter-spacing:.03em;text-transform:uppercase;}
+
+/* ─── exercises ─── */
+.exo{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px 17px;margin-bottom:13px;}
+.exo .exo-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;}
+.exo .exo-tag{font-family:'Baloo 2',sans-serif;font-size:11.5px;font-weight:700;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.04em;}
+.exo .exo-check{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:12px;flex:none;}
+.exo.solved .exo-check{background:var(--green);border-color:var(--green);color:#0F0820;}
+.exo .qtext{font-size:15px;font-weight:600;margin:0 0 12px;line-height:1.5;}
+.opts{display:flex;flex-direction:column;gap:8px;}
+.opts.emoji-opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(70px,1fr));gap:8px;}
+.opt{text-align:left;background:var(--bg2);border:1.5px solid var(--line);color:var(--ink);font-family:'Manrope';font-size:14px;font-weight:600;padding:11px 13px;border-radius:11px;cursor:pointer;transition:.12s;}
+.opt.opt-emoji{text-align:center;font-size:28px;padding:12px 4px;}
+.opt:hover{border-color:var(--purple);}
+.opt.correct{background:rgba(79,203,140,.18);border-color:var(--green);color:var(--green);}
+.opt.wrong{background:rgba(232,96,122,.18);border-color:var(--red);color:var(--red);animation:shakeit .4s;}
+.opt:disabled{cursor:default;}
+.tfrow{display:flex;gap:10px;}
+.tfrow .opt{flex:1;text-align:center;}
+.fillrow{display:flex;gap:8px;flex-wrap:wrap;}
+.fillrow input{flex:1;min-width:160px;background:var(--bg2);border:1.5px solid var(--line);color:var(--ink);font-family:'Manrope';font-size:14.5px;font-weight:600;padding:11px 13px;border-radius:11px;}
+.fillrow input:focus{outline:none;border-color:var(--purple);}
+.fillrow input.correct{border-color:var(--green);background:rgba(79,203,140,.12);}
+.fillrow input.wrong{border-color:var(--red);animation:shakeit .4s;}
+.checkbtn{margin-top:10px;background:linear-gradient(145deg,var(--magenta),var(--purple));color:#fff;border:none;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:13.5px;padding:10px 18px;border-radius:11px;cursor:pointer;}
+.checkbtn:disabled{opacity:.45;cursor:default;}
+.fb{margin-top:9px;font-size:13px;font-weight:600;border-radius:9px;padding:8px 11px;}
+.fb.ok{background:rgba(79,203,140,.14);color:var(--green);}
+.fb.no{background:rgba(232,96,122,.14);color:var(--red);}
+.matchgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.matchcol{display:flex;flex-direction:column;gap:8px;}
+.matchitem{background:var(--bg2);border:1.5px solid var(--line);color:var(--ink);font-family:'Manrope';font-size:12.5px;font-weight:600;padding:10px 8px;border-radius:10px;cursor:pointer;text-align:center;line-height:1.3;}
+.matchitem.sel{border-color:var(--gold);background:rgba(245,179,66,.14);}
+.matchitem.matched{border-color:var(--green);background:rgba(79,203,140,.16);color:var(--green);cursor:default;}
+.matchitem.wrong{border-color:var(--red);animation:shakeit .35s;}
+
+/* ─── ORDER type ─── */
+.order-pool{display:flex;flex-wrap:wrap;gap:7px;min-height:44px;background:rgba(0,0,0,.18);border:1.5px dashed var(--line);border-radius:11px;padding:9px 10px;margin-bottom:9px;}
+.order-answer{display:flex;flex-wrap:wrap;gap:7px;min-height:44px;background:rgba(106,51,168,.1);border:1.5px solid var(--purple);border-radius:11px;padding:9px 10px;margin-bottom:9px;}
+.order-answer.empty{background:rgba(106,51,168,.05);}
+.chip{background:linear-gradient(145deg,var(--purple),var(--purple-deep));color:#fff;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:13px;padding:7px 12px;border-radius:8px;cursor:pointer;border:none;transition:.12s;user-select:none;}
+.chip:hover{filter:brightness(1.15);}
+.chip.in-answer{background:linear-gradient(145deg,var(--magenta),var(--purple));}
+.chip.chip-correct{background:linear-gradient(145deg,var(--green),#2ca06a);color:#0F0820;}
+.chip.chip-wrong{background:linear-gradient(145deg,var(--red),#b03050);animation:shakeit .4s;}
+.order-labels{display:flex;gap:8px;font-size:11px;color:var(--ink-soft);margin-bottom:5px;}
+.order-labels span{flex:1;}
+
+/* ─── SPEAK type ─── */
+.speak-phrase{background:rgba(106,51,168,.18);border:1px solid var(--purple);border-radius:12px;padding:14px 16px;margin-bottom:12px;text-align:center;}
+.speak-phrase .phrase-text{font-family:'Baloo 2',sans-serif;font-size:20px;font-weight:700;color:#fff;display:block;margin-bottom:4px;}
+.speak-phrase .phrase-tr{font-size:12.5px;color:var(--ink-soft);}
+.speak-controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+.micbtn{width:54px;height:54px;border-radius:50%;background:var(--magenta);border:none;color:#fff;font-size:22px;cursor:pointer;flex:none;transition:.12s;box-shadow:0 4px 14px rgba(212,79,160,.4);}
+.micbtn:hover{filter:brightness(1.1);}
+.micbtn.recording{animation:listening .7s ease-in-out infinite;box-shadow:0 0 0 4px rgba(232,96,122,.35);}
+.speak-transcript{flex:1;min-width:120px;background:var(--bg2);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13.5px;color:var(--ink-soft);min-height:40px;}
+.speak-result{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+.speak-markbtn{background:none;border:1.5px solid var(--green);color:var(--green);font-family:'Baloo 2',sans-serif;font-weight:700;font-size:13px;padding:9px 14px;border-radius:10px;cursor:pointer;}
+.speak-markbtn:hover{background:rgba(79,203,140,.1);}
+.speak-playbtn{background:none;border:1.5px solid var(--purple);color:var(--ink);font-family:'Baloo 2',sans-serif;font-weight:700;font-size:13px;padding:9px 14px;border-radius:10px;cursor:pointer;}
+.speak-status{font-size:12px;color:var(--ink-soft);margin-top:7px;font-style:italic;}
+
+/* ─── CHAT station ─── */
+.chat-header{background:linear-gradient(145deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;margin-bottom:14px;}
+.chat-header h3{font-family:'Baloo 2',sans-serif;font-size:17px;margin:0 0 6px;}
+.chat-header p{margin:0;font-size:13px;color:var(--ink-soft);line-height:1.5;}
+.scenario-pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+.scenario-pill{background:var(--bg2);border:1.5px solid var(--line);color:var(--ink);font-family:'Baloo 2',sans-serif;font-weight:700;font-size:12.5px;padding:8px 13px;border-radius:999px;cursor:pointer;transition:.12s;}
+.scenario-pill.active{border-color:var(--gold);background:rgba(245,179,66,.12);color:var(--gold);}
+.chatbox{background:var(--bg2);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin-bottom:14px;}
+.chat-messages{max-height:380px;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;}
+.chat-msg{max-width:85%;display:flex;gap:8px;align-items:flex-end;}
+.chat-msg.bot{align-self:flex-start;}
+.chat-msg.user{align-self:flex-end;flex-direction:row-reverse;}
+.chat-bubble{padding:11px 14px;border-radius:14px;font-size:14px;line-height:1.5;}
+.chat-msg.bot .chat-bubble{background:var(--card2);border-bottom-left-radius:4px;}
+.chat-msg.user .chat-bubble{background:linear-gradient(135deg,var(--purple),var(--purple-deep));border-bottom-right-radius:4px;}
+.chat-avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(145deg,var(--magenta),var(--purple));display:flex;align-items:center;justify-content:center;font-size:14px;flex:none;}
+.chat-hint{font-size:12px;color:var(--ink-soft);font-style:italic;margin-top:4px;}
+.chat-speak-btn{background:none;border:none;color:var(--gold);font-size:16px;cursor:pointer;padding:2px 4px;opacity:.7;}
+.chat-speak-btn:hover{opacity:1;}
+.chat-input-area{border-top:1px solid var(--line);padding:12px 14px;display:flex;gap:8px;align-items:center;}
+.chat-input{flex:1;background:var(--card);border:1.5px solid var(--line);color:var(--ink);font-family:'Manrope';font-size:14px;font-weight:500;padding:10px 13px;border-radius:11px;}
+.chat-input:focus{outline:none;border-color:var(--purple);}
+.chat-micbtn{width:42px;height:42px;border-radius:50%;background:var(--magenta);border:none;color:#fff;font-size:18px;cursor:pointer;flex:none;}
+.chat-micbtn.recording{animation:listening .7s ease-in-out infinite;}
+.chat-sendbtn{background:linear-gradient(145deg,var(--magenta),var(--purple));color:#fff;border:none;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:13.5px;padding:10px 16px;border-radius:11px;cursor:pointer;white-space:nowrap;}
+.suggestions{padding:10px 14px 12px;display:flex;flex-wrap:wrap;gap:7px;border-top:1px solid var(--line);}
+.sugg-pill{background:rgba(106,51,168,.25);border:1px solid rgba(106,51,168,.5);color:var(--ink);font-family:'Manrope';font-size:12.5px;font-weight:600;padding:6px 11px;border-radius:999px;cursor:pointer;transition:.12s;}
+.sugg-pill:hover{border-color:var(--magenta);background:rgba(212,79,160,.18);}
+.chat-progress{font-family:'Baloo 2',sans-serif;font-size:13px;font-weight:700;color:var(--gold);padding:8px 14px;border-top:1px solid var(--line);}
+
+.donebar{display:none;align-items:center;gap:10px;background:linear-gradient(145deg,rgba(79,203,140,.18),rgba(79,203,140,.06));border:1px solid rgba(79,203,140,.4);color:var(--green);font-family:'Baloo 2',sans-serif;font-weight:700;padding:13px 16px;border-radius:var(--radius);margin-top:6px;font-size:14.5px;}
+.donebar.show{display:flex;animation:popin .4s ease both;}
+footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;opacity:.7;}
+@media(min-width:560px){.hero h2{font-size:25px;}}
+</style>
+</head>
+<body>
+<div class="stars" id="starfield"></div>
+<div class="wrap">
+  <div class="topbar">
+    <div class="brand">
+      <div class="brand-badge">🪐</div>
+      <div class="brand-text"><h1>GCI Galaxy</h1><p>Misión de Repaso</p></div>
+    </div>
+    <div class="score-pill">⭐ <span id="scoreText">0/0</span></div>
+  </div>
+
+  <div id="mapview">
+    <div class="hero">
+      <h2>¡Hola, cadete! 🚀</h2>
+      <p>Viajaremos por <b>16 estaciones</b> con explicación, videos, pronunciación, 20 ejercicios por estación, estaciones de vocabulario extra y una sala de conversación real. Explora la galaxia a tu ritmo.</p>
+      <span class="tag">Repaso · Unidades 1 y 2 · GCI Workbook 0</span>
+    </div>
+    <div class="path" id="pathList"></div>
+  </div>
+
+  <div class="topicview" id="topicview">
+    <button class="backbtn" onclick="goMap()">← Volver al mapa</button>
+    <div class="thead">
+      <div class="nbadge" id="tvBadge"></div>
+      <div><h2 id="tvTitle"></h2><span id="tvSub"></span></div>
+    </div>
+    <div class="card explain" id="tvExplainCard">
+      <h4>🛰️ Explicación</h4>
+      <div id="tvExplainBody"></div>
+    </div>
+    <div class="card" id="tvVideoCard">
+      <h4>🎬 Video</h4>
+      <div id="tvVideoWrap"></div>
+      <div class="videonote" id="tvVideoNote"></div>
+      <a class="videofallback" id="tvVideoFallback" href="#" target="_blank" rel="noopener">▶ Ver en YouTube</a>
+    </div>
+    <div class="card" id="tvToolCard" style="display:none;">
+      <h4>🔊 Pronunciación interactiva</h4>
+      <div id="tvToolBody"></div>
+    </div>
+    <div class="card" id="tvVocabCard" style="display:none;">
+      <h4>📚 Vocabulario — toca para escuchar</h4>
+      <div id="tvVocabBody"></div>
+    </div>
+    <div id="tvExercises"></div>
+    <!-- CHAT STATION CONTAINER -->
+    <div id="tvChatSection" style="display:none;">
+      <div class="chat-header">
+        <h3>💬 Sala de Conversación</h3>
+        <p>Practica en inglés con tu compañero virtual Alex. Elige un escenario y empieza a hablar — usa el micrófono 🎤 o escribe.</p>
+        <div class="scenario-pills" id="scenarioPills"></div>
+      </div>
+      <div class="chatbox">
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="suggestions" id="chatSuggestions"></div>
+        <div class="chat-progress" id="chatProgress"></div>
+        <div class="chat-input-area">
+          <input class="chat-input" id="chatInput" type="text" placeholder="Type your answer in English..." autocomplete="off">
+          <button class="chat-micbtn" id="chatMicBtn" title="Hablar">🎤</button>
+          <button class="chat-sendbtn" onclick="chatSend()">Send →</button>
+        </div>
+      </div>
+    </div>
+    <div class="donebar" id="tvDone">🌟 ¡Estación completada! Excelente trabajo, cadete.</div>
+  </div>
+
+  <footer>Material de repaso para los alumnos de GCI Galaxy · Centro de Idiomas · Basado en GCI Workbook 0</footer>
+</div>
+<script>
+(function(){
+  const sf=document.getElementById('starfield');
+  for(let i=0;i<55;i++){
+    const s=document.createElement('span');
+    s.style.left=Math.random()*100+'%';
+    s.style.top=Math.random()*100+'%';
+    s.style.animationDelay=(Math.random()*4)+'s';
+    const sz=(Math.random()*2+1.5)+'px';
+    s.style.width=s.style.height=sz;
+    sf.appendChild(s);
+  }
+})();
+</script>
+<script>
+const COLORS=["#6A33A8","#D44FA0","#F5B342","#3FB8AF","#5B7FE8","#E8607A","#9B59B6","#27AE60","#E74C3C","#F39C12","#1ABC9C","#3498DB","#E91E63","#FF9800","#795548","#607D8B"];
+
+const TOPICS=[
+{id:"acquainted",num:1,title:"Getting Acquainted",emoji:"🤝",cardDesc:"Presentaciones, apodos y cómo conocer gente",
+explain:[
+"<p>Para presentar a alguien usa: <span class='ex-en'>I'd like to introduce you to...</span> o <span class='ex-en'>This is...</span>. Para hacer que te llamen por tu apodo: <span class='ex-en'>Just call me / Everyone calls me / Please call me...</span></p>",
+"<p>Al conocer a alguien: <span class='ex-en'>It's a pleasure to meet you · How nice to meet you · Great to meet you</span>. Títulos: <b>Mr.</b> (hombre) · <b>Ms./Mrs./Miss</b> (mujeres). Siempre se usan con el apellido (family name), nunca con el primer nombre.</p>"
+],
+video:"RIueV9UtZ3E",videoNote:"Meeting People in English | Formal & Informal Introductions",
+exercises:[
+{type:"mcq",q:"¿Cuál expresión NO se usa para presentar a alguien?",options:["This is my friend Ana.","I'd like to introduce you to Sara.","Just call me Marco.","I'd like you to meet my boss."],correct:2},
+{type:"fill",q:"Quieres que todos te llamen 'Sam'. Dices: '____ ____ me Sam.'",answers:["just call","everyone calls","please call"]},
+{type:"mcq",q:"¿Cuál respuesta es correcta al escuchar 'It's a pleasure to meet you'?",options:["Nice to meet you too.","I'm fine, thanks.","Goodbye.","What's your name?"],correct:0},
+{type:"match",q:"Une la expresión con su uso.",pairs:[["Just call me...","Pedir que te llamen por apodo"],["I'd like to introduce...","Presentar formalmente a alguien"],["It's a pleasure to meet you.","Respuesta formal al conocer alguien"],["This is...","Presentación informal"]]},
+{type:"fill",q:"Su nombre completo es Samuel Pike. Pero dice: 'Everyone ____ me Sam.'",answers:["calls"]},
+{type:"tf",q:"El título 'Mr.' se usa con el primer nombre: 'Mr. Jamie'.",correct:false},
+{type:"mcq",q:"Una persona te dice: 'I'd like to introduce you to my colleague, Dr. Chen.' ¿Qué respondes?",options:["What do you do?","How nice to meet you, Dr. Chen.","See you later.","Good night."],correct:1},
+{type:"order",q:"Ordena la presentación formal:",words:["introduce","I'd","to","you","like","Sarah.","to"],correct:"I'd like to introduce you to Sarah."},
+{type:"speak",phrase:"It's a pleasure to meet you. Everyone calls me Sam.",translation:"Es un placer conocerte. Todos me llaman Sam."},
+{type:"fill",q:"Para presentar informalmente dices: '____ is my friend Carlos.'",answers:["this"]}
+]},
+
+{id:"simplepresent",num:2,title:"Simple Present Review",emoji:"⏰",cardDesc:"Hábitos, rutinas y hechos generales",
+explain:[
+"<p>El <b>Simple Present</b> se usa para hábitos, rutinas y hechos generales. Con he/she/it el verbo añade <b>-s</b>: <span class='ex-en'>She works. He likes jazz. It opens at 9.</span></p>",
+"<p>Para preguntas y negativas usamos <b>do/does + base verb</b>: <span class='ex-en'>Do you work? Does she like it? I don't study. He doesn't play guitar.</span></p>",
+"<p>Adverbios de frecuencia van antes del verbo principal: <span class='ex-en'>always, usually, often, sometimes, rarely, never.</span></p>"
+],
+video:"fk6tI46Xkgo",videoNote:"Simple Present Tense - Complete English Grammar Lesson",
+exercises:[
+{type:"fill",q:"She ____ (work) at a bank.",answers:["works"]},
+{type:"fill",q:"He ____ (not/play) the guitar.",answers:["doesn't play"]},
+{type:"mcq",q:"¿Cuál pregunta es correcta?",options:["Does she likes jazz?","Does she like jazz?","Do she like jazz?"],correct:1},
+{type:"fill",q:"They ____ (study) English twice a week.",answers:["study"]},
+{type:"mcq",q:"¿Dónde va 'always' en la oración?",options:["She always works.","Always she works.","She works always."],correct:0},
+{type:"fill",q:"____ your parents live in Guadalajara? (Do/Does)",answers:["do"]},
+{type:"match",q:"Une el sujeto con la forma verbal correcta de 'go'.",pairs:[["I","go"],["She","goes"],["They","go"],["He","goes"]]},
+{type:"tf",q:"'He don't study' es una forma correcta en inglés.",correct:false},
+{type:"order",q:"Forma la pregunta:",words:["your","brother","Does","work?","at","home"],correct:"Does your brother work at home?"},
+{type:"speak",phrase:"She usually works from home, but she sometimes goes to the office.",translation:"Ella normalmente trabaja desde casa pero a veces va a la oficina."}
+]},
+
+{id:"prepositions",num:3,title:"Prepositions of Time & Place",emoji:"📍",cardDesc:"IN, ON, AT — tiempo y lugar",
+explain:[
+"<p><b>IN</b> (general): siglos, décadas, años, meses, partes del día — <span class='ex-en'>in 2001, in March, in the morning.</span></p>",
+"<p><b>ON</b> (más específico): días, fechas — <span class='ex-en'>on Monday, on April 30th, on Sunday afternoon.</span></p>",
+"<p><b>AT</b> (muy específico): horas, momentos puntuales — <span class='ex-en'>at 9:00 AM, at noon, at night, at home, at the office.</span></p>"
+],
+video:"VLqYBmOAG0Y",videoNote:"Prepositions of Time IN ON AT - English Grammar",
+exercises:[
+{type:"fill",q:"I always keep money ____ my bag.",answers:["in"]},
+{type:"fill",q:"I'll read it tonight ____ home.",answers:["at"]},
+{type:"fill",q:"The class is ____ Monday.",answers:["on"]},
+{type:"fill",q:"She was born ____ 1995.",answers:["in"]},
+{type:"fill",q:"The meeting is ____ 3:00 PM.",answers:["at"]},
+{type:"mcq",q:"¿Cuál es correcta?",options:["in Monday","on Monday","at Monday"],correct:1},
+{type:"match",q:"Une cada expresión con su preposición correcta.",pairs:[["the morning","in"],["April 30th","on"],["noon","at"],["the 1980s","in"]]},
+{type:"tf",q:"'At March' es la forma correcta para hablar del mes de marzo.",correct:false},
+{type:"order",q:"Ordena la oración:",words:["the","class","at","starts","9","AM.","on","Monday"],correct:"The class starts at 9 AM on Monday."},
+{type:"speak",phrase:"The concert is on Friday at 8 PM. We'll meet at the theater.",translation:"El concierto es el viernes a las 8 PM. Nos vemos en el teatro."}
+]},
+
+{id:"musichobbies",num:4,title:"Música y Pasatiempos",emoji:"🎵",cardDesc:"Géneros musicales, instrumentos y hobbies",isVocab:true,
+explain:["<p>Vocabulario de música, entretenimiento y pasatiempos. Toca las tarjetas para escuchar la pronunciación.</p>"],
+video:"E2X4cRD6bKQ",videoNote:"Music Genres and Hobbies Vocabulary in English",
+vocab:[
+{cat:"🎶 Music Genres",items:[{e:"🤘",w:"rock",p:"rok"},{e:"🎷",w:"jazz",p:"yaz"},{e:"💃",w:"Latin",p:"latin"},{e:"🎹",w:"classical",p:"klásikol"},{e:"🎤",w:"pop",p:"pop"},{e:"🎸",w:"R&B",p:"ar-and-bi"},{e:"🎧",w:"hip-hop",p:"hip-jop"},{e:"🪘",w:"folk",p:"fouk"}]},
+{cat:"🎸 Instruments",items:[{e:"🎸",w:"guitar",p:"gitár"},{e:"🥁",w:"drums",p:"droms"},{e:"🎹",w:"piano",p:"piano"},{e:"🎺",w:"trumpet",p:"trómpet"},{e:"🎻",w:"violin",p:"viiolín"},{e:"🪗",w:"accordion",p:"akórdiön"}]},
+{cat:"⚽ Hobbies",items:[{e:"📚",w:"reading",p:"riiding"},{e:"🎨",w:"painting",p:"péinting"},{e:"🏊",w:"swimming",p:"suíming"},{e:"🚴",w:"cycling",p:"sáikling"},{e:"🎮",w:"gaming",p:"géiming"},{e:"🍳",w:"cooking",p:"kúking"},{e:"✈️",w:"traveling",p:"tráveling"},{e:"📸",w:"photography",p:"fotógrafi"}]}
+],
+exercises:[
+{type:"emoji",q:"¿Qué emoji representa mejor 'jazz'?",options:["🎷","🎸","🤘","🎹"],correct:0},
+{type:"fill",q:"Tu música favorita tiene ritmos latinos y salsa: se llama ____ music.",answers:["latin"]},
+{type:"mcq",q:"¿Cuál de estos NO es un instrumento musical?",options:["guitar","trumpet","violin","cycling"],correct:3},
+{type:"match",q:"Une el hobby con su descripción.",pairs:[["reading","You need books and quiet time."],["photography","You take pictures with a camera."],["cycling","You ride a bike."],["cooking","You prepare food."]]},
+{type:"fill",q:"A: What kind of music do you like? B: I like ____. (rock/pop/jazz etc.)",answers:["rock","jazz","pop","classical","latin","r&b","hip-hop","folk"]},
+{type:"tf",q:"'Hip-hop' y 'R&B' son géneros musicales.",correct:true},
+{type:"mcq",q:"¿Qué instrumento tiene cuerdas y se toca con un arco?",options:["drums","trumpet","violin","accordion"],correct:2},
+{type:"speak",phrase:"My favorite genre is R&B. I also love Latin music.",translation:"Mi género favorito es R&B. También me encanta la música latina."},
+{type:"emoji",q:"¿Qué emoji representa 'gaming'?",options:["🎨","📚","🎮","✈️"],correct:2},
+{type:"fill",q:"She loves ____ photos. She takes her camera everywhere.",answers:["taking","photography"]}
+]},
+
+{id:"family",num:5,title:"La Familia Extendida",emoji:"👨‍👩‍👧‍👦",cardDesc:"Relaciones familiares y vocabulario de familia",isVocab:true,
+explain:["<p>Vocabulario de familia y relaciones. Recuerda que en inglés los sobrinos son <span class='ex-en'>nephew</span> (sobrino) y <span class='ex-en'>niece</span> (sobrina). Los primos se dicen siempre <span class='ex-en'>cousin</span> sin importar género.</p>"],
+video:"i56Hs7zMaqY",videoNote:"Extended Family Members in English | Vocabulary",
+vocab:[
+{cat:"👨‍👩‍👧 Immediate Family",items:[{e:"👨",w:"father/dad",p:"fader/dad"},{e:"👩",w:"mother/mom",p:"móder/mom"},{e:"👧",w:"daughter",p:"dóter"},{e:"👦",w:"son",p:"son"},{e:"👧👦",w:"siblings",p:"síblings"},{e:"👴",w:"grandfather",p:"grándfather"},{e:"👵",w:"grandmother",p:"grándmoder"}]},
+{cat:"🤝 Extended Family",items:[{e:"🧑",w:"cousin",p:"cósin"},{e:"🧔",w:"uncle",p:"ónkol"},{e:"👩",w:"aunt",p:"ant"},{e:"👦",w:"nephew",p:"néfiu"},{e:"👧",w:"niece",p:"niis"},{e:"👫",w:"siblings",p:"síblings"}]},
+{cat:"💑 Relationships",items:[{e:"💍",w:"engaged",p:"engéiyd"},{e:"🤵👰",w:"married",p:"mérid"},{e:"💔",w:"divorced",p:"divórsed"},{e:"🧑",w:"fiancé/fiancée",p:"fianséi"},{e:"👤",w:"single",p:"síngol"},{e:"💑",w:"couple",p:"cópol"}]}
+],
+exercises:[
+{type:"fill",q:"El hijo de tu hermano es tu ____.",answers:["nephew"]},
+{type:"fill",q:"La hija de tu tío es tu ____.",answers:["cousin"]},
+{type:"mcq",q:"¿Cómo se llama el hermano de tu mamá?",options:["cousin","nephew","uncle","sibling"],correct:2},
+{type:"match",q:"Une la relación con su nombre en inglés.",pairs:[["hermana de tu papá","aunt"],["hijo de tu hijo","grandson"],["mamá de tu esposa","mother-in-law"],["hermano o hermana (general)","sibling"]]},
+{type:"fill",q:"They just ____ engaged! The wedding is in June.",answers:["got"]},
+{type:"tf",q:"'Cousin' en inglés puede ser masculino O femenino.",correct:true},
+{type:"emoji",q:"¿Qué emoji representa 'married'?",options:["💔","💍","🤵👰","👤"],correct:2},
+{type:"speak",phrase:"I have two cousins. My uncle and aunt live in Monterrey.",translation:"Tengo dos primos. Mi tío y mi tía viven en Monterrey."},
+{type:"mcq",q:"Tu hermana acaba de comprometerse. ¿Qué dices?",options:["I'm sorry to hear that.","Congratulations! That's great news!","Nice to meet you.","Take care!"],correct:1},
+{type:"fill",q:"La hija de mi hermana es mi ____.",answers:["niece"]}
+]},
+
+{id:"sp3rdperson",num:6,title:"Simple Present — Preguntas",emoji:"❓",cardDesc:"3ra persona, Yes/No questions, WH- questions",
+explain:[
+"<p>Con <b>he/she/it</b> el verbo añade <b>-s</b> (o -es/-ies). En preguntas y negativas: <b>does/doesn't</b>: <span class='ex-en'>Does she work? He doesn't play.</span></p>",
+"<p>WH- questions en Simple Present: <b>What/Where/When/Who/Why/How + do/does + subject + verb?</b> Ej: <span class='ex-en'>Where does she live? What do they do?</span></p>"
+],
+video:"HCSr97cFONQ",videoNote:"Simple Present Questions - Do/Does WH Questions",
+exercises:[
+{type:"fill",q:"____ your cousin have children? (Do/Does)",answers:["does"]},
+{type:"fill",q:"A: Does your brother play guitar? B: Yes, he ____.",answers:["does"]},
+{type:"fill",q:"A: Where ____ your parents live? (do/does)",answers:["do"]},
+{type:"mcq",q:"¿Cuál pregunta es correcta?",options:["Where do she work?","Where does she work?","Where she works?"],correct:1},
+{type:"fill",q:"He ____ (not/like) hip-hop.",answers:["doesn't like"]},
+{type:"match",q:"Une la pregunta con su respuesta.",pairs:[["Does she play piano?","Yes, she does. She plays every day."],["Do they study French?","No, they don't. They study English."],["What does he do?","He's a musician."],["Where do you live?","I live in Guadalajara."]]},
+{type:"order",q:"Forma la pregunta WH-:",words:["does","brother","your","Where","work?"],correct:"Where does your brother work?"},
+{type:"tf",q:"'Does he likes music?' es la forma correcta.",correct:false},
+{type:"speak",phrase:"Does your cousin like classical music? No, she doesn't. She likes jazz.",translation:"¿A tu prima le gusta la música clásica? No. Le gusta el jazz."},
+{type:"fill",q:"____ do they play on weekends? — They play football. (What/Where)",answers:["what"]}
+]},
+
+{id:"foodrest",num:7,title:"Comida y Restaurantes",emoji:"🍽️",cardDesc:"Menú, ordenar comida y vocabulario culinario",isVocab:true,
+explain:[
+"<p>Para ordenar en un restaurante: <span class='ex-en'>I'll have the... / I'd like the... / Could I have...?</span>. El mesero puede decir: <span class='ex-en'>What would you like? / Can I take your order?</span></p>",
+"<p>Vocabulario de menú: <b>appetizer/starter</b> (entrada) · <b>main course/entrée</b> (plato fuerte) · <b>side dish</b> (guarnición) · <b>dessert</b> (postre) · <b>beverage/drink</b> (bebida).</p>"
+],
+video:"R7CWLC16jUI",videoNote:"Ordering Food at a Restaurant in English",
+vocab:[
+{cat:"🥗 Courses",items:[{e:"🥗",w:"appetizer",p:"ápitaiser"},{e:"🍲",w:"main course",p:"mein cors"},{e:"🍰",w:"dessert",p:"desért"},{e:"🥤",w:"beverage",p:"béverich"},{e:"🍞",w:"side dish",p:"said dish"},{e:"🍱",w:"entrée",p:"ántrei"}]},
+{cat:"🍕 Food Items",items:[{e:"🍝",w:"pasta",p:"pásta"},{e:"🥩",w:"steak",p:"steik"},{e:"🐟",w:"salmon",p:"sámon"},{e:"🥗",w:"salad",p:"sálad"},{e:"🍜",w:"soup",p:"suup"},{e:"🍔",w:"burger",p:"bérger"},{e:"🌮",w:"taco",p:"tako"},{e:"🍣",w:"sushi",p:"sushi"}]},
+{cat:"🧂 Food Adjectives",items:[{e:"🌶️",w:"spicy",p:"spáisi"},{e:"😋",w:"delicious",p:"delíshös"},{e:"😷",w:"awful",p:"ófol"},{e:"🌿",w:"fresh",p:"fresh"},{e:"🧊",w:"cold",p:"kould"},{e:"♨️",w:"hot",p:"jot"}]}
+],
+exercises:[
+{type:"mcq",q:"El mesero dice: 'Can I take your order?' ¿Qué respondes?",options:["Yes, I'll have the pasta, please.","Goodbye!","It's a pleasure to meet you.","I don't know."],correct:0},
+{type:"fill",q:"The pasta comes with a ____. Would you like the soup or the salad? (guarnición)",answers:["side dish","side"]},
+{type:"match",q:"Une el término del menú con su español.",pairs:[["appetizer","entrada"],["main course","plato fuerte"],["dessert","postre"],["beverage","bebida"]]},
+{type:"speak",phrase:"I'd like the salmon for my main course, please. And water to drink.",translation:"Quisiera el salmón como plato fuerte, por favor. Y agua para beber."},
+{type:"fill",q:"A: What kind of soup is there? B: There's tomato soup or ____ soup.",answers:["chicken","vegetable","beef","mushroom"]},
+{type:"mcq",q:"¿Qué significa 'spicy' en español?",options:["dulce","picante","fresco","frío"],correct:1},
+{type:"tf",q:"'Entrée' en inglés americano significa el plato fuerte (main course).",correct:true},
+{type:"emoji",q:"¿Qué emoji representa 'delicious'?",options:["🌶️","😋","😷","🧊"],correct:1},
+{type:"fill",q:"A: Would you like an appetizer? B: Yes, I'll ____ the shrimp cocktail.",answers:["have","take","try"]},
+{type:"order",q:"Ordena la orden al mesero:",words:["the","I'll","please.","have","pasta,"],correct:"I'll have the pasta, please."}
+]},
+
+{id:"plurals",num:8,title:"Plurales y Artículos",emoji:"📝",cardDesc:"Reglas de plurales + artículos a/an/the",
+explain:[
+"<p>Plurales regulares: <b>-s</b> (books, clams) · <b>-es</b> después de -s/-x/-z/-sh/-ch (sandwiches) · <b>-ies</b> cuando termina en consonante+y (French fries). Irregulares: <span class='ex-en'>man→men, woman→women, child→children, person→people, foot→feet, tooth→teeth.</span></p>",
+"<p>Artículos: <b>a</b> (sonido consonante) · <b>an</b> (sonido vocal) · <b>the</b> (ya mencionado/específico) · sin artículo (general).</p>"
+],
+video:"8Hm5sUhFQbQ",videoNote:"Plural Nouns and Articles in English | Grammar",
+exercises:[
+{type:"fill",q:"Plural de 'sandwich': ____",answers:["sandwiches"]},
+{type:"fill",q:"Plural de 'French fry': ____",answers:["french fries"]},
+{type:"fill",q:"Plural irregular de 'child': ____",answers:["children"]},
+{type:"mcq",q:"¿Cuál es el plural correcto de 'potato'?",options:["potatos","potatoes","potatoies"],correct:1},
+{type:"fill",q:"I'll have ____ appetizer. (an/a)",answers:["an"]},
+{type:"fill",q:"I'll have ____ salad. (a/an)",answers:["a"]},
+{type:"mcq",q:"Ya mencionaste el postre. Ahora dices: '____ dessert was amazing.'",options:["A","An","The"],correct:2},
+{type:"match",q:"Une la palabra con su plural.",pairs:[["man","men"],["woman","women"],["foot","feet"],["person","people"]]},
+{type:"tf",q:"El plural de 'spoonful' es 'spoonfuls'.",correct:true},
+{type:"fill",q:"Plural de 'olive': ____",answers:["olives"]}
+]},
+
+{id:"technology",num:9,title:"Tecnología y Gadgets",emoji:"💻",cardDesc:"Aparatos, problemas tecnológicos y vocabulario digital",isVocab:true,
+explain:["<p>Vocabulario esencial de tecnología y gadgets del día a día. Toca las tarjetas para escuchar la pronunciación.</p>"],
+video:"W4TXFsMEn4k",videoNote:"Technology Vocabulary in English | Gadgets and Devices",
+vocab:[
+{cat:"📱 Devices",items:[{e:"📱",w:"smartphone",p:"smártfon"},{e:"💻",w:"laptop",p:"láptop"},{e:"📺",w:"smart TV",p:"smart tiví"},{e:"⌚",w:"smartwatch",p:"smártuoch"},{e:"🎮",w:"tablet",p:"táblet"},{e:"🖥️",w:"desktop",p:"désktop"},{e:"📷",w:"digital camera",p:"díyital kámera"},{e:"🎧",w:"headphones",p:"jédfouns"}]},
+{cat:"⚙️ Actions & Problems",items:[{e:"🔋",w:"charge",p:"chaarch"},{e:"📶",w:"connect",p:"konékt"},{e:"🔄",w:"update",p:"ápdeyt"},{e:"💾",w:"download",p:"dáunloud"},{e:"📤",w:"upload",p:"áploud"},{e:"🔇",w:"freeze",p:"friis"},{e:"❌",w:"crash",p:"krash"},{e:"🔑",w:"password",p:"pásuord"}]},
+{cat:"🌐 Internet",items:[{e:"📡",w:"Wi-Fi",p:"uaifai"},{e:"🔗",w:"link",p:"link"},{e:"📧",w:"email",p:"i-meil"},{e:"☁️",w:"cloud",p:"klaud"},{e:"🔍",w:"search",p:"serch"},{e:"📲",w:"app",p:"ap"}]}
+],
+exercises:[
+{type:"emoji",q:"¿Qué emoji representa 'headphones'?",options:["📱","💻","🎧","⌚"],correct:2},
+{type:"fill",q:"My phone needs to ____. The battery is at 3%.",answers:["charge"]},
+{type:"match",q:"Une el problema con su solución probable.",pairs:[["It crashed.","Restart the computer."],["No Wi-Fi.","Check the router."],["It's slow.","Close some apps."],["Password wrong.","Reset your password."]]},
+{type:"mcq",q:"¿Qué significa 'download' en español?",options:["subir archivos","descargar archivos","conectarse","actualizar"],correct:1},
+{type:"fill",q:"Wait, the app is ____. It's not responding. (congelado)",answers:["freezing","frozen"]},
+{type:"tf",q:"'Upload' significa descargar un archivo desde internet.",correct:false},
+{type:"speak",phrase:"My laptop crashed. I need to update the software and restart it.",translation:"Mi laptop se cayó. Necesito actualizar el software y reiniciarla."},
+{type:"mcq",q:"Un 'smartwatch' es:",options:["un televisor inteligente","un reloj inteligente","una computadora portátil","una cámara digital"],correct:1},
+{type:"emoji",q:"¿Qué emoji representa 'Wi-Fi'?",options:["📧","☁️","📡","🔗"],correct:2},
+{type:"fill",q:"You can save your files in the ____ so you can access them anywhere.",answers:["cloud"]}
+]},
+
+{id:"prescontinu",num:10,title:"Present Continuous",emoji:"🔄",cardDesc:"am/is/are + -ing — acciones en progreso",
+explain:[
+"<p>El <b>Present Continuous</b> describe acciones en progreso AHORA o planes futuros: <b>Subject + am/is/are + verb-ing.</b> Ej: <span class='ex-en'>She is going to the gym. They are studying now.</span></p>",
+"<p>Spelling: verbos que terminan en vocal+consonante duplican la última: <span class='ex-en'>run→running, sit→sitting, swim→swimming.</span> Verbos en -e la pierden: <span class='ex-en'>dance→dancing, have→having.</span></p>",
+"<p>Simple Present vs Present Continuous: <span class='ex-en'>She usually works at home</span> (hábito) vs <span class='ex-en'>She is working at home today</span> (ahora).</p>"
+],
+video:"sktAocwgkI0",videoNote:"Present Continuous - English Grammar Lesson",
+exercises:[
+{type:"fill",q:"Right now she ____ (study) for her English exam.",answers:["is studying"]},
+{type:"fill",q:"They ____ (not/watch) TV. They're reading.",answers:["aren't watching","are not watching"]},
+{type:"mcq",q:"¿Cuál oración es Present Continuous?",options:["She goes to the gym every day.","She is going to the gym right now.","She went to the gym yesterday."],correct:1},
+{type:"fill",q:"Forma -ing de 'run': ____",answers:["running"]},
+{type:"fill",q:"Forma -ing de 'dance': ____",answers:["dancing"]},
+{type:"mcq",q:"A: What are you doing? B: ____ a new app.",options:["I develop","I'm developing","I develops"],correct:1},
+{type:"match",q:"Une el uso con el tiempo verbal correcto.",pairs:[["Hábito diario","Simple Present"],["Acción en progreso ahora","Present Continuous"],["Hecho general","Simple Present"],["Plan para esta tarde","Present Continuous"]]},
+{type:"tf",q:"'He is working at home today' implica que normalmente trabaja en otro lugar.",correct:true},
+{type:"order",q:"Ordena la pregunta en Present Continuous:",words:["working","Is","today?","from","home","she"],correct:"Is she working from home today?"},
+{type:"speak",phrase:"I'm not going to the gym today. I'm studying at home right now.",translation:"Hoy no voy al gimnasio. Ahora mismo estoy estudiando en casa."}
+]},
+
+{id:"sportshealth",num:11,title:"Deportes, Salud y Frecuencia",emoji:"🏃",cardDesc:"Vocabulario deportivo y adverbios de frecuencia",isVocab:true,
+explain:[
+"<p>Adverbios de frecuencia (van antes del verbo): <b>always / usually / often / sometimes / rarely / hardly ever / never.</b> Ej: <span class='ex-en'>She often plays tennis. He never goes swimming.</span></p>"
+],
+video:"QZvRLf9mpNk",videoNote:"Sports Vocabulary and Frequency Adverbs in English",
+vocab:[
+{cat:"⚽ Sports",items:[{e:"⚽",w:"football/soccer",p:"fútbol/sóker"},{e:"🏀",w:"basketball",p:"básketbol"},{e:"🎾",w:"tennis",p:"ténis"},{e:"🏊",w:"swimming",p:"suíming"},{e:"🚴",w:"cycling",p:"sáikling"},{e:"🏋️",w:"weightlifting",p:"uéitlifting"},{e:"🥊",w:"boxing",p:"bóksing"},{e:"⛷️",w:"skiing",p:"skiing"}]},
+{cat:"🏃 Activities",items:[{e:"🏃",w:"jogging",p:"yóging"},{e:"🧘",w:"yoga",p:"yoga"},{e:"🏊",w:"going to the gym",p:"going to de yim"},{e:"🚶",w:"hiking",p:"háiking"},{e:"🧗",w:"rock climbing",p:"rok kláiming"}]},
+{cat:"💪 Health",items:[{e:"💪",w:"fit",p:"fit"},{e:"🏥",w:"healthy",p:"jélzi"},{e:"😴",w:"get enough sleep",p:"get ináf sliip"},{e:"🥗",w:"eat well",p:"iit uél"},{e:"💊",w:"medicine",p:"médisine"},{e:"😰",w:"out of shape",p:"aut ov sheip"}]}
+],
+exercises:[
+{type:"mcq",q:"¿Dónde va 'often' en la oración?",options:["Often she plays tennis.","She often plays tennis.","She plays often tennis."],correct:1},
+{type:"fill",q:"He goes to the gym four times a week. He ____ goes to the gym. (always/sometimes/never)",answers:["often","usually","always"]},
+{type:"emoji",q:"¿Qué emoji representa 'boxing'?",options:["⚽","🥊","🎾","🏊"],correct:1},
+{type:"match",q:"Une el adverbio con su frecuencia aproximada.",pairs:[["always","100% del tiempo"],["sometimes","50% del tiempo"],["rarely","casi nunca"],["never","0% del tiempo"]]},
+{type:"fill",q:"She ____ ever plays golf. Maybe once a year.",answers:["hardly"]},
+{type:"tf",q:"'He goes to the gym four times a week' — el adverbio que mejor lo describe es 'often'.",correct:true},
+{type:"speak",phrase:"I usually jog in the morning. I sometimes go cycling on weekends.",translation:"Generalmente troto por las mañanas. A veces voy en bici los fines de semana."},
+{type:"fill",q:"She's really ____. She exercises every day and eats well.",answers:["fit","healthy"]},
+{type:"emoji",q:"¿Qué emoji representa 'yoga'?",options:["🏃","🧘","🏋️","⛷️"],correct:1},
+{type:"mcq",q:"'I never go swimming.' ¿Cuántas veces va al agua?",options:["Siempre","A veces","Nunca","Casi siempre"],correct:2}
+]},
+
+{id:"modals",num:12,title:"Modales: can, can't, have to",emoji:"⚡",cardDesc:"Habilidad, posibilidad y obligación",
+explain:[
+"<p><b>can</b> = poder/saber hacer algo (habilidad o posibilidad): <span class='ex-en'>He can play guitar. Can you drive?</span></p>",
+"<p><b>can't</b> = no poder: <span class='ex-en'>She can't come today.</span> Los modales NO añaden -s con he/she: <b>He can</b> (no 'he cans').</p>",
+"<p><b>have to</b> = tener que (obligación): <span class='ex-en'>I have to study tonight. She has to be careful.</span> Negativa: <b>don't/doesn't have to</b> = no es necesario (not obligatory).</p>"
+],
+video:"Hy6TXHM9Oyk",videoNote:"Modal Verbs Can and Have To - English Grammar",
+exercises:[
+{type:"fill",q:"He ____ (can) stand up, but he ____ (can't) walk.",answers:["can","can't"]},
+{type:"fill",q:"She ____ to be careful about her diet. (has/have)",answers:["has"]},
+{type:"mcq",q:"¿Cuál oración es correcta?",options:["He cans play rugby.","He can plays rugby.","He can play rugby."],correct:2},
+{type:"fill",q:"You ____ ____ pay. I'll pay for you. (no es necesario)",answers:["don't have to"]},
+{type:"match",q:"Une el significado con el modal correcto.",pairs:[["Tengo habilidad para hacerlo","can"],["Estoy obligado a hacerlo","have to"],["No puedo hacerlo","can't"],["No es necesario que lo haga","don't have to"]]},
+{type:"tf",q:"'Can' y 'have to' se conjugan diferente con he/she/it: 'He cans' y 'She haves to'.",correct:false},
+{type:"fill",q:"____ you drive? (Can/Have)",answers:["can"]},
+{type:"mcq",q:"'She doesn't have to work on Sundays.' ¿Qué significa?",options:["Ella no puede trabajar los domingos.","No es necesario que trabaje los domingos.","Ella odia trabajar los domingos."],correct:1},
+{type:"order",q:"Ordena la oración:",words:["careful","to","diet.","about","has","She","be","her"],correct:"She has to be careful about her diet."},
+{type:"speak",phrase:"I can play guitar but I can't sing. I have to practice every day.",translation:"Puedo tocar guitarra pero no puedo cantar. Tengo que practicar todos los días."}
+]}
+];
+</script>
+<script>
+// ── PAST TENSE (EXTENDED — 20 exercises) ──
+TOPICS.push({
+id:"pasttense",num:13,title:"Simple Past — Pasado Completo",emoji:"📖",cardDesc:"BE en pasado, verbos regulares e irregulares, preguntas, historias",
+explain:[
+"<p><b>BE en pasado:</b> I/He/She/It → <b>was</b> · You/We/They → <b>were</b>. Negativas: <b>wasn't / weren't</b>. Preguntas: <b>Was he...? Were they...?</b></p>",
+"<p><b>Verbos regulares:</b> agrega <b>-ed</b> al infinitivo: <span class='ex-en'>work→worked, play→played, visit→visited, study→studied, stop→stopped, dance→danced.</span></p>",
+"<p><b>Verbos irregulares</b> — tienes que memorizarlos. Toca las tarjetas de abajo para escucharlos. Estructura negativa: <b>didn't + infinitivo</b>: <span class='ex-en'>She didn't go. They didn't eat.</span></p>",
+"<p><b>Preguntas en pasado:</b> <b>Did + subject + infinitivo?</b> Ej: <span class='ex-en'>Did you go? Where did they eat? What did she do?</span></p>",
+"<p><b>Contar historias:</b> usa expresiones como <span class='ex-en'>Last summer, I went to... First... Then... After that... Finally...</span></p>"
+],
+video:"8AylvizKuKs",videoNote:"Simple Past Tense - Regular and Irregular Verbs Complete Lesson",
+tool:{hint:"Toca un verbo para escuchar la forma en pasado 🔊 (infinitivo → past)",items:[
+{label:"go",speak:"go went",phon:"go → went"},{label:"have",speak:"have had",phon:"have → had"},
+{label:"eat",speak:"eat ate",phon:"eat → ate"},{label:"drink",speak:"drink drank",phon:"drink → drank"},
+{label:"see",speak:"see saw",phon:"see → saw"},{label:"buy",speak:"buy bought",phon:"buy → bought"},
+{label:"take",speak:"take took",phon:"take → took"},{label:"give",speak:"give gave",phon:"give → gave"},
+{label:"come",speak:"come came",phon:"come → came"},{label:"get",speak:"get got",phon:"get → got"},
+{label:"make",speak:"make made",phon:"make → made"},{label:"do",speak:"do did",phon:"do → did"},
+{label:"say",speak:"say said",phon:"say → said"},{label:"think",speak:"think thought",phon:"think → thought"},
+{label:"know",speak:"know knew",phon:"know → knew"},{label:"find",speak:"find found",phon:"find → found"},
+{label:"leave",speak:"leave left",phon:"leave → left"},{label:"feel",speak:"feel felt",phon:"feel → felt"},
+{label:"write",speak:"write wrote",phon:"write → wrote"},{label:"run",speak:"run ran",phon:"run → ran"},
+{label:"swim",speak:"swim swam",phon:"swim → swam"},{label:"fly",speak:"fly flew",phon:"fly → flew"},
+{label:"drive",speak:"drive drove",phon:"drive → drove"},{label:"sleep",speak:"sleep slept",phon:"sleep → slept"},
+{label:"meet",speak:"meet met",phon:"meet → met"},{label:"tell",speak:"tell told",phon:"tell → told"},
+{label:"begin",speak:"begin began",phon:"begin → began"},{label:"break",speak:"break broke",phon:"break → broke"},
+{label:"bring",speak:"bring brought",phon:"bring → brought"},{label:"wear",speak:"wear wore",phon:"wear → wore"},
+{label:"win",speak:"win won",phon:"win → won"},{label:"spend",speak:"spend spent",phon:"spend → spent"}
+]},
+exercises:[
+// BE past
+{type:"fill",q:"Last year she ____ (be) a student. Now she's a teacher.",answers:["was"]},
+{type:"fill",q:"They ____ (be) in Paris last summer.",answers:["were"]},
+{type:"fill",q:"It ____ (be not) cold yesterday. It was warm.",answers:["wasn't","was not"]},
+{type:"mcq",q:"¿Cuál pregunta en pasado con BE es correcta?",options:["Were they on vacation?","Did they were on vacation?","Was they on vacation?"],correct:0},
+// Regular verbs
+{type:"fill",q:"We ____ (visit) the pyramids last week.",answers:["visited"]},
+{type:"fill",q:"She ____ (study) all night before the exam.",answers:["studied"]},
+{type:"fill",q:"He ____ (stop) playing guitar years ago.",answers:["stopped"]},
+// Irregular verbs
+{type:"match",q:"Une cada verbo con su forma en pasado.",pairs:[["go","went"],["have","had"],["eat","ate"],["buy","bought"],["see","saw"],["give","gave"]]},
+{type:"match",q:"Une estos verbos irregulares con su pasado.",pairs:[["take","took"],["come","came"],["make","made"],["think","thought"],["know","knew"],["feel","felt"]]},
+{type:"match",q:"Une estos verbos irregulares con su pasado.",pairs:[["write","wrote"],["run","ran"],["swim","swam"],["fly","flew"],["meet","met"],["spend","spent"]]},
+// Negative past
+{type:"fill",q:"I ____ ____ (not/go) to school yesterday. I was sick.",answers:["didn't go"]},
+{type:"fill",q:"She ____ ____ (not/eat) breakfast this morning. She wasn't hungry.",answers:["didn't eat"]},
+// Did questions
+{type:"order",q:"Forma la pregunta en pasado:",words:["go","you","Did","vacation?","on"],correct:"Did you go on vacation?"},
+{type:"fill",q:"____ did you eat for dinner last night? (What/Where)",answers:["what"]},
+{type:"mcq",q:"¿Cuál pregunta WH- en pasado es correcta?",options:["Where did she went?","Where did she go?","Where she went?"],correct:1},
+// Past short answers
+{type:"fill",q:"Did you see the game last night? Yes, I ____.",answers:["did"]},
+{type:"fill",q:"Did they eat at the restaurant? No, they ____.",answers:["didn't"]},
+// Story / narrative
+{type:"order",q:"Ordena el inicio de una historia de vacaciones:",words:["to","summer,","went","I","Last","Mexico City."],correct:"Last summer, I went to Mexico City."},
+{type:"speak",phrase:"Last weekend I went to a concert. We had a great time and got home late.",translation:"El fin de semana pasado fui a un concierto. La pasamos genial y llegamos tarde a casa."},
+{type:"speak",phrase:"First we visited the cathedral. Then we ate at a local restaurant. Finally we took a taxi home.",translation:"Primero visitamos la catedral. Luego comimos en un restaurante local. Finalmente tomamos un taxi a casa."}
+]});
+</script>
+<script>
+// ── Stations 14-16 ──
+TOPICS.push(...[
+{id:"vacation",num:14,title:"Vacaciones y Viajes",emoji:"✈️",cardDesc:"Vocabulario de viaje + narrar vacaciones en pasado",isVocab:true,
+explain:[
+"<p>Para hablar de vacaciones en pasado usa conectores de secuencia: <span class='ex-en'>First... / Then... / After that... / Finally... / The next day...</span>. Recuerda usar los verbos en pasado al narrar.</p>",
+"<p>Adjetivos para describir experiencias: <span class='ex-en'>relaxing, exciting, interesting, unusual, exhausting, amazing, terrible, unforgettable.</span></p>"
+],
+video:"IrOk-0gJa1k",videoNote:"Talking About Vacation in English | Travel Vocabulary",
+vocab:[
+{cat:"✈️ Travel",items:[{e:"✈️",w:"flight",p:"flait"},{e:"🧳",w:"luggage",p:"lóguich"},{e:"🏨",w:"hotel",p:"joutel"},{e:"🗺️",w:"sightseeing",p:"sáitsiing"},{e:"🎫",w:"ticket",p:"tiket"},{e:"🛂",w:"passport",p:"pásport"},{e:"🏖️",w:"beach",p:"biich"},{e:"⛰️",w:"mountains",p:"máuntens"}]},
+{cat:"🗣️ Vacation Phrases",items:[{e:"😴",w:"relaxing",p:"riláksin"},{e:"🤩",w:"exciting",p:"eksáiting"},{e:"😮",w:"amazing",p:"améising"},{e:"😓",w:"exhausting",p:"eksósting"},{e:"😍",w:"unforgettable",p:"onforgétabol"},{e:"😨",w:"terrifying",p:"térifaing"}]}
+],
+exercises:[
+{type:"fill",q:"She went on ____. She traveled to Paris for two weeks.",answers:["vacation","holiday"]},
+{type:"match",q:"Une el conector con su función.",pairs:[["First","indica el inicio de la historia"],["Then","indica la siguiente acción"],["After that","indica una acción posterior"],["Finally","indica el final"]]},
+{type:"mcq",q:"¿Qué adjetivo describe una experiencia difícil y cansada?",options:["relaxing","exciting","exhausting","amazing"],correct:2},
+{type:"order",q:"Ordena la narración de vacaciones:",words:["beach.","Finally,","After","hotel.","to","that,","the","First,","we","went","we","checked","into","the"],correct:"First, we checked into the hotel. After that, we went to the beach. Finally,"},
+{type:"speak",phrase:"The vacation was amazing! First we flew to Cancún. Then we relaxed on the beach.",translation:"Las vacaciones fueron increíbles. Primero volamos a Cancún. Luego nos relajamos en la playa."},
+{type:"fill",q:"A: Were you on vacation? B: Yes, I ____. I went to Paris.",answers:["was"]},
+{type:"mcq",q:"'No kidding! Did you have a good time?' ¿Qué respuesta es natural?",options:["No, I'm not.","Fantastic! I stayed in a lovely hotel.","Good morning!"],correct:1},
+{type:"tf",q:"'The food was great but the room was terrible.' — Está usando el pasado del verbo BE.",correct:true},
+{type:"speak",phrase:"It was a really relaxing trip. The hotel was beautiful and the people were very friendly.",translation:"Fue un viaje muy relajante. El hotel era hermoso y la gente fue muy amable."},
+{type:"fill",q:"Someone stole his ____. He had to cancel his credit cards. (maleta/equipaje)",answers:["luggage","suitcase"]}
+]},
+
+{id:"shopping",num:15,title:"Ropa y Pronombres Objeto",emoji:"👗",cardDesc:"Tipos de ropa + me/you/him/her/us/them",
+explain:[
+"<p>Vocabulario de ropa: casual (<span class='ex-en'>jeans, T-shirt, sweatshirt, polo shirt</span>) · sweaters (<span class='ex-en'>crewneck, cardigan, turtleneck, V-neck, blazer</span>) · zapatos (<span class='ex-en'>oxfords, loafers, sandals, running shoes, pumps, flats</span>).</p>",
+"<p><b>Object pronouns</b> reemplazan al objeto directo: <span class='ex-en'>I→me · You→you · He→him · She→her · It→it · We→us · They→them.</span> Ej: <span class='ex-en'>I love these pumps → I love them.</span></p>"
+],
+video:"3GkRTJc1Unk",videoNote:"Shopping for Clothes in English | Object Pronouns",
+vocab:[
+{cat:"👔 Casual & Tops",items:[{e:"👖",w:"jeans",p:"yiins"},{e:"👕",w:"T-shirt",p:"ti-shirt"},{e:"🧥",w:"sweatshirt",p:"suéatshirt"},{e:"👔",w:"polo shirt",p:"polo shirt"},{e:"🧣",w:"cardigan",p:"kárdigon"},{e:"🏔️",w:"turtleneck",p:"tértlnek"},{e:"🧥",w:"V-neck",p:"vi-nek"},{e:"🥼",w:"blazer",p:"bléiser"}]},
+{cat:"👟 Footwear",items:[{e:"👞",w:"oxfords",p:"óksfords"},{e:"🥿",w:"loafers",p:"lóufers"},{e:"👡",w:"sandals",p:"sándols"},{e:"👟",w:"running shoes",p:"rónin shuuz"},{e:"👠",w:"pumps",p:"pomps"},{e:"🥿",w:"flats",p:"flats"}]}
+],
+exercises:[
+{type:"fill",q:"I want the cardigan → I want ____. (pronombre objeto)",answers:["it"]},
+{type:"fill",q:"I love these pumps → I love ____.",answers:["them"]},
+{type:"match",q:"Une el pronombre sujeto con su pronombre objeto.",pairs:[["I","me"],["he","him"],["she","her"],["they","them"]]},
+{type:"mcq",q:"'He's buying a blazer for his wife.' → 'He's buying a blazer for ____.'",options:["she","her","hers"],correct:1},
+{type:"fill",q:"Did you buy the green sweatpants? Yes, I bought ____.",answers:["them"]},
+{type:"tf",q:"Un 'V-neck' es un suéter con cuello en forma de V.",correct:true},
+{type:"fill",q:"Should I buy this crewneck? No, don't buy ____.",answers:["it"]},
+{type:"mcq",q:"¿Cuál es una prenda de ropa casual?",options:["oxfords","loafers","jeans","pumps"],correct:2},
+{type:"order",q:"Forma la oración con pronombre objeto:",words:["her.","blazer","the","gave","We"],correct:"We gave her the blazer."},
+{type:"speak",phrase:"I love these jeans. Can I try them on? Do you have them in a size 30?",translation:"Me encantan estos jeans. ¿Me los puedo probar? ¿Los tienen en talla 30?"}
+]}
+]);
+
+// ── CONVERSATION STATION (Workbook 2) ──
+TOPICS.push({
+  id:"conversation",num:16,title:"Sala de Conversación",emoji:"💬",
+  cardDesc:"Practica todo lo del Workbook 2 con Alex",
+  isChat:true,
+  explain:["<p>Practica conversaciones reales usando lo que aprendiste en el <b>Workbook 2</b>. Elige un escenario, habla con el micrófono 🎤 o escribe. Alex usa vocabulario del nivel A2.</p>"]
+});
+
+const CHAT_SCENARIOS = {
+  intro:{
+    name:"🤝 Getting Acquainted",
+    hint:"Preséntate formalmente y habla de ti",
+    steps:[
+      {bot:"Hey! I'd like to introduce myself — I'm Alex. What's your name? And please, just call me Alex, not Alexander!", sugg:["Hi Alex! I'm [name]. Just call me [nickname].","Hey! Nice to meet you, Alex. My name is [name].","Hi! I'm [name]. It's a pleasure to meet you!"], expect:["i'm","my name is","nice to meet","pleasure","call me","hi","hey"]},
+      {bot:"Great to meet you! So what do you do? Are you a student or do you work?", sugg:["I'm a student. I study English at GCI.","I work and study at the same time!","I'm a student at GCI Galaxy."], expect:["student","study","work","gci","english"]},
+      {bot:"Cool! What do you usually do in your free time? Any hobbies?", sugg:["I often listen to music. I love R&B and pop.","I usually play football on weekends.","I sometimes go cycling. I love staying fit."], expect:["listen","music","play","love","like","often","sometimes","usually"]},
+      {bot:"Sounds fun! Hey, were you on vacation recently? Where did you go?", sugg:["Yes! Last month I went to Mexico City.","I went to the beach last summer. It was amazing!","I didn't travel recently, but I want to visit Cancún."], expect:["went","was","visited","traveled","last","summer","month","didn't","want"]},
+      {bot:"Nice! And what do you think about technology? Are you always on your phone?", sugg:["Yes, I always use my smartphone! I can't live without Wi-Fi.","Sometimes. I use it for social media and music.","I usually use my laptop for studying."], expect:["phone","smartphone","use","always","sometimes","wifi","laptop","social"]},
+      {bot:"Ha! Me too. Last question — can you speak any other languages besides English?", sugg:["Yes, I can speak Spanish! And a little English.","I can speak Spanish very well. English is my second language.","I can speak Spanish and I'm learning English."], expect:["can","speak","spanish","english","language","learning"]},
+      {bot:"That's awesome! It was great talking to you. Keep practicing your English! 👏", sugg:["Thanks Alex! It was nice talking to you too!","Thank you! See you around!","Goodbye Alex! Have a great day!"], expect:["thanks","thank","bye","goodbye","see you","nice"]}
+    ]
+  },
+  restaurant:{
+    name:"🍽️ At the Restaurant",
+    hint:"Ordena comida y habla con el mesero",
+    steps:[
+      {bot:"Good evening! Welcome to La Cocina. Can I take your order, or do you need a few more minutes?", sugg:["I'm ready! I'll have the pasta, please.","Could I see the menu first?","I'll have the salmon for my main course."], expect:["have","like","ready","menu","pasta","salmon","order","please"]},
+      {bot:"Great choice! Does that come with a side dish, or would you like to add one?", sugg:["What does it come with?","I'd like a salad as my side dish, please.","It comes with soup? I'll take the soup."], expect:["salad","soup","side","dish","comes","like","please","with"]},
+      {bot:"Perfect. And to drink? We have water, juice, coffee, and soft drinks.", sugg:["Just water, please.","I'll have orange juice, please.","Could I have a coffee? Black, please."], expect:["water","juice","coffee","drink","please","have"]},
+      {bot:"Wonderful! By the way, have you tried our desserts? The chocolate cake is delicious.", sugg:["Oh, sounds amazing! I'll try a piece.","Maybe later. I'd better not — I'm watching my weight!","Yes, I'll have the chocolate cake, please."], expect:["cake","dessert","later","yes","no","piece","try","amazing","better"]},
+      {bot:"Enjoy your meal! Can I get you anything else?", sugg:["No, thank you. Everything looks perfect!","Could I have some more water, please?","That's everything, thanks!"], expect:["no","thank","perfect","water","everything","fine","okay"]},
+      {bot:"Here's your check! Did you enjoy your meal tonight?", sugg:["Yes, it was delicious! The salmon was amazing.","Fantastic! I'll definitely come back.","It was great, thank you! How much do I owe?"], expect:["delicious","amazing","great","fantastic","owe","come back","enjoyed"]},
+      {bot:"So glad to hear that! Have a great evening! Come back soon!", sugg:["Thank you! Goodbye!","See you next time!","Good night! The food was wonderful!"], expect:["thank","bye","goodbye","see","night","wonderful"]}
+    ]
+  },
+  pastvacation:{
+    name:"✈️ Talking About Vacation",
+    hint:"Cuenta tus vacaciones usando el pasado",
+    steps:[
+      {bot:"Hey! You look so relaxed! Were you on vacation recently?", sugg:["Yes! I just got back from Cancún!","Yes, last week I went to Mexico City.","I was in Guadalajara visiting family."], expect:["yes","was","went","got","vacation","back","last","week"]},
+      {bot:"No kidding! Did you have a good time?", sugg:["It was fantastic! I had the best time.","Amazing! The beach was beautiful.","Yes! We stayed in a great hotel."], expect:["fantastic","amazing","great","time","beautiful","hotel","yes","had"]},
+      {bot:"Tell me more! What did you do there? Where did you go?", sugg:["First, we visited the ruins. Then we went to the beach.","We ate amazing food and saw a lot of cool places.","We swam in the ocean and bought some souvenirs."], expect:["visited","went","ate","saw","swam","bought","first","then","after","did"]},
+      {bot:"That sounds incredible! Did you take a lot of photos?", sugg:["Yes! I took hundreds of photos with my phone.","Of course! I brought my camera everywhere.","Yes, I have so many pictures. It was unforgettable!"], expect:["yes","took","photos","pictures","camera","unforgettable","brought"]},
+      {bot:"And how was the food? Did you try any local dishes?", sugg:["The food was delicious! We tried everything.","We ate at a local restaurant. The seafood was amazing.","I tried so many things. The tacos were the best!"], expect:["food","ate","tried","delicious","amazing","seafood","tacos","local","restaurant"]},
+      {bot:"I'm so jealous! When did you get back?", sugg:["I got back yesterday. I'm still tired!","We came back on Sunday. It was exhausting but worth it.","Last night! The flight was long but the trip was worth it."], expect:["got","back","came","yesterday","sunday","night","tired","exhausting","flight"]},
+      {bot:"Well, it sounds like an amazing trip! I hope you have another vacation soon!", sugg:["Thanks! Next time you should come with us!","Yes! I want to go back next year.","Thanks! I can't wait to travel again."], expect:["thanks","next","want","can't wait","again","travel","year"]}
+    ]
+  }
+};
+</script>
+
+<script>
+// ══════════════════════════════════
+//  CORE STATE + SPEECH
+// ══════════════════════════════════
+const TOTAL_EX = TOPICS.filter(t=>!t.isChat).reduce((a,t)=>a+t.exercises.length,0);
+const progress = {};
+TOPICS.forEach(t=>{ if(!t.isChat) progress[t.id]=new Array(t.exercises.length).fill(false); });
+
+let englishVoice=null;
+function loadVoices(){
+  if(!('speechSynthesis' in window)) return;
+  const list=window.speechSynthesis.getVoices()||[];
+  if(!list.length) return;
+  const pref=["Google US English","Microsoft Zira","Microsoft David","Samantha","Alex","Karen"];
+  englishVoice=list.find(v=>pref.includes(v.name)&&v.lang&&v.lang.toLowerCase().startsWith('en'))
+    ||list.find(v=>v.lang==='en-US')||list.find(v=>v.lang&&v.lang.toLowerCase().startsWith('en-'))||null;
+}
+if('speechSynthesis' in window){ loadVoices(); window.speechSynthesis.onvoiceschanged=loadVoices; }
+function speak(text,rate){
+  if(!('speechSynthesis' in window)) return;
+  if(!englishVoice) loadVoices();
+  try{
+    window.speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(text);
+    if(englishVoice){u.voice=englishVoice;u.lang=englishVoice.lang;}else{u.lang='en-US';}
+    u.rate=rate||0.82;
+    window.speechSynthesis.speak(u);
+  }catch(e){}
+}
+
+// SpeechRecognition setup
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition||null;
+let activeRecognizer=null;
+function createRecognizer(onResult,onEnd){
+  if(!SR) return null;
+  const r=new SR();
+  r.lang='en-US'; r.continuous=false; r.interimResults=false;
+  r.onresult=e=>{ const t=e.results[0][0].transcript; onResult(t); };
+  r.onend=onEnd||function(){};
+  r.onerror=()=>{ onEnd&&onEnd(); };
+  return r;
+}
+
+function norm(s){ return (s||'').toLowerCase().replace(/[.,!?¿¡']/g,'').trim().replace(/\s+/g,' '); }
+function totalScore(){ let s=0; Object.values(progress).forEach(a=>a.forEach(v=>{if(v)s++;})); return s; }
+function updatePill(){ document.getElementById('scoreText').textContent=totalScore()+'/'+TOTAL_EX; }
+function topicDone(t){ return progress[t.id].every(v=>v); }
+function topicCount(t){ return progress[t.id].filter(v=>v).length; }
+
+// ══════════════════════════════════
+//  MAP
+// ══════════════════════════════════
+function renderMap(){
+  const list=document.getElementById('pathList');
+  list.innerHTML='';
+  const _sorted=[...TOPICS].sort((a,b)=>a.num-b.num);
+  _sorted.forEach((t,i)=>{
+    const color=COLORS[i%COLORS.length];
+    const done=t.isChat ? false : topicDone(t);
+    const n=document.createElement('div');
+    n.className='node'+(done?' done':'');
+    n.style.animationDelay=(i*.04)+'s';
+    n.onclick=()=>openTopic(t.id);
+    const stat=t.isChat?'🎤 Chat':done?'✓ Listo':topicCount(t)+'/'+t.exercises.length;
+    n.innerHTML=`<span class="nnum">#${t.num}</span>
+      <div class="nbadge" style="background:linear-gradient(145deg,${color},${color}cc);box-shadow:0 5px 14px ${color}55;">${t.emoji}</div>
+      <div class="ninfo"><h3>${t.title}</h3><p>${t.cardDesc}</p></div>
+      <div class="nstat">${stat}</div>`;
+    list.appendChild(n);
+  });
+  updatePill();
+}
+
+function goMap(){
+  document.getElementById('mapview').style.display='block';
+  document.getElementById('topicview').classList.remove('active');
+  if(activeRecognizer){try{activeRecognizer.stop();}catch(e){}} activeRecognizer=null;
+  if(window.speechSynthesis) window.speechSynthesis.cancel();
+  renderMap();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ══════════════════════════════════
+//  TOPIC VIEW
+// ══════════════════════════════════
+function openTopic(id){
+  const t=TOPICS.find(x=>x.id===id);
+  const i=TOPICS.indexOf(t);
+  const color=COLORS[i%COLORS.length];
+  document.getElementById('mapview').style.display='none';
+  document.getElementById('topicview').classList.add('active');
+  document.getElementById('tvBadge').style.background=`linear-gradient(145deg,${color},${color}cc)`;
+  document.getElementById('tvBadge').textContent=t.emoji;
+  document.getElementById('tvTitle').textContent=t.title;
+  document.getElementById('tvSub').textContent='Estación '+t.num+' de '+TOPICS.length;
+  document.getElementById('tvExplainBody').innerHTML=(t.explain||[]).join('');
+
+  // video
+  const vc=document.getElementById('tvVideoCard');
+  if(t.video){
+    vc.style.display='block';
+    const wrap=document.getElementById('tvVideoWrap');
+    wrap.className='videoplaceholder';
+    wrap.innerHTML=`<img src="https://img.youtube.com/vi/${t.video}/hqdefault.jpg" alt="${t.videoNote}" loading="lazy"><div class="playbtn">▶</div><div class="playlabel">Toca para reproducir</div>`;
+    wrap.onclick=function(){
+      wrap.className='videowrap'; wrap.onclick=null;
+      wrap.innerHTML=`<iframe src="https://www.youtube-nocookie.com/embed/${t.video}?rel=0&autoplay=1" title="${t.videoNote}" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>`;
+    };
+    document.getElementById('tvVideoNote').textContent=t.videoNote||'';
+    document.getElementById('tvVideoFallback').href=`https://www.youtube.com/watch?v=${t.video}`;
+  } else { vc.style.display='none'; }
+
+  // pronunciation tool
+  const tc=document.getElementById('tvToolCard'), tb=document.getElementById('tvToolBody');
+  tb.innerHTML='';
+  if(t.tool){
+    tc.style.display='block';
+    const hint=document.createElement('p'); hint.className='toolhint'; hint.textContent=t.tool.hint;
+    const grid=document.createElement('div'); grid.className='toolgrid';
+    const disp=document.createElement('div'); disp.className='tooldisplay';
+    const warn=document.createElement('div'); warn.className='toolwarn';
+    warn.textContent='⚠️ No encontramos voz en inglés en este dispositivo. Para mejor experiencia usa Chrome en computadora e instala el paquete de voz inglés en tu sistema.';
+    t.tool.items.forEach(item=>{
+      const b=document.createElement('button'); b.className='toolbtn'; b.textContent=item.label;
+      b.onclick=()=>{ speak(item.speak); disp.innerHTML=`<b>${item.label}</b> = "${item.phon}"`; b.classList.remove('playing'); void b.offsetWidth; b.classList.add('playing'); if(!englishVoice) warn.classList.add('show'); };
+      grid.appendChild(b);
+    });
+    tb.appendChild(hint); tb.appendChild(grid); tb.appendChild(disp); tb.appendChild(warn);
+  } else { tc.style.display='none'; }
+
+  // vocab cards
+  const vc2=document.getElementById('tvVocabCard'), vb=document.getElementById('tvVocabBody');
+  vb.innerHTML='';
+  if(t.vocab){
+    vc2.style.display='block';
+    t.vocab.forEach(cat=>{
+      const cl=document.createElement('div'); cl.className='vcategory'; cl.textContent=cat.cat;
+      const grid=document.createElement('div'); grid.className='vocabgrid';
+      cat.items.forEach(item=>{
+        const c=document.createElement('div'); c.className='vocabcard';
+        c.innerHTML=`<span class="vcemoji">${item.e}</span><span class="vcword">${item.w}</span><span class="vcpron">/${item.p}/</span>`;
+        c.onclick=()=>{ speak(item.w); c.classList.remove('playing'); void c.offsetWidth; c.classList.add('playing'); setTimeout(()=>c.classList.remove('playing'),700); };
+        grid.appendChild(c);
+      });
+      vb.appendChild(cl); vb.appendChild(grid);
+    });
+  } else { vc2.style.display='none'; }
+
+  // exercises vs chat
+  document.getElementById('tvChatSection').style.display=t.isChat?'block':'none';
+  document.getElementById('tvExercises').innerHTML='';
+  if(t.isChat){
+    document.getElementById('tvVideoCard').style.display='none';
+    renderChat();
+  } else {
+    renderExercises(t);
+  }
+  document.getElementById('tvDone').classList.remove('show');
+  if(!t.isChat && topicDone(t)) document.getElementById('tvDone').classList.add('show');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ══════════════════════════════════
+//  EXERCISE RENDERERS
+// ══════════════════════════════════
+function renderExercises(t){
+  const box=document.getElementById('tvExercises');
+  box.innerHTML='';
+  t.exercises.forEach((ex,idx)=>{
+    const wrap=document.createElement('div');
+    wrap.className='exo'+(progress[t.id][idx]?' solved':'');
+    const tags={mcq:'Opción múltiple',fill:'Completa',tf:'Verdadero o falso',match:'Relaciona',emoji:'Emoji',order:'Ordena',speak:'Pronuncia'};
+    wrap.innerHTML=`<div class="exo-top"><span class="exo-tag">Ej ${idx+1} · ${tags[ex.type]||ex.type}</span><span class="exo-check">${progress[t.id][idx]?'✓':''}</span></div><p class="qtext">${ex.q||''}</p><div class="exo-body"></div>`;
+    box.appendChild(wrap);
+    const body=wrap.querySelector('.exo-body');
+    if(ex.type==='mcq'||ex.type==='tf'||ex.type==='emoji'){
+      const opts=ex.type==='tf'?['Verdadero','Falso']:ex.options;
+      const d=document.createElement('div');
+      d.className=ex.type==='tf'?'tfrow':ex.type==='emoji'?'opts emoji-opts':'opts';
+      opts.forEach((op,oi)=>{
+        const b=document.createElement('button'); b.className='opt'+(ex.type==='emoji'?' opt-emoji':''); b.textContent=op;
+        b.onclick=()=>{
+          if(wrap.classList.contains('solved')) return;
+          const ok=ex.type==='tf'?(oi===0)===ex.correct:oi===ex.correct;
+          if(ok){ b.classList.add('correct'); d.querySelectorAll('.opt').forEach(x=>x.disabled=true); markSolved(t,idx,wrap); }
+          else { b.classList.add('wrong'); setTimeout(()=>b.classList.remove('wrong'),450); }
+        };
+        d.appendChild(b);
+      });
+      body.appendChild(d);
+    } else if(ex.type==='fill'){
+      const row=document.createElement('div'); row.className='fillrow';
+      const inp=document.createElement('input'); inp.type='text'; inp.placeholder='Escribe en inglés…';
+      const btn=document.createElement('button'); btn.className='checkbtn'; btn.textContent='Verificar';
+      const fb=document.createElement('div');
+      inp.onkeydown=e=>{ if(e.key==='Enter') btn.click(); };
+      btn.onclick=()=>{
+        if(wrap.classList.contains('solved')) return;
+        const v=norm(inp.value);
+        const ok=ex.answers.some(a=>norm(a)===v);
+        if(ok){ inp.classList.add('correct'); inp.disabled=true; btn.disabled=true; fb.className='fb ok'; fb.textContent='¡Correcto! 🌟'; markSolved(t,idx,wrap); }
+        else { inp.classList.add('wrong'); setTimeout(()=>inp.classList.remove('wrong'),450); fb.className='fb no'; fb.textContent=ex.hint?'Casi. Pista: '+ex.hint:'Intenta de nuevo.'; }
+        row.parentNode.appendChild(fb);
+      };
+      row.appendChild(inp); row.appendChild(btn); body.appendChild(row);
+    } else if(ex.type==='match'){
+      renderMatch(ex,wrap,body,t,idx);
+    } else if(ex.type==='order'){
+      renderOrder(ex,wrap,body,t,idx);
+    } else if(ex.type==='speak'){
+      renderSpeak(ex,wrap,body,t,idx);
+    }
+  });
+}
+
+function renderMatch(ex,wrap,body,t,idx){
+  const grid=document.createElement('div'); grid.className='matchgrid';
+  const lc=document.createElement('div'); lc.className='matchcol';
+  const rc=document.createElement('div'); rc.className='matchcol';
+  const lefts=ex.pairs.map((p,pi)=>({label:p[0],pi}));
+  const rights=ex.pairs.map((p,pi)=>({label:p[1],pi}));
+  for(let i=rights.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[rights[i],rights[j]]=[rights[j],rights[i]];}
+  let selL=null,selR=null,matched=0;
+  function tryM(){
+    if(selL===null||selR===null) return;
+    const lb=lc.children[selL.idx],rb=rc.children[selR.idx];
+    if(selL.pi===selR.pi){
+      lb.classList.remove('sel'); rb.classList.remove('sel');
+      lb.classList.add('matched'); rb.classList.add('matched');
+      lb.onclick=null; rb.onclick=null; matched++;
+      if(matched===ex.pairs.length&&!wrap.classList.contains('solved')) markSolved(t,idx,wrap);
+    } else {
+      lb.classList.add('wrong'); rb.classList.add('wrong');
+      setTimeout(()=>{lb.classList.remove('sel','wrong');rb.classList.remove('sel','wrong');},420);
+    }
+    selL=null; selR=null;
+  }
+  lefts.forEach((item,i)=>{
+    const b=document.createElement('button'); b.className='matchitem'; b.textContent=item.label;
+    b.onclick=()=>{
+      if(b.classList.contains('matched')||wrap.classList.contains('solved')) return;
+      lc.querySelectorAll('.matchitem').forEach(x=>{if(!x.classList.contains('matched'))x.classList.remove('sel');});
+      b.classList.add('sel'); selL={pi:item.pi,idx:i}; tryM();
+    };
+    lc.appendChild(b);
+  });
+  rights.forEach((item,i)=>{
+    const b=document.createElement('button'); b.className='matchitem'; b.textContent=item.label;
+    b.onclick=()=>{
+      if(b.classList.contains('matched')||wrap.classList.contains('solved')) return;
+      rc.querySelectorAll('.matchitem').forEach(x=>{if(!x.classList.contains('matched'))x.classList.remove('sel');});
+      b.classList.add('sel'); selR={pi:item.pi,idx:i}; tryM();
+    };
+    rc.appendChild(b);
+  });
+  grid.appendChild(lc); grid.appendChild(rc); body.appendChild(grid);
+  if(progress[t.id][idx]){
+    lc.querySelectorAll('.matchitem').forEach(b=>b.classList.add('matched'));
+    rc.querySelectorAll('.matchitem').forEach(b=>b.classList.add('matched'));
+  }
+}
+
+function renderOrder(ex,wrap,body,t,idx){
+  const shuffled=[...ex.words].sort(()=>Math.random()-.5);
+  const labels=document.createElement('div'); labels.className='order-labels';
+  labels.innerHTML='<span>Palabras disponibles:</span><span>Tu respuesta:</span>';
+  const pool=document.createElement('div'); pool.className='order-pool';
+  const ans=document.createElement('div'); ans.className='order-answer empty';
+  const fb=document.createElement('div');
+  const answer=[];
+  function rebuildPool(){
+    pool.innerHTML='';
+    shuffled.forEach((w,si)=>{
+      if(answer.includes(si)) return;
+      const c=document.createElement('button'); c.className='chip'; c.textContent=w;
+      c.onclick=()=>{
+        if(wrap.classList.contains('solved')) return;
+        answer.push(si); addToAnswer(w,si); rebuildPool(); checkOrder();
+      };
+      pool.appendChild(c);
+    });
+  }
+  function addToAnswer(w,si){
+    ans.classList.remove('empty');
+    const c=document.createElement('button'); c.className='chip in-answer'; c.textContent=w;
+    c.onclick=()=>{
+      if(wrap.classList.contains('solved')) return;
+      const pos=answer.indexOf(si); if(pos>-1) answer.splice(pos,1);
+      c.remove(); if(!ans.children.length) ans.classList.add('empty');
+      rebuildPool(); fb.textContent=''; fb.className='fb';
+    };
+    ans.appendChild(c);
+  }
+  function checkOrder(){
+    if(answer.length!==shuffled.length) return;
+    const built=answer.map(si=>shuffled[si]).join(' ');
+    const ok=norm(built)===norm(ex.correct);
+    if(ok){
+      ans.querySelectorAll('.chip').forEach(c=>c.classList.add('chip-correct'));
+      fb.className='fb ok'; fb.textContent='¡Correcto! 🌟';
+      markSolved(t,idx,wrap);
+    } else {
+      ans.querySelectorAll('.chip').forEach(c=>{ c.classList.add('chip-wrong'); setTimeout(()=>c.classList.remove('chip-wrong'),450); });
+      fb.className='fb no'; fb.textContent='Orden incorrecto. Toca las palabras en azul para quitarlas.';
+    }
+  }
+  rebuildPool();
+  body.appendChild(labels); body.appendChild(pool); body.appendChild(ans); body.appendChild(fb);
+}
+
+function renderSpeak(ex,wrap,body,t,idx){
+  const phrase=document.createElement('div'); phrase.className='speak-phrase';
+  phrase.innerHTML=`<span class="phrase-text">${ex.phrase}</span><span class="phrase-tr">${ex.translation}</span>`;
+  const ctrl=document.createElement('div'); ctrl.className='speak-controls';
+  const mic=document.createElement('button'); mic.className='micbtn'; mic.title='Hablar'; mic.textContent='🎤';
+  const transcript=document.createElement('div'); transcript.className='speak-transcript'; transcript.textContent='Toca 🎤 para hablar…';
+  const result=document.createElement('div'); result.className='speak-result';
+  const playBtn=document.createElement('button'); playBtn.className='speak-playbtn'; playBtn.textContent='▶ Escuchar';
+  playBtn.onclick=()=>speak(ex.phrase,0.75);
+  const markBtn=document.createElement('button'); markBtn.className='speak-markbtn'; markBtn.textContent='✓ Practicado';
+  markBtn.onclick=()=>{ if(!wrap.classList.contains('solved')) markSolved(t,idx,wrap); };
+  const status=document.createElement('div'); status.className='speak-status';
+  if(!SR){ status.textContent='ℹ️ Tu navegador no soporta micrófono. Usa Chrome. Toca ▶ para escuchar, luego "Practicado".'; mic.disabled=true; }
+  else {
+    mic.onclick=()=>{
+      if(activeRecognizer){try{activeRecognizer.stop();}catch(e){}}
+      mic.classList.add('recording'); transcript.textContent='Escuchando…'; status.textContent='';
+      const r=createRecognizer(text=>{
+        transcript.textContent=text;
+        const heard=norm(text), target=norm(ex.phrase);
+        const words=target.split(' ');
+        const matchedW=words.filter(w=>w.length>2&&heard.includes(w)).length;
+        const score=matchedW/words.length;
+        if(score>=0.5||heard===target){
+          transcript.style.color='var(--green)';
+          status.textContent='✅ ¡Excelente pronunciación!';
+          if(!wrap.classList.contains('solved')) markSolved(t,idx,wrap);
+        } else {
+          transcript.style.color='var(--gold)';
+          status.textContent='Sigue practicando — toca ▶ para escuchar el modelo.';
+        }
+      },()=>{ mic.classList.remove('recording'); });
+      activeRecognizer=r;
+      try{ r.start(); }catch(e){ mic.classList.remove('recording'); status.textContent='Error de micrófono. Intenta de nuevo.'; }
+    };
+  }
+  result.appendChild(playBtn); result.appendChild(markBtn);
+  ctrl.appendChild(mic); ctrl.appendChild(transcript);
+  body.appendChild(phrase); body.appendChild(ctrl); body.appendChild(result); body.appendChild(status);
+}
+
+// ══════════════════════════════════
+//  CHAT STATION
+// ══════════════════════════════════
+let chatScenarioKey='intro', chatStep=0, chatMsgCount=0;
+function renderChat(){
+  const pills=document.getElementById('scenarioPills');
+  pills.innerHTML='';
+  Object.entries(CHAT_SCENARIOS).forEach(([key,sc])=>{
+    const p=document.createElement('button'); p.className='scenario-pill'+(key===chatScenarioKey?' active':'');
+    p.textContent=sc.name; p.title=sc.hint;
+    p.onclick=()=>{ chatScenarioKey=key; chatStep=0; chatMsgCount=0; renderChat(); };
+    pills.appendChild(p);
+  });
+  const msgs=document.getElementById('chatMessages');
+  msgs.innerHTML='';
+  chatStep=0; chatMsgCount=0;
+  addBotMsg(CHAT_SCENARIOS[chatScenarioKey].steps[0].bot);
+  updateSuggestions(); updateProgress();
+  const input=document.getElementById('chatInput');
+  input.value=''; input.onkeydown=e=>{ if(e.key==='Enter') chatSend(); };
+  const micBtn=document.getElementById('chatMicBtn');
+  micBtn.onclick=startChatMic;
+}
+
+function addBotMsg(text){
+  const msgs=document.getElementById('chatMessages');
+  const d=document.createElement('div'); d.className='chat-msg bot';
+  const spk=document.createElement('button'); spk.className='chat-speak-btn'; spk.textContent='🔊';
+  spk.onclick=()=>speak(text,0.8);
+  d.innerHTML=`<div class="chat-avatar">🤖</div><div><div class="chat-bubble">${text}</div><div class="chat-hint">Toca 🔊 para escuchar</div></div>`;
+  d.querySelector('.chat-bubble').after(spk);
+  msgs.appendChild(d);
+  setTimeout(()=>{ msgs.scrollTop=msgs.scrollHeight; speak(text,0.82); },150);
+}
+
+function addUserMsg(text){
+  const msgs=document.getElementById('chatMessages');
+  const d=document.createElement('div'); d.className='chat-msg user';
+  d.innerHTML=`<div class="chat-avatar">😊</div><div class="chat-bubble">${text}</div>`;
+  msgs.appendChild(d); chatMsgCount++;
+  setTimeout(()=>msgs.scrollTop=msgs.scrollHeight,50);
+}
+
+function chatSend(){
+  const input=document.getElementById('chatInput');
+  const text=(input.value||'').trim();
+  if(!text) return;
+  input.value='';
+  addUserMsg(text);
+  const sc=CHAT_SCENARIOS[chatScenarioKey];
+  const step=sc.steps[chatStep];
+  const userNorm=norm(text);
+  const matched=step.expect.some(e=>userNorm.includes(e));
+  setTimeout(()=>{
+    if(chatStep<sc.steps.length-1){
+      chatStep++;
+      addBotMsg(sc.steps[chatStep].bot);
+      updateSuggestions(); updateProgress();
+    } else {
+      addBotMsg("Great conversation! 🎉 You did amazing! Try another scenario or come back to practice again. Your English is improving!");
+      document.getElementById('chatSuggestions').innerHTML='<span style="color:var(--green);font-size:13px;font-weight:700;padding:4px;">✅ Conversación completada!</span>';
+      document.getElementById('chatProgress').textContent='🌟 ¡Completaste el escenario! Intenta otro.';
+    }
+    if(!matched && chatStep<sc.steps.length){
+      setTimeout(()=>{
+        const hint=document.createElement('div');
+        hint.className='chat-msg bot';
+        hint.innerHTML=`<div class="chat-avatar">🤖</div><div class="chat-bubble" style="background:rgba(245,179,66,.15);border:1px solid rgba(245,179,66,.3);">💡 Tip: Try using one of the suggested phrases below — they're a great start!</div>`;
+        document.getElementById('chatMessages').appendChild(hint);
+        document.getElementById('chatMessages').scrollTop=999999;
+      },1200);
+    }
+  },600);
+}
+
+function updateSuggestions(){
+  const sc=CHAT_SCENARIOS[chatScenarioKey];
+  const box=document.getElementById('chatSuggestions');
+  if(chatStep>=sc.steps.length){ box.innerHTML=''; return; }
+  box.innerHTML='<span style="font-size:11px;color:var(--ink-soft);width:100%;display:block;margin-bottom:4px;">💬 Sugerencias:</span>';
+  (sc.steps[chatStep].sugg||[]).forEach(s=>{
+    const p=document.createElement('button'); p.className='sugg-pill'; p.textContent=s;
+    p.onclick=()=>{ document.getElementById('chatInput').value=s; document.getElementById('chatInput').focus(); };
+    box.appendChild(p);
+  });
+}
+
+function updateProgress(){
+  const sc=CHAT_SCENARIOS[chatScenarioKey];
+  document.getElementById('chatProgress').textContent=`Paso ${Math.min(chatStep+1,sc.steps.length)} de ${sc.steps.length}`;
+}
+
+function startChatMic(){
+  if(!SR){ alert('Tu navegador no soporta micrófono. Usa Chrome.'); return; }
+  const btn=document.getElementById('chatMicBtn');
+  if(activeRecognizer){try{activeRecognizer.stop();}catch(e){}}
+  btn.classList.add('recording');
+  const r=createRecognizer(text=>{
+    document.getElementById('chatInput').value=text;
+    chatSend();
+  },()=>{ btn.classList.remove('recording'); });
+  activeRecognizer=r;
+  try{ r.start(); }catch(e){ btn.classList.remove('recording'); }
+}
+
+// ══════════════════════════════════
+//  MARK SOLVED + FX
+// ══════════════════════════════════
+function markSolved(t,idx,wrap){
+  progress[t.id][idx]=true;
+  wrap.classList.add('solved');
+  wrap.querySelector('.exo-check').textContent='✓';
+  burstStars(wrap); updatePill();
+  if(topicDone(t)) document.getElementById('tvDone').classList.add('show');
+}
+
+function burstStars(el){
+  const r=el.getBoundingClientRect();
+  for(let i=0;i<8;i++){
+    const s=document.createElement('div'); s.textContent='⭐';
+    s.style.cssText=`position:fixed;left:${r.left+r.width/2}px;top:${r.top+18}px;font-size:${12+Math.random()*10}px;z-index:99;pointer-events:none;`;
+    const dx=(Math.random()-.5)*160, dy=-60-Math.random()*80;
+    s.style.setProperty('--dx',dx+'px'); s.style.setProperty('--dy',dy+'px');
+    s.style.animation='burst .9s ease-out forwards';
+    document.body.appendChild(s); setTimeout(()=>s.remove(),950);
+  }
+}
+
+renderMap();
+</script>
+<script>
+// ── EXTENSION: +10 exercises per station (WB2) ──
+[
+{id:"acquainted", ex:[
+{type:"order",q:"Ordena la presentación:",words:["to","like","introduce","you","I'd","Ana.","to"],correct:"I'd like to introduce you to Ana."},
+{type:"mcq",q:"¿Cuál expresión usas para pedir que te llamen por un apodo?",options:["I'd like to introduce you.","Please call me Mia.","It's a pleasure to meet you."],correct:1},
+{type:"fill",q:"A: Great ____ meet you! B: You too!", answers:["to"]},
+{type:"speak",phrase:"Hi! I'm Diana, but please just call me Di. Nice to meet you!",translation:"¡Hola! Soy Diana, pero por favor llámame Di. ¡Encantada de conocerte!"},
+{type:"match",q:"Une la expresión con su traducción.",pairs:[["Just call me...","Llámame..."],["How nice to meet you!","¡Qué gusto conocerte!"],["I'd like you to meet...","Quiero presentarte a..."],["Everyone calls me...","Todos me llaman..."]]},
+{type:"tf",q:"'Mr. Jamie' es una forma correcta de usar el título Mr.",correct:false},
+{type:"fill",q:"His real name is William, but ____ calls him Will.",answers:["everyone"]},
+{type:"emoji",q:"¿Qué emoji representa mejor una presentación formal?",options:["🤝","👋","😄","✌️"],correct:0},
+{type:"mcq",q:"Alguien dice 'I'd like to introduce you to our CEO, Mr. Torres.' ¿Cuál es tu respuesta?",options:["Goodbye, Mr. Torres!","How nice to meet you, Mr. Torres!","See you later!"],correct:1},
+{type:"order",q:"Ordena:",words:["name?","your","What's","first"],correct:"What's your first name?"}
+]},
+{id:"simplepresent", ex:[
+{type:"order",q:"Ordena la oración:",words:["the","guitar","plays","He","every","day."],correct:"He plays the guitar every day."},
+{type:"fill",q:"____ she study English? (Do/Does)",answers:["does"]},
+{type:"mcq",q:"¿Cuál oración está correcta?",options:["She don't like jazz.","She doesn't likes jazz.","She doesn't like jazz."],correct:2},
+{type:"speak",phrase:"What do you usually do on weekends? I usually go cycling or read books.",translation:"¿Qué haces normalmente los fines de semana? Normalmente voy en bici o leo libros."},
+{type:"fill",q:"My cousin ____ (live) in Mexico City.",answers:["lives"]},
+{type:"match",q:"Une el sujeto con la forma negativa correcta.",pairs:[["I","don't work"],["She","doesn't work"],["They","don't work"],["He","doesn't work"]]},
+{type:"tf",q:"'Do you like hip-hop?' es una pregunta correcta en Simple Present.",correct:true},
+{type:"fill",q:"She always ____ (go) to the gym on Mondays.",answers:["goes"]},
+{type:"mcq",q:"¿Cuál adverbio de frecuencia indica que algo ocurre el 100% del tiempo?",options:["sometimes","rarely","always","often"],correct:2},
+{type:"order",q:"Ordena la pregunta:",words:["music?","does","like","she","What","kind","of"],correct:"What kind of music does she like?"}
+]},
+{id:"prepositions", ex:[
+{type:"fill",q:"My parents got married ____ June.",answers:["in"]},
+{type:"fill",q:"The store closes ____ midnight.",answers:["at"]},
+{type:"fill",q:"We have English class ____ Tuesday afternoons.",answers:["on"]},
+{type:"mcq",q:"¿Cuál es correcta?",options:["She was born at 1998.","She was born on 1998.","She was born in 1998."],correct:2},
+{type:"speak",phrase:"The concert is on Saturday at 9 PM. We'll meet at the main entrance at 8:30.",translation:"El concierto es el sábado a las 9 PM. Nos vemos en la entrada principal a las 8:30."},
+{type:"match",q:"Une cada expresión con su preposición.",pairs:[["night","at"],["Friday","on"],["summer","in"],["noon","at"]]},
+{type:"fill",q:"She works ____ a hospital ____ the city center.",answers:["at","in"]},
+{type:"order",q:"Ordena la oración:",words:["9","morning.","She","at","in","wakes","up","the"],correct:"She wakes up at 9 in the morning."},
+{type:"tf",q:"'On the morning' es la forma correcta en inglés.",correct:false},
+{type:"fill",q:"____ Sundays, I always sleep late. (In/On/At)",answers:["on"]}
+]},
+{id:"musichobbies", ex:[
+{type:"fill",q:"She plays the ____. She practices every day. (instrumento de cuerdas con arco)",answers:["violin"]},
+{type:"match",q:"Une el hobby con el verbo que se usa con él.",pairs:[["cycling","go cycling"],["painting","do painting / paint"],["swimming","go swimming"],["gaming","play video games"]]},
+{type:"speak",phrase:"My favorite hobby is photography. I love capturing moments with my camera.",translation:"Mi hobby favorito es la fotografía. Me encanta capturar momentos con mi cámara."},
+{type:"emoji",q:"¿Qué emoji representa 'accordion'?",options:["🎸","🎷","🪗","🎺"],correct:2},
+{type:"mcq",q:"¿Cuál género mezcla rap, DJ y beatboxing?",options:["jazz","folk","hip-hop","classical"],correct:2},
+{type:"fill",q:"A: Do you play any instruments? B: Yes, I play the ____.",answers:["guitar","piano","drums","violin","trumpet"]},
+{type:"tf",q:"'Folk' es un género musical asociado con música tradicional y acústica.",correct:true},
+{type:"order",q:"Ordena la pregunta:",words:["you","What","of","music","like?","kind","do"],correct:"What kind of music do you like?"},
+{type:"mcq",q:"¿Cuál actividad es un hobby de interior (indoor)?",options:["cycling","hiking","rock climbing","reading"],correct:3},
+{type:"fill",q:"She loves ____. She has visited 30 countries. (hobby)",answers:["traveling","travelling"]}
+]},
+{id:"family", ex:[
+{type:"fill",q:"My father's brother is my ____.",answers:["uncle"]},
+{type:"fill",q:"The children of my siblings are my ____s and ____s.",answers:["nephew","niece"]},
+{type:"order",q:"Ordena la noticia familiar:",words:["just","My","got","sister","engaged!"],correct:"My sister just got engaged!"},
+{type:"speak",phrase:"I have a big family. I have two uncles, three aunts and five cousins.",translation:"Tengo una familia grande. Tengo dos tíos, tres tías y cinco primos."},
+{type:"mcq",q:"El hijo del hijo de tu abuelo eres:",options:["Tu tío","Tu primo","Tú mismo","Tu sobrino"],correct:2},
+{type:"match",q:"Une la relación con su nombre en inglés.",pairs:[["mamá de tu esposo/a","mother-in-law"],["hijo de tu hermana","nephew"],["padre de tu padre","grandfather"],["hermana de tu madre","aunt"]]},
+{type:"fill",q:"A: I have some bad news. My parents just got ____. B: I'm sorry to hear that.",answers:["divorced"]},
+{type:"tf",q:"En inglés 'cousin' se usa tanto para primo como para prima.",correct:true},
+{type:"emoji",q:"¿Qué emoji representa 'engaged'?",options:["💔","👫","💍","🤵"],correct:2},
+{type:"fill",q:"Her ____ is an engineer. He works at a tech company. (husband/esposo)",answers:["husband","fiancé","boyfriend"]}
+]},
+{id:"sp3rdperson", ex:[
+{type:"fill",q:"A: What does your cousin do? B: She ____ (be) a doctor.",answers:["is"]},
+{type:"order",q:"Forma la pregunta WH-:",words:["brother","does","your","live?","Where"],correct:"Where does your brother live?"},
+{type:"mcq",q:"¿Cuál es la pregunta correcta para 'She studies English at GCI.'?",options:["Does she study English at GCI?","Do she study English at GCI?","Does she studies English at GCI?"],correct:0},
+{type:"speak",phrase:"Does your cousin live in Guadalajara? No, she doesn't. She lives in Monterrey.",translation:"¿Tu prima vive en Guadalajara? No. Ella vive en Monterrey."},
+{type:"fill",q:"They ____ (not/work) on Sundays.",answers:["don't work"]},
+{type:"match",q:"Une la pregunta con su respuesta corta.",pairs:[["Does she work there?","Yes, she does."],["Do they study French?","No, they don't."],["Does he play guitar?","No, he doesn't."],["Do you like jazz?","Yes, I do."]]},
+{type:"tf",q:"'Where does she goes?' es la forma correcta.",correct:false},
+{type:"fill",q:"____ do they listen to music? — On Spotify. (How/What/Where)",answers:["how"]},
+{type:"order",q:"Ordena la pregunta:",words:["uncle","Does","classical","your","like","music?"],correct:"Does your uncle like classical music?"},
+{type:"mcq",q:"¿Cuál oración usa Simple Present correctamente?",options:["She usually go to the gym.","She usually goes to the gym.","She usually going to the gym."],correct:1}
+]},
+{id:"foodrest", ex:[
+{type:"speak",phrase:"What does the steak come with? It comes with a salad or fries — your choice.",translation:"¿Con qué viene el bistec? Viene con ensalada o papas fritas — a tu elección."},
+{type:"fill",q:"A: Certainly. And to ____? B: Just water, please.",answers:["drink"]},
+{type:"order",q:"Ordena la conversación:",words:["the","I'll","please.","salmon","have","for","main","my","course,"],correct:"I'll have the salmon for my main course, please."},
+{type:"match",q:"Une el adjetivo de comida con su significado.",pairs:[["spicy","picante"],["delicious","delicioso"],["fresh","fresco"],["awful","horrible"]]},
+{type:"mcq",q:"El mesero pregunta: 'Would you like to start with an appetizer?' ¿Qué responde alguien que quiere una entrada?",options:["No, just the check please.","Yes, I'll have the shrimp cocktail.","I'm full, thank you."],correct:1},
+{type:"fill",q:"Thanks. But I think I'd ____ pass. I'm avoiding carbs. (better/better not)",answers:["better"]},
+{type:"tf",q:"'Entrée' en inglés americano significa la entrada (appetizer).",correct:false},
+{type:"fill",q:"Waiter: Here's your ____. Will you be paying by card? (la cuenta)",answers:["check","bill"]},
+{type:"emoji",q:"¿Qué emoji representa 'spicy food'?",options:["🧊","🌶️","😋","🌿"],correct:1},
+{type:"mcq",q:"¿Cómo pides el postre de forma amable?",options:["Give me the dessert.","Could I see the dessert menu?","I want the cake."],correct:1}
+]},
+{id:"plurals", ex:[
+{type:"fill",q:"Plural de 'cup': ____",answers:["cups"]},
+{type:"fill",q:"Plural de 'tooth': ____",answers:["teeth"]},
+{type:"match",q:"Une la palabra con su plural.",pairs:[["knife","knives"],["leaf","leaves"],["half","halves"],["shelf","shelves"]]},
+{type:"order",q:"Ordena la oración:",words:["appetizers","Would","like","some","you","an?"],correct:"Would you like some appetizers?"},
+{type:"fill",q:"____ orange juice please. (a/an)",answers:["an"]},
+{type:"mcq",q:"¿Cuál oración es correcta?",options:["I'd like an salad.","I'd like a salad.","I'd like the a salad."],correct:1},
+{type:"tf",q:"'Pear' en plural es 'pears' (regular).",correct:true},
+{type:"speak",phrase:"I'll have an orange juice and a salad. Could I also get some bread?",translation:"Quiero un jugo de naranja y una ensalada. ¿También podría traerme algo de pan?"},
+{type:"fill",q:"She ordered ____ (tomato) and ____ (olive) in her salad.",answers:["tomatoes","olives"]},
+{type:"mcq",q:"¿Cuál es el plural de 'person'?",options:["persons","peoples","people"],correct:2}
+]},
+{id:"technology", ex:[
+{type:"fill",q:"My phone ____ (freeze) when I have too many apps open.",answers:["freezes"]},
+{type:"order",q:"Ordena el consejo tecnológico:",words:["your","Update","regularly.","software"],correct:"Update your software regularly."},
+{type:"match",q:"Une el problema con su solución.",pairs:[["Low battery","Charge your device"],["Forgotten password","Reset it via email"],["No internet","Check your router"],["Slow computer","Close unused apps"]]},
+{type:"speak",phrase:"I need to download the app and create an account. What's the Wi-Fi password?",translation:"Necesito descargar la app y crear una cuenta. ¿Cuál es la contraseña del Wi-Fi?"},
+{type:"fill",q:"She saved all her photos in the ____ so she can access them anywhere.",answers:["cloud"]},
+{type:"emoji",q:"¿Qué emoji representa 'download'?",options:["📤","💾","🔄","📲"],correct:1},
+{type:"mcq",q:"¿Qué haces cuando tu computadora se congela (freezes)?",options:["Download more apps","Restart it","Update social media"],correct:1},
+{type:"tf",q:"'Upload' y 'download' significan lo mismo.",correct:false},
+{type:"fill",q:"Are you ____ to the school's Wi-Fi? (connected)",answers:["connected"]},
+{type:"speak",phrase:"My laptop crashed again! I need to restart it and update the operating system.",translation:"¡Mi laptop se cayó otra vez! Necesito reiniciarla y actualizar el sistema operativo."}
+]},
+{id:"prescontinu", ex:[
+{type:"fill",q:"Look! It ____ (rain) outside. Bring an umbrella.",answers:["is raining","'s raining"]},
+{type:"order",q:"Ordena la pregunta:",words:["doing?","you","What","right","are","now"],correct:"What are you doing right now?"},
+{type:"fill",q:"They ____ (have) a meeting right now. Call back later.",answers:["are having","'re having"]},
+{type:"mcq",q:"¿Cuál oración describe un plan futuro usando Present Continuous?",options:["She goes to the concert tomorrow.","She is going to the concert tomorrow.","She went to the concert tomorrow."],correct:1},
+{type:"speak",phrase:"I'm working from home today. My team is having an online meeting at 3 PM.",translation:"Hoy estoy trabajando desde casa. Mi equipo tiene una reunión en línea a las 3 PM."},
+{type:"match",q:"Une el verbo con su forma -ing correcta.",pairs:[["run","running"],["dance","dancing"],["sit","sitting"],["study","studying"]]},
+{type:"tf",q:"'He is having a car' es una oración correcta en inglés.",correct:false},
+{type:"fill",q:"A: Are you ____? (listen) B: No, I'm not. I'm texting.",answers:["listening"]},
+{type:"fill",q:"Forma -ing de 'swim': ____",answers:["swimming"]},
+{type:"emoji",q:"¿Qué emoji representa alguien trabajando en este momento?",options:["😴","💻","🏃","🍽️"],correct:1}
+]},
+{id:"sportshealth", ex:[
+{type:"fill",q:"She ____ ever plays golf. Maybe once a year. (hardly/sometimes/always)",answers:["hardly"]},
+{type:"speak",phrase:"I go jogging every morning. I sometimes go rock climbing on weekends.",translation:"Voy a trotar todas las mañanas. A veces escalo los fines de semana."},
+{type:"order",q:"Ordena la oración:",words:["never","He","goes","gym.","the","to"],correct:"He never goes to the gym."},
+{type:"match",q:"Une el deporte con el equipo que necesita.",pairs:[["swimming","swimsuit and goggles"],["cycling","helmet and bike"],["boxing","gloves and shorts"],["tennis","racket and ball"]]},
+{type:"fill",q:"A: How often do you exercise? B: I ____ go to the gym. About 3 times a week.",answers:["often","usually"]},
+{type:"emoji",q:"¿Qué emoji representa 'hiking'?",options:["🧘","🚴","🏔️","🏊"],correct:2},
+{type:"tf",q:"'She always goes jogging' significa que va de vez en cuando.",correct:false},
+{type:"fill",q:"He's getting ____. He never exercises and eats junk food all day. (out of shape/fit)",answers:["out of shape"]},
+{type:"mcq",q:"¿Cuál deporte se practica en una alberca?",options:["skiing","swimming","cycling","hiking"],correct:1},
+{type:"fill",q:"She works out ____ times a week. She's very dedicated to fitness. (number/frequency)",answers:["three","four","five","six"]}
+]},
+{id:"modals", ex:[
+{type:"fill",q:"You ____ ____ be late. The boss is already angry. (no debes — fuerte)",answers:["had better not","better not","d better not"]},
+{type:"order",q:"Ordena la oración:",words:["careful","be","diet.","to","about","her","She","has"],correct:"She has to be careful about her diet."},
+{type:"speak",phrase:"I have to study tonight. I can't go out. But tomorrow I can hang out with you.",translation:"Tengo que estudiar esta noche. No puedo salir. Pero mañana sí puedo pasar tiempo contigo."},
+{type:"match",q:"Une el modal con su función.",pairs:[["can","habilidad o posibilidad"],["can't","imposibilidad"],["have to","obligación"],["don't have to","no es necesario"]]},
+{type:"fill",q:"She ____ drive yet. She's only 15. (can't/doesn't have to)",answers:["can't"]},
+{type:"mcq",q:"'You don't have to come if you're tired.' ¿Qué significa?",options:["Debes venir a pesar del cansancio.","No es necesario que vengas.","No puedes venir."],correct:1},
+{type:"tf",q:"'He cans play guitar' es una forma correcta del modal can.",correct:false},
+{type:"fill",q:"Athletes ____ (have to) train very hard to compete professionally.",answers:["have to"]},
+{type:"emoji",q:"¿Qué emoji representa 'obligación' (have to)?",options:["😴","📋","🎸","😂"],correct:1},
+{type:"order",q:"Ordena la oración:",words:["to","She","be","have","doesn't","today.","work"],correct:"She doesn't have to work today."}
+]},
+{id:"pasttense", ex:[
+{type:"fill",q:"Last night I ____ (sleep) only 4 hours.",answers:["slept"]},
+{type:"fill",q:"We ____ (drive) to Manzanillo last summer.",answers:["drove"]},
+{type:"fill",q:"She ____ (not/bring) her umbrella and she got wet.",answers:["didn't bring"]},
+{type:"fill",q:"____ they ____ (win) the game yesterday?",answers:["did","win"]},
+{type:"match",q:"Une estos verbos con su pasado.",pairs:[["break","broke"],["wear","wore"],["tell","told"],["begin","began"],["sing","sang"],["lose","lost"]]},
+{type:"order",q:"Ordena la historia:",words:["Finally,","airport.","to","flew","the","we","took","home.","a","taxi","we","First,"],correct:"First, we took a taxi to the airport. Finally, we flew home."},
+{type:"speak",phrase:"Last weekend I went to a family dinner. We ate a lot, talked for hours and had a great time.",translation:"El fin de semana pasado fui a una cena familiar. Comimos mucho, hablamos por horas y la pasamos muy bien."},
+{type:"mcq",q:"¿Qué usas para preguntas en Simple Past con verbos regulares e irregulares?",options:["Did + infinitivo","Do + past form","Does + past form"],correct:0},
+{type:"fill",q:"The vacation ____ (be) amazing. We ____ (have) so much fun.",answers:["was","had"]},
+{type:"speak",phrase:"What did you do last night? I cooked dinner, watched a movie and went to bed early.",translation:"¿Qué hiciste anoche? Cociné la cena, vi una película y me fui a dormir temprano."}
+]},
+{id:"vacation", ex:[
+{type:"fill",q:"Our flight was ____. We arrived 3 hours late. (delayed/fast)",answers:["delayed"]},
+{type:"speak",phrase:"The next day, we visited the local market and bought some souvenirs for the family.",translation:"Al día siguiente, visitamos el mercado local y compramos algunos souvenirs para la familia."},
+{type:"match",q:"Une el adjetivo de viaje con su opuesto.",pairs:[["relaxing","exhausting"],["exciting","boring"],["amazing","terrible"],["expensive","affordable"]]},
+{type:"order",q:"Ordena el relato:",words:["hotel.","checked","the","we","into","First,","breakfast.","had","Then","we"],correct:"First, we checked into the hotel. Then we had breakfast."},
+{type:"fill",q:"A: Did you go sightseeing? B: Yes! We ____ the cathedral and the old town.",answers:["visited","saw"]},
+{type:"mcq",q:"'The food was great but the room was terrible.' ¿Cuáles son los adjetivos?",options:["food, room","great, terrible","The, the"],correct:1},
+{type:"emoji",q:"¿Qué emoji representa 'sightseeing'?",options:["🧳","🗺️","🎫","🏖️"],correct:1},
+{type:"tf",q:"'It was a relaxing trip' usa el verbo BE en pasado.",correct:true},
+{type:"fill",q:"We ____ (spend) three nights at the resort. It was incredible.",answers:["spent"]},
+{type:"speak",phrase:"After that, we went to the beach. The water was warm and the sunset was unforgettable.",translation:"Después de eso, fuimos a la playa. El agua estaba cálida y el atardecer fue inolvidable."}
+]},
+{id:"shopping", ex:[
+{type:"fill",q:"She tried on the dress and bought ____. It fit perfectly.",answers:["it"]},
+{type:"speak",phrase:"Excuse me, do you have this blazer in a smaller size? Can I try it on?",translation:"Disculpe, ¿tiene este blazer en una talla más pequeña? ¿Me lo puedo probar?"},
+{type:"order",q:"Ordena la oración con pronombre objeto:",words:["her.","blazer","for","bought","He","the"],correct:"He bought the blazer for her."},
+{type:"match",q:"Une la oración con el pronombre objeto.",pairs:[["Buy the jeans.→Buy ____.","them"],["Try on the cardigan.→Try on ____.","it"],["Give the shoes to Maria.→Give the shoes to ____.","her"],["Help my parents.→Help ____.","them"]]},
+{type:"fill",q:"These pumps are beautiful! I'm going to buy ____ for my sister.",answers:["them"]},
+{type:"mcq",q:"¿Cuál prenda es formal y se usa en oficinas?",options:["sweatpants","blazer","sweatshirt","running shoes"],correct:1},
+{type:"tf",q:"'I bought it for him' — 'him' es el pronombre objeto de 'he'.",correct:true},
+{type:"fill",q:"A: Do you like these loafers? B: Yes, I love ____!",answers:["them"]},
+{type:"emoji",q:"¿Qué emoji representa 'oxfords' (zapatos formales)?",options:["👟","👡","👞","🥿"],correct:2},
+{type:"fill",q:"She wore a black ____ and white flats to the meeting. (formal blouse/top)",answers:["blouse","shirt","top"]}
+]}
+].forEach(({id, ex}) => {
+  const t = TOPICS.find(t => t.id === id);
+  if(t) t.exercises.push(...ex);
+});
+</script>
+
+</body>
+</html>
