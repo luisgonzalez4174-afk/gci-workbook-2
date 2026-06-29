@@ -1595,12 +1595,23 @@ document.addEventListener('DOMContentLoaded', function(){
 <div id="pwa-install" style="display:none;position:fixed;bottom:84px;right:16px;z-index:9999;background:linear-gradient(135deg,#6A33A8,#D44FA0);color:#fff;border:none;padding:12px 18px;border-radius:999px;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:14px;box-shadow:0 4px 20px rgba(106,51,168,.6);cursor:pointer;align-items:center;gap:8px;flex-direction:row" onclick="installPWA()">
   📲 Instalar App
 </div>
+<div id="ios-install" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9998;background:linear-gradient(180deg,#281852,#0F0820);border-top:2px solid #6A33A8;padding:18px 20px 40px;text-align:center;box-shadow:0 -8px 32px rgba(106,51,168,.7);animation:popin .4s ease both">
+  <button type="button" onclick="localStorage.setItem('iosInstallDismissed','1');document.getElementById('ios-install').style.display='none'" style="position:absolute;top:10px;right:14px;background:none;border:none;color:#BCA9E0;font-size:22px;cursor:pointer;line-height:1;padding:4px">✕</button>
+  <div style="font-size:2rem;margin-bottom:6px">📲</div>
+  <p style="font-family:'Baloo 2',sans-serif;font-weight:800;color:#F5B342;margin:0 0 6px;font-size:1rem">¡Instala la app en tu iPhone!</p>
+  <p style="color:#BCA9E0;font-size:.85rem;margin:0;line-height:1.6">Toca <strong style="color:#fff">Compartir</strong> <span style="font-size:1.1rem">⬆️</span> en Safari<br>y luego <strong style="color:#fff">«Añadir a pantalla de inicio»</strong> 🏠</p>
+</div>
 <script>
 let _dPr;
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();_dPr=e;const b=document.getElementById('pwa-install');if(b)b.style.display='flex';});
 async function installPWA(){if(!_dPr)return;_dPr.prompt();const r=await _dPr.userChoice;_dPr=null;const b=document.getElementById('pwa-install');if(b)b.style.display='none';}
 window.addEventListener('appinstalled',()=>{const b=document.getElementById('pwa-install');if(b)b.style.display='none';});
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{});}
+const _isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
+const _isStandalone=window.navigator.standalone===true;
+if(_isIOS&&!_isStandalone&&!localStorage.getItem('iosInstallDismissed')){
+  setTimeout(()=>{const b=document.getElementById('ios-install');if(b)b.style.display='block';},2500);
+}
 </script>
 
 </body>
