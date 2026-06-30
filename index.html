@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="GCI Galaxy WB2">
-<link rel="apple-touch-icon" href="icon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <title>GCI Galaxy · Misión de Repaso</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -248,8 +248,8 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
   <div id="mapview">
     <div class="hero">
       <h2 id="hero-greeting">¡Hola, cadete! 🚀</h2>
-      <p>Travel through <b>16 stations</b> with grammar explanations, videos, pronunciation, 20 exercises per station, vocabulary decks and a real conversation room. Explore the galaxy at your own pace.</p>
-      <span class="tag">Review · Units 1 & 2 · GCI Workbook 2 · Level A2</span>
+      <p>Travel through <b>21 stations</b> with grammar explanations, videos, pronunciation, exercises, vocabulary decks and a real conversation room. Explore the galaxy at your own pace.</p>
+      <span class="tag">Complete Review · GCI Workbook 2 · Level A2 · Pages 1–81</span>
     </div>
     <div class="path" id="pathList"></div>
   </div>
@@ -678,9 +678,135 @@ exercises:[
 ]}
 ]);
 
+// ── STATIONS 17-21: Pages 76-81 + Complete Book ──
+TOPICS.push({
+  id:"comparatives",num:17,title:"Comparatives & Superlatives",emoji:"📊",
+  cardDesc:"bigger than, the biggest — comparing people and things",
+  explain:[
+    "<p>Los <b>comparativos</b> comparan dos cosas. Adjetivos cortos (1 sílaba): <b>adj + -er + than.</b> Ej: <span class='ex-en'>tall → taller than · fast → faster than · big → bigger than.</span></p>",
+    "<p>Los <b>superlativos</b> expresan el extremo de un grupo: <b>the + adj + -est.</b> Ej: <span class='ex-en'>tall → the tallest · fast → the fastest · big → the biggest.</span></p>",
+    "<p>Adjetivos largos (2+ sílabas): <b>more/less + adj + than</b> y <b>the most/least + adj.</b> Ej: <span class='ex-en'>beautiful → more beautiful than → the most beautiful.</span></p>",
+    "<p>Irregulares: <b>good → better → the best</b> · <b>bad → worse → the worst</b> · <b>far → farther → the farthest.</b></p>"
+  ],
+  video:"AIFMLzGSX5E",videoNote:"Comparatives and Superlatives — English Grammar",
+  exercises:[
+    {type:"fill",q:"My sister is ____ (tall) than me.",answers:["taller"]},
+    {type:"fill",q:"This is ____ (bad) movie I've ever seen. (superlativo)",answers:["the worst"]},
+    {type:"mcq",q:"¿Cuál es el comparativo correcto de 'beautiful'?",options:["beautifuler","more beautiful","most beautiful"],correct:1},
+    {type:"fill",q:"This hotel is ____ (expensive) than the one we stayed in last year.",answers:["more expensive"]},
+    {type:"tf",q:"'Good' es irregular. Su comparativo es 'better'.",correct:true},
+    {type:"order",q:"Ordena la oración:",words:["more","is","The","movie","the","boring","book.","than"],correct:"The movie is more boring than the book."},
+    {type:"fill",q:"She is ____ (fast) runner in the team. (superlativo)",answers:["the fastest"]},
+    {type:"match",q:"Une el adjetivo con su comparativo.",pairs:[["good","better"],["bad","worse"],["far","farther"],["little","less"]]},
+    {type:"fill",q:"This coffee is ____ (hot) than I expected.",answers:["hotter"]},
+    {type:"speak",phrase:"This restaurant is more expensive than the one on Main Street, but the food is much better.",translation:"Este restaurante es más caro que el de la calle Main, pero la comida es mucho mejor."}
+  ]
+});
+
+TOPICS.push({
+  id:"goingto",num:18,title:"Going To — Future Plans",emoji:"🔮",
+  cardDesc:"Plans and intentions — am/is/are going to",
+  explain:[
+    "<p>Usamos <b>going to</b> para planes e intenciones futuras ya decididas: <b>Subject + am/is/are + going to + verb base.</b> Ej: <span class='ex-en'>I am going to travel next summer. She's going to study medicine.</span></p>",
+    "<p>Negativo: <b>am/is/are + not + going to + verb.</b> Ej: <span class='ex-en'>We aren't going to be late. I'm not going to eat junk food anymore.</span></p>",
+    "<p>Preguntas: <b>Am/Is/Are + subject + going to + verb?</b> Ej: <span class='ex-en'>Are you going to study tonight? Is she going to call us?</span></p>",
+    "<p>Expresiones de tiempo típicas: <span class='ex-en'>tomorrow, next week/month/year, this weekend, soon, later today, in the future.</span></p>"
+  ],
+  video:"VU5YMzg5zCo",videoNote:"Going to — Future Plans | English Grammar",
+  exercises:[
+    {type:"fill",q:"They ____ (go) to the beach next weekend. (going to afirmativo)",answers:["are going to go"]},
+    {type:"fill",q:"She ____ (not/eat) junk food anymore.",answers:["isn't going to eat","is not going to eat"]},
+    {type:"mcq",q:"¿Cuál es la pregunta correcta con 'going to'?",options:["You are going to study?","Are you going to study?","Do you going to study?"],correct:1},
+    {type:"tf",q:"'I am going to travel next year' describe un plan futuro ya decidido.",correct:true},
+    {type:"order",q:"Ordena la oración:",words:["buy","going","a","new","I'm","to","laptop."],correct:"I'm going to buy a new laptop."},
+    {type:"fill",q:"____ they going to have a party? — Yes, they are.",answers:["Are"]},
+    {type:"fill",q:"We ____ (move) to a new apartment next month.",answers:["are going to move"]},
+    {type:"mcq",q:"Which sentence uses 'going to' correctly?",options:["He going to study.","He is going to study.","He is going study."],correct:1},
+    {type:"speak",phrase:"I'm going to take English classes next year. I'm not going to waste any more time!",translation:"Voy a tomar clases de inglés el próximo año. ¡No voy a perder más tiempo!"},
+    {type:"fill",q:"Is she going to call us? — No, she ____.",answers:["isn't","is not"]}
+  ]
+});
+
+TOPICS.push({
+  id:"quantifiers",num:19,title:"Count & Non-count Nouns",emoji:"🔢",
+  cardDesc:"some/any, much/many, a few/a little — counting and measuring",
+  explain:[
+    "<p><b>Contables (Count nouns)</b> tienen singular y plural: <span class='ex-en'>apple/apples · car/cars · book/books.</span> Usamos: <b>a/an, many, a few, how many.</b></p>",
+    "<p><b>Incontables (Non-count nouns)</b> no tienen plural: <span class='ex-en'>water, music, information, advice, money, sugar, rice, homework.</span> Usamos: <b>some, any, much, a little, how much.</b></p>",
+    "<p><b>some</b> en afirmativos → <b>any</b> en negativos y preguntas: <span class='ex-en'>I have some money. I don't have any money. Do you have any advice?</span></p>",
+    "<p><b>many</b> = contables · <b>much</b> = incontables · <b>a lot of</b> = ambos: <span class='ex-en'>I have a lot of friends. There isn't much time. How many books do you have?</span></p>"
+  ],
+  video:"8UlQxuLEV_4",videoNote:"Count and Noncount Nouns | English Grammar",
+  exercises:[
+    {type:"mcq",q:"'Water' es un sustantivo...",options:["contable","incontable","plural"],correct:1},
+    {type:"fill",q:"I don't have ____ money left. (some/any)",answers:["any"]},
+    {type:"fill",q:"There are ____ apples in the fridge. (some/any)",answers:["some"]},
+    {type:"mcq",q:"¿Cuál es correcto?",options:["How many water do you need?","How much water do you need?","How many waters do you need?"],correct:1},
+    {type:"tf",q:"'A few' se usa con sustantivos incontables.",correct:false},
+    {type:"fill",q:"I have ____ sugar left. Can I borrow some? (a few/a little)",answers:["a little"]},
+    {type:"match",q:"Une el cuantificador con su uso.",pairs:[["many","contables"],["much","incontables"],["a few","contables — poca cantidad"],["a little","incontables — poca cantidad"]]},
+    {type:"fill",q:"How ____ friends do you have? (much/many)",answers:["many"]},
+    {type:"order",q:"Ordena la pregunta:",words:["any","you","Do","have","information","about","the","event?"],correct:"Do you have any information about the event?"},
+    {type:"speak",phrase:"I don't have much time, but I have a lot of energy! I just need a little help.",translation:"No tengo mucho tiempo, ¡pero tengo mucha energía! Solo necesito un poco de ayuda."}
+  ]
+});
+
+TOPICS.push({
+  id:"wouldlike",num:20,title:"Would Like & Polite Requests",emoji:"🙏",
+  cardDesc:"I'd like... / Would you like...? — making polite requests",
+  explain:[
+    "<p><b>Would like</b> es la forma educada de <b>want</b>. Contracción: <b>I'd like · She'd like · We'd like.</b> Ej: <span class='ex-en'>I'd like a coffee, please. She'd like to speak with you.</span></p>",
+    "<p>Para <b>ofrecer</b>: <b>Would you like + noun/to + verb?</b> Ej: <span class='ex-en'>Would you like some coffee? Would you like to sit down?</span></p>",
+    "<p>Para <b>pedir amablemente</b>: <b>Could I + verb?</b> / <b>May I + verb?</b> Ej: <span class='ex-en'>Could I have the menu? May I use the restroom?</span></p>",
+    "<p>También: <b>I'd like to + verb</b> para expresar deseos: <span class='ex-en'>I'd like to make a reservation. I'd like to try the pasta.</span></p>"
+  ],
+  video:"FYRpkgBqWHo",videoNote:"Would Like — Polite English | Grammar",
+  exercises:[
+    {type:"fill",q:"____ you like some coffee? (Would/Do)",answers:["Would"]},
+    {type:"fill",q:"I ____ a window seat, please.",answers:["would like","'d like"]},
+    {type:"mcq",q:"¿Cuál es más educado para pedir en un restaurante?",options:["I want a coffee.","Give me a coffee.","I'd like a coffee, please."],correct:2},
+    {type:"tf",q:"'Would like' y 'want' significan lo mismo pero 'would like' es más formal/educado.",correct:true},
+    {type:"fill",q:"____ I have the bill, please? (Can/Would)",answers:["Can","Could","May"]},
+    {type:"order",q:"Ordena la pregunta:",words:["like","another","you","drink?","Would","to","have"],correct:"Would you like to have another drink?"},
+    {type:"fill",q:"She ____ to speak with the manager. (would like)",answers:["would like","'d like"]},
+    {type:"match",q:"Une las contracciones.",pairs:[["I would like","I'd like"],["She would like","She'd like"],["We would like","We'd like"],["They would like","They'd like"]]},
+    {type:"mcq",q:"¿Qué responde alguien que quiere más agua?",options:["No, I don't want water.","Yes, I'd like some more water, please.","Give me water."],correct:1},
+    {type:"speak",phrase:"I'd like to make a reservation for two, please. Would you have a table available at 8 PM?",translation:"Me gustaría hacer una reservación para dos, por favor. ¿Tendrían mesa disponible a las 8 PM?"}
+  ]
+});
+
+TOPICS.push({
+  id:"directions",num:21,title:"Giving Directions",emoji:"🗺️",
+  cardDesc:"Turn left, go straight — getting around in English",
+  isVocab:true,
+  explain:[
+    "<p>Para <b>pedir direcciones</b>: <span class='ex-en'>Excuse me, how do I get to...? / Where is the nearest...? / Could you tell me the way to...?</span></p>",
+    "<p>Para <b>dar direcciones</b>: <span class='ex-en'>Go straight ahead · Turn left/right · Take the first/second street · Walk along the avenue · Cross the street.</span></p>",
+    "<p><b>Preposiciones de lugar</b>: <span class='ex-en'>next to (al lado) · across from / opposite (frente a) · between (entre) · behind (detrás) · in front of (enfrente) · on the corner of (en la esquina de).</span></p>"
+  ],
+  video:"yI1aNvGT8Sg",videoNote:"Giving Directions in English | Vocabulary",
+  vocab:[
+    {cat:"📍 Direction Verbs",items:[{e:"⬆️",w:"go straight",p:"gou streit"},{e:"⬅️",w:"turn left",p:"tern left"},{e:"➡️",w:"turn right",p:"tern rait"},{e:"🚶",w:"walk along",p:"uok elóng"},{e:"🏁",w:"cross the street",p:"kros de striit"},{e:"🔄",w:"go past",p:"gou past"}]},
+    {cat:"🏢 Key Places",items:[{e:"🏦",w:"bank",p:"bank"},{e:"⛽",w:"gas station",p:"gas stéishon"},{e:"🏥",w:"hospital",p:"hóspitol"},{e:"💊",w:"pharmacy",p:"fármasi"},{e:"🚇",w:"subway station",p:"sábwei stéishon"},{e:"🏨",w:"hotel",p:"hotél"}]},
+    {cat:"📌 Location Prepositions",items:[{e:"↔️",w:"next to",p:"nekst tu"},{e:"🔄",w:"across from",p:"ekrós from"},{e:"↕️",w:"between",p:"bitúiin"},{e:"⬅️",w:"behind",p:"bijáind"},{e:"🏁",w:"on the corner",p:"on de córner"},{e:"🔼",w:"in front of",p:"in front of"}]}
+  ],
+  exercises:[
+    {type:"fill",q:"____ left at the traffic light, then go straight. (Turn/Go)",answers:["Turn"]},
+    {type:"mcq",q:"¿Cómo preguntas dónde está el banco de forma educada?",options:["Where bank?","Where is the bank?","Excuse me, where is the nearest bank?"],correct:2},
+    {type:"tf",q:"'Next to' significa 'detrás de'.",correct:false},
+    {type:"fill",q:"The pharmacy is ____ the supermarket and the school. (between/next to)",answers:["between"]},
+    {type:"order",q:"Ordena las instrucciones:",words:["straight","Go","right","the","turn","and","at","hospital."],correct:"Go straight and turn right at the hospital."},
+    {type:"fill",q:"Walk ____ Main Avenue until you see the park. (along/around)",answers:["along"]},
+    {type:"match",q:"Une con su traducción.",pairs:[["turn left","dobla a la izquierda"],["go straight","sigue derecho"],["across from","frente a"],["on the corner","en la esquina"]]},
+    {type:"mcq",q:"La tienda está 'across from' el banco. Significa:",options:["al lado del banco","detrás del banco","frente al banco"],correct:2},
+    {type:"speak",phrase:"Excuse me, could you tell me how to get to the train station? Go straight ahead, then turn left at the corner.",translation:"Disculpe, ¿podría decirme cómo llegar a la estación de tren? Siga recto, luego doble a la izquierda en la esquina."},
+    {type:"fill",q:"The hotel is ____ the corner of 5th Avenue and Main Street. (on/at)",answers:["on"]}
+  ]
+});
+
 // ── CONVERSATION STATION (Workbook 2) ──
 TOPICS.push({
-  id:"conversation",num:16,title:"Sala de Conversación",emoji:"💬",
+  id:"conversation",num:22,title:"Sala de Conversación",emoji:"💬",
   cardDesc:"Practica todo lo del Workbook 2 con Alex",
   isChat:true,
   explain:["<p>Practica conversaciones reales usando lo que aprendiste en el <b>Workbook 2</b>. Elige un escenario, habla con el micrófono 🎤 o escribe. Alex usa vocabulario del nivel A2.</p>"]
@@ -711,6 +837,41 @@ const CHAT_SCENARIOS = {
       {bot:"Enjoy your meal! Can I get you anything else?", sugg:["No, thank you. Everything looks perfect!","Could I have some more water, please?","That's everything, thanks!"], expect:["no","thank","perfect","water","everything","fine","okay"]},
       {bot:"Here's your check! Did you enjoy your meal tonight?", sugg:["Yes, it was delicious! The salmon was amazing.","Fantastic! I'll definitely come back.","It was great, thank you! How much do I owe?"], expect:["delicious","amazing","great","fantastic","owe","come back","enjoyed"]},
       {bot:"So glad to hear that! Have a great evening! Come back soon!", sugg:["Thank you! Goodbye!","See you next time!","Good night! The food was wonderful!"], expect:["thank","bye","goodbye","see","night","wonderful"]}
+    ]
+  },
+  comparisons:{
+    name:"📊 Comparing Things",
+    hint:"Usa comparativos y superlativos para comparar",
+    steps:[
+      {bot:"Hey! I'm thinking of buying a new phone. I'm looking at two models — one is cheaper but the other has a better camera. What do you think I should do?", sugg:["I think the one with the better camera is more useful.","The cheaper one is better if you don't take many photos.","What's more important to you — price or quality?"], expect:["better","camera","cheaper","more","important","price","quality","think","useful"]},
+      {bot:"Good point! Speaking of comparisons — do you think cities are better than small towns to live in?", sugg:["Cities are more exciting but noisier than small towns.","Small towns are quieter and safer than big cities.","I think cities are the best because they have more opportunities."], expect:["more","better","noisier","quieter","safer","exciting","cities","towns","best","opportunities"]},
+      {bot:"Interesting! What's the most expensive thing you've ever bought?", sugg:["The most expensive thing I've bought is my laptop.","My phone was the most expensive purchase I've made.","My car! It was much more expensive than I expected."], expect:["most","expensive","bought","laptop","phone","car","purchase"]},
+      {bot:"Ha! And in your opinion, what's the best way to learn English — classes, apps, or movies?", sugg:["I think classes are more effective than apps.","Apps are more convenient, but classes are better for speaking.","Movies are the most fun, but classes are the most effective."], expect:["classes","apps","movies","better","more","best","effective","fun","convenient"]},
+      {bot:"Great answer! One more — do you think English is harder or easier than Spanish?", sugg:["I think English is easier in some ways but harder in others.","English pronunciation is harder than Spanish.","Spanish grammar is more complex, but English vocabulary is larger."], expect:["harder","easier","more","complex","pronunciation","grammar","spanish","english"]},
+      {bot:"That's a great comparison! You're getting really good at this. Keep it up!", sugg:["Thank you! I'm learning more every day.","Thanks! English is getting easier for me.","Thank you Alex! I'm going to keep practicing."], expect:["thank","better","learning","easier","practice","going"]}
+    ]
+  },
+  futureplans:{
+    name:"🔮 Making Future Plans",
+    hint:"Habla de tus planes usando going to",
+    steps:[
+      {bot:"Hey! The school year is almost over. What are you going to do this summer?", sugg:["I'm going to travel to the beach with my family.","I'm going to take an online English course.","I'm not going to do much — just rest and relax!"], expect:["going","travel","take","rest","summer","family","course","beach"]},
+      {bot:"Sounds great! Are you going to look for a job or study this year?", sugg:["I'm going to study English and also look for a part-time job.","I'm going to focus on my studies. I'm not going to work.","I'm going to apply for a job at a company downtown."], expect:["going","study","work","job","part-time","focus","apply","english"]},
+      {bot:"Very smart! What about your free time? Are you going to pick up any new hobbies?", sugg:["Yes! I'm going to start learning guitar.","I'm going to go to the gym more often.","I'm going to read more books and spend less time on my phone."], expect:["going","start","learn","guitar","gym","read","books","phone","hobby"]},
+      {bot:"That's awesome! Do you have any travel plans? Where would you like to go?", sugg:["I'm going to visit my cousin in another city.","I'm not going to travel far — just explore my own city.","I'd love to go to New York someday. I'm going to save money for that."], expect:["going","visit","travel","city","save","money","explore","new york"]},
+      {bot:"Exciting! And what about your English? Are you going to keep practicing?", sugg:["Of course! I'm going to practice every day.","Yes! I'm going to join an English conversation club.","I'm going to watch movies in English without subtitles."], expect:["going","practice","english","every day","watch","movies","join","subtitles"]},
+      {bot:"That's the spirit! You're going to be amazing at English soon. Keep going!", sugg:["Thank you! I'm not going to give up!","Thanks Alex! I'm going to work hard.","Yes! I'm going to be fluent one day!"], expect:["thank","going","give","work","fluent","keep","practice"]}
+    ]
+  },
+  directions:{
+    name:"🗺️ Asking for Directions",
+    hint:"Pide y da direcciones en inglés",
+    steps:[
+      {bot:"Hi there! You look a little lost. Can I help you?", sugg:["Yes, please! I'm looking for the nearest pharmacy.","Excuse me, could you tell me how to get to the train station?","Hi! Could you help me find the city center?"], expect:["looking","pharmacy","train","station","city","center","help","find","excuse","nearest"]},
+      {bot:"Of course! The pharmacy is about two blocks from here. Go straight ahead, then turn right at the traffic light.", sugg:["Thank you! And how far is it?","Got it. Go straight and turn right. Is it on the left or the right side?","Perfect! And is there a bank nearby?"], expect:["straight","right","left","blocks","far","side","bank","nearby","turn"]},
+      {bot:"It's on the left side, next to a coffee shop. You can't miss it! Is there anything else you need?", sugg:["Yes! Where is the nearest subway station?","Great! Could you also tell me where the city market is?","Thank you so much! And is there a hotel around here?"], expect:["subway","station","market","hotel","nearest","where","around","also"]},
+      {bot:"The subway station? Sure! Walk along this avenue for about five minutes, then turn left. It's across from the shopping center.", sugg:["Perfect! So I walk along the avenue and turn left, right?","Got it! Is the shopping center easy to find?","Thank you! And is there parking near the station?"], expect:["avenue","walk","turn","left","shopping","center","across","parking","station"]},
+      {bot:"Exactly right! You've got it. You're going to be fine! The city is very easy to navigate once you know the main streets.", sugg:["Thank you so much! You've been very helpful.","Great! I think I can find it now. Thanks!","You're so kind! I was really confused before."], expect:["thank","helpful","find","kind","confused","great","now","sure"]}
     ]
   },
   pastvacation:{
@@ -1547,6 +1708,73 @@ document.addEventListener('DOMContentLoaded', function(){
   {type:"speak",phrase:"I'm looking for a birthday gift for my sister. She loves accessories. Can you help me?",translation:"Estoy buscando un regalo para mi hermana. Le encantan los accesorios. ¿Me puede ayudar?"},
   {type:"tf",q:"'Try it on' significa probar la ropa antes de comprarla.",correct:true},
   {type:"fill",q:"The jacket looks great on ____. You should definitely buy it!",answers:["you"]}
+]}
+].forEach(({id, ex}) => {
+  const t = TOPICS.find(t => t.id === id);
+  if(t) t.exercises.push(...ex);
+});
+
+// ── EXTENSION: New stations 17-21 ──
+[
+{id:"comparatives", ex:[
+  {type:"fill",q:"This is ____ (good) pizza I've ever eaten! (superlativo)",answers:["the best"]},
+  {type:"mcq",q:"¿Cuál es el superlativo de 'bad'?",options:["the baddest","the worst","the most bad"],correct:1},
+  {type:"fill",q:"My new apartment is ____ (big) than my old one.",answers:["bigger"]},
+  {type:"order",q:"Ordena la oración:",words:["the","city.","in","is","She","the","singer","best"],correct:"She is the best singer in the city."},
+  {type:"speak",phrase:"The blue dress is prettier than the red one, but the green dress is the most elegant of all.",translation:"El vestido azul es más bonito que el rojo, pero el vestido verde es el más elegante de todos."},
+  {type:"tf",q:"'More faster' es la forma correcta de hacer el comparativo de 'fast'.",correct:false},
+  {type:"fill",q:"January is ____ (cold) month of the year in Canada.",answers:["the coldest"]},
+  {type:"match",q:"Une el adjetivo con su superlativo.",pairs:[["good","the best"],["bad","the worst"],["far","the farthest"],["little","the least"]]},
+  {type:"fill",q:"A Ferrari is ____ (fast) than a regular car.",answers:["faster"]},
+  {type:"mcq",q:"¿Cuál oración es correcta?",options:["She is more tall than her sister.","She is taller than her sister.","She is the more tall."],correct:1}
+]},
+{id:"goingto", ex:[
+  {type:"fill",q:"Look at those clouds! It ____ (rain). (going to — predicción visible)",answers:["is going to rain"]},
+  {type:"order",q:"Forma la pregunta:",words:["you","are","What","study","going","tonight?","to"],correct:"What are you going to study tonight?"},
+  {type:"speak",phrase:"She isn't going to come to the party. She's going to stay home and rest.",translation:"Ella no va a venir a la fiesta. Va a quedarse en casa a descansar."},
+  {type:"fill",q:"I ____ (not/wake up) early tomorrow. It's Sunday!",answers:["am not going to wake up","'m not going to wake up"]},
+  {type:"mcq",q:"¿Cuándo usamos 'going to'?",options:["Para hechos científicos","Para planes e intenciones futuras ya decididas","Para acciones que pasan ahora mismo"],correct:1},
+  {type:"tf",q:"'Are they going to travel next year?' es una pregunta correcta.",correct:true},
+  {type:"fill",q:"He ____ (study) medicine. He already applied to university.",answers:["is going to study"]},
+  {type:"emoji",q:"¿Qué emoji representa mejor 'future plans'?",options:["😴","📅","😡","🏀"],correct:1},
+  {type:"fill",q:"We ____ (have) a barbecue this Saturday. Want to come?",answers:["are going to have","'re going to have"]},
+  {type:"order",q:"Ordena la negativa:",words:["to","She","going","isn't","pizza","eat."],correct:"She isn't going to eat pizza."}
+]},
+{id:"quantifiers", ex:[
+  {type:"fill",q:"I have ____ (a few/a little) friends in this city, but they're great.",answers:["a few"]},
+  {type:"speak",phrase:"There isn't much coffee left. Could you buy some? We also need a few bananas.",translation:"No queda mucho café. ¿Podrías comprar algo? También necesitamos algunas bananas."},
+  {type:"mcq",q:"¿Cuál oración es correcta?",options:["I don't have some money.","I don't have any money.","I have any money."],correct:1},
+  {type:"tf",q:"'Much' se usa con sustantivos contables en preguntas.",correct:false},
+  {type:"fill",q:"There are ____ (a lot of/much) people at the concert tonight.",answers:["a lot of"]},
+  {type:"order",q:"Ordena la pregunta:",words:["sugar","much","do","How","need?","you"],correct:"How much sugar do you need?"},
+  {type:"fill",q:"A: Is there ____ milk? B: Yes, there's ____ in the fridge. (any/some)",answers:["any","some"]},
+  {type:"match",q:"Une cada oración con el cuantificador correcto.",pairs:[["I have ___ money (negative)","any"],["She has ___ friends (positive, many)","a lot of"],["He needs ___ water (small amount, uncountable)","a little"],["We saw ___ movies last month (small amount, countable)","a few"]]},
+  {type:"fill",q:"How ____ hours do you sleep? (much/many)",answers:["many"]},
+  {type:"mcq",q:"'Homework' es un sustantivo...",options:["contable — 'homeworks'","incontable — sin plural","irregular — 'homewok'"],correct:1}
+]},
+{id:"wouldlike", ex:[
+  {type:"fill",q:"____ like to reserve a table for tonight. (I'd/I'm)",answers:["I'd"]},
+  {type:"order",q:"Ordena la oferta:",words:["some","Would","like","you","more","tea?"],correct:"Would you like some more tea?"},
+  {type:"speak",phrase:"I'd like to try the chef's special, please. And could I have a glass of water as well?",translation:"Me gustaría probar el especial del chef, por favor. ¿Y podría traerme también un vaso de agua?"},
+  {type:"tf",q:"'Would you like to dance?' es una invitación educada.",correct:true},
+  {type:"mcq",q:"¿Cuál respuesta rechaza educadamente una oferta?",options:["No, I don't want it.","No, thank you. I'm fine.","I don't like it."],correct:1},
+  {type:"fill",q:"She ____ to speak with the doctor, please. (would like)",answers:["would like","'d like"]},
+  {type:"fill",q:"____ I see the menu, please? (Could/Would)",answers:["Could","May"]},
+  {type:"match",q:"Une la petición con la situación.",pairs:[["I'd like to make a reservation","restaurant"],["Could I have the bill?","restaurant/hotel"],["Would you like to sit down?","offering a seat"],["I'd like a room for two nights","hotel"]]},
+  {type:"fill",q:"A: Would you like dessert? B: Yes, I ____ the chocolate cake, please.",answers:["would like","'d like"]},
+  {type:"speak",phrase:"Could I have the Wi-Fi password, please? And I'd also like an extra pillow for my room.",translation:"¿Me podría dar la contraseña del Wi-Fi, por favor? Y también me gustaría una almohada extra para mi habitación."}
+]},
+{id:"directions", ex:[
+  {type:"fill",q:"The supermarket is ____ from the bank. (across/between)",answers:["across"]},
+  {type:"order",q:"Ordena las instrucciones:",words:["right","the","at","Turn","then","corner,","ahead.","go","straight"],correct:"Turn right at the corner, then go straight ahead."},
+  {type:"speak",phrase:"Excuse me! Is there a pharmacy near here? Yes, go straight for two blocks and it's on your right.",translation:"¡Disculpe! ¿Hay una farmacia cerca? Sí, siga recto dos cuadras y está a su derecha."},
+  {type:"tf",q:"'In front of' y 'behind' son opuestos.",correct:true},
+  {type:"mcq",q:"¿Qué significa 'take the second street on the left'?",options:["Cruza la primera calle","Dobla en la segunda calle a la izquierda","Ve derecho dos calles"],correct:1},
+  {type:"fill",q:"The hotel is ____ the museum and the park. (between/next to)",answers:["between"]},
+  {type:"fill",q:"Walk ____ the river until you see the bridge. (along/across)",answers:["along"]},
+  {type:"match",q:"Une las expresiones con su traducción.",pairs:[["go straight ahead","sigue recto/adelante"],["take the second right","toma la segunda a la derecha"],["it's on your left","está a tu izquierda"],["you can't miss it","no puedes perderte"]]}  ,
+  {type:"fill",q:"Excuse me, ____ is the nearest ATM? (where/what)",answers:["where"]},
+  {type:"mcq",q:"La farmacia está 'on the corner of' Main St. and 5th Ave. Significa:",options:["en la mitad de la calle","en la esquina entre esas dos calles","frente a esas calles"],correct:1}
 ]}
 ].forEach(({id, ex}) => {
   const t = TOPICS.find(t => t.id === id);
